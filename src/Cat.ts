@@ -9,7 +9,7 @@ export class Cat {
 }
 
 
-const eCatType = Object.freeze({
+export const eCatType = Object.freeze({
     BLACK: 1,
     TABBY: 2,
     PERSIAN: 3,

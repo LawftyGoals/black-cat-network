@@ -1,13 +1,14 @@
 import './style.css'
 
-
 import { gameInitialState } from './state/game-state';
 import { Order, orders, updateOrders } from "./Order";
-
+import { Cat, eCatType } from "./Cat";
 
 
 const gameState = gameInitialState;
 const catInventory = gameState.catInventory;
+
+catInventory.push(new Cat("Bingus", eCatType.NAKED))
 
 const textFields = ["day"];
 

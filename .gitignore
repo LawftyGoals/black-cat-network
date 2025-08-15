@@ -21,3 +21,5 @@ node_modules/
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+dist/*
