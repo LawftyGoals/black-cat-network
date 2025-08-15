@@ -1,5 +1,6 @@
 
 
 export const gameInitialState = {
-    day: 1
-}
+    day: 1,
+    catInventory: []
+};

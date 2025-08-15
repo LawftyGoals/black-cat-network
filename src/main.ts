@@ -7,6 +7,7 @@ import { Order, orders, updateOrders } from "./Order";
 
 
 const gameState = gameInitialState;
+const catInventory = gameState.catInventory;
 
 const textFields = ["day"];
 
