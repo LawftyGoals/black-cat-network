@@ -1,23 +1,5 @@
 import { cE, clearChildren } from "./utils";
-
-
-export const orders = new Map<string, Order>();
-const orderElement = document.getElementById("orders")!;
-
-
-export function updateOrders() {
-    if (orders.size > 0) {
-
-        clearChildren(orderElement);
-
-        orders.forEach((order, id) => {
-            orderElement.appendChild(generateOrderElement(order, id));
-
-        })
-
-    }
-}
-
+import { gameInitialState } from "./state/game-state";
 
 export class Order {
     mFrom: string;
@@ -50,6 +32,24 @@ export class Order {
 
 }
 
+
+export const orders = gameInitialState.orders;
+const orderElement = document.getElementById("orders")!;
+
+
+export function updateOrders() {
+    if (orders.size > 0) {
+
+        clearChildren(orderElement);
+
+        orders.forEach((order, id) => {
+            orderElement.appendChild(generateOrderElement(order, id));
+
+        })
+
+    }
+}
+
 export function generateOrderElement(order: Order, id: string) {
     const orderLi = cE("li");
     orderLi.id = "order-" + id;
@@ -80,6 +80,10 @@ export function generateOrderElement(order: Order, id: string) {
         requirementDD.innerText = requirement;
         requirementsDT.appendChild(requirementDD);
     })
+
+    const completeButton = cE("button");
+    completeButton.innerText = "Complete Order";
+    completeButton.addEventListener();
 
     orderLi.appendChild(requirementsDL);
 

@@ -1,5 +1,4 @@
 export class Cat {
-
     mName: string
     mType: typeof eCatType[TCatTypes]
     constructor(name: string, type: TeCatTypes) {
