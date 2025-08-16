@@ -1,4 +1,4 @@
-import { cE, clearChildren } from "./utils";
+import { cE, gEiD, clearChildren } from "./utils";
 import { gameInitialState } from "./state/game-state";
 
 export class Order {
@@ -34,7 +34,7 @@ export class Order {
 
 
 export const orders = gameInitialState.orders;
-const orderElement = document.getElementById("orders")!;
+const orderElement = gEiD("orders")!;
 
 
 export function updateOrders() {
@@ -81,11 +81,20 @@ export function generateOrderElement(order: Order, id: string) {
         requirementsDT.appendChild(requirementDD);
     })
 
+    orderLi.appendChild(requirementsDL);
+
     const completeButton = cE("button");
     completeButton.innerText = "Complete Order";
-    completeButton.addEventListener();
+    completeButton.onclick = () => {
 
-    orderLi.appendChild(requirementsDL);
+        const dialog = gEiD("dialog") as HTMLDialogElement;
+        dialog?.showModal();
+        const closeButton = gEiD("closeDialog");
+        closeButton!.onclick = () => dialog.close();
+    };
+
+    orderLi.appendChild(completeButton);
+
 
     return orderLi
 }
