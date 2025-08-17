@@ -1,7 +1,7 @@
 import { cE, gEiD, clearChildren } from "./utils";
 import { gameInitialState } from "./state/game-state";
 import type { TenumCatVariants } from "./Cat";
-import { variantMapping } from "./Cat";
+import { enumCatVariant, variantMapping } from "./Cat";
 
 export class Order {
     mFrom: string;
@@ -45,7 +45,7 @@ export const orders = gameInitialState.orders;
 const orderElement = gEiD("orders")!;
 
 
-export function updateOrders() {
+export function updateOrdersElement() {
     if (orders.size > 0) {
 
         clearChildren(orderElement);
@@ -111,3 +111,4 @@ export function generateOrderElement(order: Order, id: string) {
 
     return orderLi
 }
+
