@@ -2,34 +2,28 @@ import './style.css'
 
 import { gameInitialState } from './state/game-state';
 import { Order, orders, updateOrders } from "./Order";
-import { Cat, enumCatVariant, variantMapping } from "./Cat";
-import { cE } from './utils';
-
+import { enumCatVariant } from "./Cat";
 
 const gameState = gameInitialState;
-const catInventory = gameState.catInventory;
-
-catInventory.push(new Cat("Bingus", enumCatVariant.NAKED), new Cat("Terror of the void", enumCatVariant.BLACK));
-
-const catSelect = document.getElementById("cat-select")
-catInventory.forEach(cat => {
-  const catOption = cE("option");
-  catOption.innerText = `${cat.mName} - ${variantMapping[cat.mType]}`;
-  catSelect?.appendChild(catOption);
-})
 
 
+function initGameStates() {
 
-const textFields = ["day"];
+  orders.set("first", new Order("Gee McWitches", "need a new kitty", 100, enumCatVariant.BLACK, ["charming"]))
+  updateOrders();
 
-textFields.forEach((field: string) => {
-  const element = document.getElementById(field);
-  (element as HTMLElement).innerText = gameState[field as keyof typeof gameState].toString();
-})
+  const textFields = ["day"];
 
-const updateDayButton = document.getElementById("advanceDay");
+  textFields.forEach((field: string) => {
+    const element = document.getElementById(field);
+    (element as HTMLElement).innerText = gameState[field as keyof typeof gameState].toString();
+  })
 
-updateDayButton!.onclick = updateDay;
+  const updateDayButton = document.getElementById("advanceDay");
+
+  updateDayButton!.onclick = updateDay;
+}
+
 
 
 
@@ -45,4 +39,4 @@ export function updateDay() {
 }
 
 
-orders.set("first", new Order("Gee McWitches", "need a new kitty", 100, enumCatVariant.BLACK, ["charming"]))
+initGameStates();

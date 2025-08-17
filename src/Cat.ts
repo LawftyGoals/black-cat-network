@@ -1,3 +1,8 @@
+import { gameInitialState } from "./state/game-state";
+import { cE } from "./utils";
+
+const catInventory = gameInitialState.catInventory;
+
 export class Cat {
     mName: string
     mType: typeof enumCatVariant[TCatVariantNames]
@@ -25,4 +30,24 @@ export const variantMapping = {
     "2": "Persian",
     "3": "Siamese",
     "4": "Naked"
+}
+
+
+export function initializeCatInventory() {
+    catInventory.push(new Cat("Bingus", enumCatVariant.NAKED), new Cat("Terror of the void", enumCatVariant.BLACK));
+
+}
+
+export function initializeCatSelector() {
+
+    const catSelect = document.getElementById("cat-select")
+
+    catInventory.forEach(cat => {
+        const catOption = cE("option");
+        catOption.innerText = `${cat.mName} - ${variantMapping[cat.mType]}`;
+        catSelect?.appendChild(catOption);
+    })
+
+
+
 }
