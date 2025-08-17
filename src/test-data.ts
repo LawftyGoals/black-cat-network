@@ -1,4 +1,4 @@
-import { enumCatVariant, type TenumCatVariants } from "./Cat";
+import { enumCatVariant } from "./Cat";
 import { Order, orders, updateOrdersElement } from "./Order";
 import { getRandomInt } from "./utils";
 

@@ -3,6 +3,7 @@ import './style.css'
 import { gameInitialState } from './state/game-state';
 import { updateDay } from './day-system';
 import { addTestOrder } from './test-data';
+import { initializeCatInventory, initializeCatSelector } from './Cat';
 
 const gameState = gameInitialState;
 
@@ -10,7 +11,10 @@ const gameState = gameInitialState;
 function initGameStates() {
 
   addTestOrder();
+  initializeCatInventory();
+  initializeCatSelector();
   initDay();
+
 
 
 }
