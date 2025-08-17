@@ -2,13 +2,23 @@ import './style.css'
 
 import { gameInitialState } from './state/game-state';
 import { Order, orders, updateOrders } from "./Order";
-import { Cat, eCatType } from "./Cat";
+import { Cat, enumCatVariant, variantMapping } from "./Cat";
+import { cE } from './utils';
 
 
 const gameState = gameInitialState;
 const catInventory = gameState.catInventory;
 
-catInventory.push(new Cat("Bingus", eCatType.NAKED))
+catInventory.push(new Cat("Bingus", enumCatVariant.NAKED), new Cat("Terror of the void", enumCatVariant.BLACK));
+
+const catSelect = document.getElementById("cat-select")
+catInventory.forEach(cat => {
+  const catOption = cE("option");
+  catOption.innerText = `${cat.mName} - ${variantMapping[cat.mType]}`;
+  catSelect?.appendChild(catOption);
+})
+
+
 
 const textFields = ["day"];
 
@@ -28,11 +38,11 @@ export function updateDay() {
   const dayElement = document.getElementById("day");
   dayElement && (dayElement.innerText = gameState.day.toString());
 
-  orders.set(Math.floor(Math.random() * 100).toString(), new Order("Jessy MacGraph", "Help me get a void", 200, ["black"]));
+  orders.set(Math.floor(Math.random() * 100).toString(), new Order("Jessy MacGraph", "Help me get a void", 200, enumCatVariant.BLACK, ["pissy"]));
 
   updateOrders();
 
 }
 
 
-orders.set("first", new Order("Gee McWitches", "need a new kitty", 100, ["black"]))
+orders.set("first", new Order("Gee McWitches", "need a new kitty", 100, enumCatVariant.BLACK, ["charming"]))

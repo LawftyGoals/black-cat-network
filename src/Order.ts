@@ -1,16 +1,20 @@
 import { cE, gEiD, clearChildren } from "./utils";
 import { gameInitialState } from "./state/game-state";
+import type { TenumCatVariants } from "./Cat";
+import { variantMapping } from "./Cat";
 
 export class Order {
     mFrom: string;
     mDescription: string;
     mOffer: number;
+    mVariant: TenumCatVariants;
     mRequirements: string[];
 
-    constructor(from: string, text: string, offer: number, requirements: string[]) {
+    constructor(from: string, text: string, offer: number, variant: TenumCatVariants, requirements: string[]) {
         this.mFrom = from;
         this.mDescription = text;
         this.mOffer = offer
+        this.mVariant = variant;
         this.mRequirements = requirements
     }
 
@@ -24,6 +28,10 @@ export class Order {
 
     getOffer() {
         return this.mOffer;
+    }
+
+    getVariant() {
+        return this.mVariant;
     }
 
     getRequirements() {
@@ -73,8 +81,13 @@ export function generateOrderElement(order: Order, id: string) {
     const requirementsDL = cE("dl");
     const requirementsDT = cE("dt");
 
-    requirementsDL.appendChild(requirementsDT)
     requirementsDT.innerText = "Requirements:";
+    requirementsDL.appendChild(requirementsDT)
+
+    const variantDD = cE("dd");
+    variantDD.innerHTML = `<strong>${variantMapping[order.getVariant()]}</strong>`;
+    requirementsDT.appendChild(variantDD);
+
     order.getRequirements().forEach((requirement) => {
         const requirementDD = cE("dd");
         requirementDD.innerText = requirement;
