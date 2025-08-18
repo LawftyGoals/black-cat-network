@@ -16,7 +16,7 @@ export function appendChildren(element: HTMLElement, children: HTMLElement[]) {
 export function setupDialog() {
     const dialog = gEiD("dialog") as HTMLDialogElement;
     dialog?.showModal();
-    const closeButton = gEiD("closeDialog");
+    const closeButton = gEiD("close-dialog");
     closeButton!.onclick = () => dialog.close();
 }
 

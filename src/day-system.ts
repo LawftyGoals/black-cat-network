@@ -10,9 +10,8 @@ export function updateDay() {
     dayElement && (dayElement.innerText = gameState.day.toString());
 
     /* TEMPORARY TEST STATE */
-    orders.set(Math.floor(Math.random() * 100).toString(), new Order("Jessy MacGraph", "Help me get a void", 200, enumCatVariant.BLACK, ["pissy"]));
+    orders.set(Math.floor(Math.random() * 100).toString(), new Order("Jessy MacGraph", "Help me get a void", 200, enumCatVariant.BLACK, [1]));
 
-    console.log(gameState.orders);
     updateOrdersElement();
 
 }

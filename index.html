@@ -13,14 +13,17 @@
     <dialog id="dialog">
       <p>Choose cat:</p>
       <select id="cat-select">
+        <option value="">--Chose A Cat</option>
       </select>
-      <button id="closeDialog">Close</button>
+      <button id="complete-order" disabled>Complete Order</button>
+      <button id="close-dialog">Close</button>
     </dialog>
     <div id="" overlay>
-      <ul id="orders"></ul>
+      <div id="orders">
+      </div>
       <div>
         <p id="day">0</p>
-        <button id="advanceDay">Next Day</button>
+        <button id="advance-day">Next Day</button>
       </div>
     </div>
   </div>

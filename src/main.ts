@@ -13,26 +13,22 @@ function initGameStates() {
   addTestOrder();
   initializeCatInventory();
   initializeCatSelector();
-  initDay();
+  initDaySystem();
 
 
 
 }
 
-
 initGameStates();
 
 
-function initDay() {
+function initDaySystem() {
 
-  const textFields = ["day"];
 
-  textFields.forEach((field: string) => {
-    const element = document.getElementById(field);
-    (element as HTMLElement).innerText = gameState[field as keyof typeof gameState].toString();
-  })
+  const element = document.getElementById("day");
+  (element as HTMLElement).innerText = gameState["day"].toString()
 
-  const updateDayButton = document.getElementById("advanceDay");
+  const updateDayButton = document.getElementById("advance-day");
 
   updateDayButton!.onclick = updateDay;
 }

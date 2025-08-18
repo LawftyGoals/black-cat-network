@@ -1,10 +1,11 @@
-import { enumCatVariant } from "./Cat";
+import { enumCatCharacteristics, enumCatVariant } from "./Cat";
 import { Order, orders, updateOrdersElement } from "./Order";
 import { getRandomInt } from "./utils";
 
-const firstNames = ["Gee", "Bethany", "Anna May", "Jebeziah", "Tania"];
-const lastNames = ["McWitch", "Magicka", "Astral", "Aiaiai", "Baloney"];
-const catVariants = Object.values(enumCatVariant)
+const firstNames = ["Gee", "Bethany", "Anna May", "Jebeziah", "Tania", "Jessey"];
+const lastNames = ["McWitch", "Magicka", "Astral", "Aiaiai", "Baloney", "MacGraff"];
+const catVariants = Object.values(enumCatVariant);
+const catCharacteristics = Object.values(enumCatCharacteristics);
 
 const reasonForPuchase = [
     "Where can I find it?",
@@ -25,7 +26,13 @@ const reasonForPuchase = [
 
 export function addTestOrder() {
 
-    orders.set(getRandomInt(100000).toString(), new Order(`${firstNames[getRandomInt(firstNames.length)]} ${lastNames[getRandomInt(lastNames.length)]}`, reasonForPuchase[getRandomInt(reasonForPuchase.length)], getRandomInt(10000), catVariants[getRandomInt(catVariants.length)], ["charming"]));
+    orders.set(getRandomInt(100000).toString(), new Order(`${firstNames[getRandomInt(firstNames.length)]} ${lastNames[getRandomInt(lastNames.length)]}`, reasonForPuchase[getRandomInt(reasonForPuchase.length)], getRandomInt(10000), catVariants[getRandomInt(catVariants.length)], getRandomizedCatCharacteristics(3)));
 
     updateOrdersElement();
+}
+
+
+
+export function getRandomizedCatCharacteristics(characteristicsCount: number = 1) {
+    return new Array(characteristicsCount).fill(null).map(() => getRandomInt(catCharacteristics.length));
 }

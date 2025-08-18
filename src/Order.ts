@@ -1,16 +1,21 @@
 import { cE, gEiD, clearChildren } from "./utils";
 import { gameInitialState } from "./state/game-state";
-import type { TenumCatVariants } from "./Cat";
-import { enumCatVariant, variantMapping } from "./Cat";
+import type { TenumCatCharacteristics, TenumCatVariants } from "./Cat";
+import { characteristicsMapping, clearSelectedCat, variantMapping } from "./Cat";
+
+const gameState = gameInitialState;
+
+const clearSelectedOrder = () => gameState.selectedOrder = null;
+const setSelectedOrder = (order: Order) => gameState.selectedOrder = order;
 
 export class Order {
     mFrom: string;
     mDescription: string;
     mOffer: number;
     mVariant: TenumCatVariants;
-    mRequirements: string[];
+    mRequirements: number[];
 
-    constructor(from: string, text: string, offer: number, variant: TenumCatVariants, requirements: string[]) {
+    constructor(from: string, text: string, offer: number, variant: TenumCatVariants, requirements: number[]) {
         this.mFrom = from;
         this.mDescription = text;
         this.mOffer = offer
@@ -41,7 +46,7 @@ export class Order {
 }
 
 
-export const orders = gameInitialState.orders;
+export const orders = gameState.orders;
 const orderElement = gEiD("orders")!;
 
 
@@ -59,7 +64,7 @@ export function updateOrdersElement() {
 }
 
 export function generateOrderElement(order: Order, id: string) {
-    const orderLi = cE("li");
+    const orderLi = cE("div");
     orderLi.id = "order-" + id;
 
     const fromElement = cE("p");
@@ -90,7 +95,7 @@ export function generateOrderElement(order: Order, id: string) {
 
     order.getRequirements().forEach((requirement) => {
         const requirementDD = cE("dd");
-        requirementDD.innerText = requirement;
+        requirementDD.innerText = characteristicsMapping[(requirement as TenumCatCharacteristics)];
         requirementsDT.appendChild(requirementDD);
     })
 
@@ -100,10 +105,20 @@ export function generateOrderElement(order: Order, id: string) {
     completeButton.innerText = "Complete Order";
     completeButton.onclick = () => {
 
+        setSelectedOrder(order);
+
         const dialog = gEiD("dialog") as HTMLDialogElement;
         dialog?.showModal();
-        const closeButton = gEiD("closeDialog");
-        closeButton!.onclick = () => dialog.close();
+
+
+        const closeButton = gEiD("close-dialog");
+
+        closeButton!.onclick = () => {
+            clearSelectedOrder();
+            clearSelectedCat();
+            dialog.close();
+
+        };
     };
 
     orderLi.appendChild(completeButton);
