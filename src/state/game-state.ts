@@ -3,7 +3,7 @@ import type { Order } from "../Order";
 
 interface IGameState {
     day: number,
-    catInventory: Cat[],
+    catInventory: Map<string, Cat>,
     orders: Map<string, Order>,
     selectedOrder: Order | null,
     completedOrders: Map<string, Order>,
@@ -12,7 +12,7 @@ interface IGameState {
 
 export const gameInitialState: IGameState = {
     day: 1,
-    catInventory: [],
+    catInventory: new Map<string, Cat>(),
     orders: new Map<string, Order>(),
     completedOrders: new Map<string, Order>(),
     selectedOrder: null,
