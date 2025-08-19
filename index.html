@@ -1,33 +1,30 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite + TS</title>
-</head>
-
-<body>
-  <div id="app">
-    <dialog id="dialog">
-      <p>Choose cat:</p>
-      <select id="cat-select">
-        <option value="">--Chose A Cat</option>
-      </select>
-      <button id="complete-order" disabled>Complete Order</button>
-      <button id="close-dialog">Close</button>
-    </dialog>
-    <div id="" overlay>
-      <div id="orders">
-      </div>
-      <div>
-        <p id="day">0</p>
-        <button id="advance-day">Next Day</button>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app">
+      <dialog id="dialog">
+        <p>Choose cat:</p>
+        <select id="cat-select">
+          <option value="">--Chose A Cat</option>
+        </select>
+        <game-button id="complete-order" text="Complete Order" disabled></game-button>
+        <game-button id="close-dialog" text="Close"></game-button>
+      </dialog>
+      <div id="" overlay>
+        <div id="orders">
+        </div>
+        <div>
+          <p id="day">0</p>
+          <game-button id="advance-day" text="Next Day"></game-button>
+        </div>
       </div>
     </div>
-  </div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

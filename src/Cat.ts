@@ -19,7 +19,12 @@ export const enumCatVariant = Object.freeze({
     TABBY: 1,
     PERSIAN: 2,
     SIAMESE: 3,
-    NAKED: 4
+    SPHYNX: 4,
+    CALICO: 5,
+    ORANGE: 6,
+    RAGDOLL: 7,
+    BENGAL: 8,
+    FOLD: 9
 })
 
 export type TCatVariants = keyof typeof enumCatVariant;
@@ -30,33 +35,63 @@ export const variantMapping = Object.freeze({
     "1": "Tabby",
     "2": "Persian",
     "3": "Siamese",
-    "4": "Naked"
+    "4": "Sphynx",
+    "5": "Calico",
+    "6": "Orange",
+    "7": "Ragdoll",
+    "8": "Bengal",
+    "9": "Fold"
 });
 
 export const enumCatCharacteristics = Object.freeze({
-    SASSY: 0,
-    CHARMING: 1,
-    ANGRY: 2,
-    THOUGHTLESS: 3,
-    AGRESSIVE: 4,
-    LOVING: 5,
-    FLATULANT: 6,
-    PROMISCUOUS: 7
+    CURIOUS: 0,      // Explores new environments, investigates objects.
+    LAZY: 1,         // Prefers sleeping and minimal activity.
+    VENGEFUL: 2,     // Retaliates for perceived slights.
+    SOCIAL: 3,       // Enjoys interaction and affection.
+    FERAL: 4,        // Avoids human contact, highly independent.
+    PLAYFUL: 5,      // Energetic, loves toys and games.
+    SHY: 6,          // Hides from strangers or new situations.
+    VOCAL: 7,        // Communicates frequently with meows or chirps.
+    LOYAL: 8,        // Bonds strongly with specific people.
+    AGGRESSIVE: 9,   // Prone to hissing, swatting, or biting.
+    PREDATORY: 10,      // Stalks, pounces, and "catches" prey (real or toy).
+    FOODMOTIVATED: 11, // Always begging for treats or stealing food.
+    CLINGY: 12,      // Follows owner everywhere, demands constant attention.
+    INDEPENDENT: 13, // Self-sufficient, content alone for long periods.
+    MISCHIEVOUS: 14, // Playfully destructive or causes harmless chaos.
+    AFFECTIONATE: 15, // Loves cuddling, purring, and physical contact.
+    TERRITORIAL: 16, // Marks space, guards areas, or acts possessive.
+    NOCTURNAL: 17,   // Most active at night, zooms around or meows.
+    PICKY: 18,       // Fussy about food, litter, or attention.
+    OBSERVANT: 19,   // Watches everything intently but rarely engages.
+    DARING: 20,      // Fearless, climbs high places, takes risks.
+    GENTLE: 21       // Soft, patient, and tolerant.
 });
 
-export const characteristicsMapping = Object.freeze(
-    {
-        "0": "Sassy",
-        "1": "Charming",
-        "2": "Angry",
-        "3": "Thoughtless",
-        "4": "Aggressive",
-        "5": "Loving",
-        "6": "Flatulent",
-        "7": "Promiscuous",
-    }
-
-);
+export const characteristicsMapping = Object.freeze({
+    "0": "Curious",
+    "1": "Lazy",
+    "2": "Vengeful",
+    "3": "Social",
+    "4": "Feral",
+    "5": "Playful",
+    "6": "Shy",
+    "7": "Vocal",
+    "8": "Loyal",
+    "9": "Aggressive",
+    "10": "Hunter",
+    "11": "Food-Motivated",
+    "12": "Clingy",
+    "13": "Independent",
+    "14": "Mischievous",
+    "15": "Affectionate",
+    "16": "Territorial",
+    "17": "Nocturnal",
+    "18": "Picky",
+    "19": "Observant",
+    "20": "Daring",
+    "21": "Gentle"
+});
 
 export type TCatCharacteristics = keyof typeof enumCatCharacteristics;
 export type TenumCatCharacteristics = typeof enumCatCharacteristics[TCatCharacteristics];
@@ -64,7 +99,7 @@ export type TmapCatCharactheristics = keyof typeof characteristicsMapping;
 
 
 export function initializeCatInventory() {
-    gameState.catInventory.push(new Cat("Bingus", enumCatVariant.NAKED), new Cat("Terror of the void", enumCatVariant.BLACK));
+    gameState.catInventory.push(new Cat("Bingus", enumCatVariant.SPHYNX), new Cat("Terror of the void", enumCatVariant.BLACK));
 
 }
 
