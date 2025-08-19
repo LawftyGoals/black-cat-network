@@ -1,6 +1,8 @@
 import './style.css'
 
 import './components/game-button';
+import './components/cat-card';
+
 import { gameInitialState } from './state/game-state';
 import { updateDay } from './day-system';
 import { addTestOrder } from './test-data';

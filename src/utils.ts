@@ -17,7 +17,11 @@ export function setupDialog() {
     const dialog = gEiD("dialog") as HTMLDialogElement;
     dialog?.showModal();
     const closeButton = gEiD("close-dialog");
-    closeButton!.onclick = () => dialog.close();
+    // closeButton!.onclick = () => dialog.close();
+    closeButton!.onclick = () => {
+        const dialog = document.getElementById('dialog') as HTMLDialogElement;
+        catCard.style.display = 'none';
+    }
 }
 
 

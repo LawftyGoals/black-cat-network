@@ -14,4 +14,9 @@ export function updateDay() {
 
     updateOrdersElement();
 
+    // Hide order cat-card
+    const orderCatCard = document.getElementById('order-cat-card');
+  if (orderCatCard) {
+    orderCatCard.style.display = 'none';
+  }
 }

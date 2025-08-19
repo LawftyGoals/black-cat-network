@@ -13,12 +13,17 @@
         <select id="cat-select">
           <option value="">--Chose A Cat</option>
         </select>
+        <!-- Cat card below -->
+        <cat-card id="cat-card" style="display: none;"></cat-card>
+
         <game-button id="complete-order" text="Complete Order" disabled></game-button>
         <game-button id="close-dialog" text="Close"></game-button>
       </dialog>
-      <div id="" overlay>
-        <div id="orders">
-        </div>
+      <div class="overlay">
+
+        <!-- Cat card below -->
+        <div id="orders"></div>
+        <cat-card id="order-cat-card" style="display: none;"></cat-card>
         <div>
           <p id="day">0</p>
           <game-button id="advance-day" text="Next Day"></game-button>

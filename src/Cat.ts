@@ -40,7 +40,7 @@ export const variantMapping = Object.freeze({
     "6": "Orange",
     "7": "Ragdoll",
     "8": "Bengal",
-    "9": "Fold"
+    "9": "Scottish Fold"
 });
 
 export const enumCatCharacteristics = Object.freeze({
@@ -114,13 +114,28 @@ export function initializeCatSelector() {
         catSelect?.appendChild(catOption);
     });
 
-    catSelect.onchange = (event: Event) => {
-        gameState.selectedCat = gameState.catInventory[Number((event!.target! as HTMLInputElement).value)]
+    // catSelect.onchange = (event: Event) => {
+    //     gameState.selectedCat = gameState.catInventory[Number((event!.target! as HTMLInputElement).value)]
 
+    //     const completeOrder = gEiD("complete-order") as HTMLButtonElement;
+    //     completeOrder!.disabled = false;
+    // };
+
+    catSelect.onchange = (event: Event) => {
+        const selectedIndex = Number((event!.target! as HTMLInputElement).value);
+        gameState.selectedCat = gameState.catInventory[selectedIndex];
+    
+        const catCard = document.getElementById('cat-card') as any;
+
+        if (gameState.selectedCat) {
+            catCard.setAttribute('type', enumCatVariant[gameState.selectedCat.mType]);
+            catCard.setAttribute('description', `Name: ${gameState.selectedCat.mName}`);
+            catCard.setAttribute('traits', gameState.selectedCat.mCharacteristics.join(', '));
+            catCard.style.display = 'block';
+        }
+    
         const completeOrder = gEiD("complete-order") as HTMLButtonElement;
         completeOrder!.disabled = false;
-    };
-
-
+    }
 
 }

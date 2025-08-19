@@ -31,20 +31,44 @@ const orderElement = gEiD("orders")!;
 
 
 export function updateOrdersElement() {
-    if (orders.size > 0) {
+    console.log("Updating orders..."); // Log when the function runs
 
+    if (orders.size > 0) {
         clearChildren(orderElement);
 
         orders.forEach((order) => {
             orderElement.appendChild(generateOrderElement(order));
 
-        })
+        });
+
+        // Update the cat-card after rendering orders
+        const firstOrder = orders.values().next().value; // Get the first order
+        const orderCatCard = document.getElementById('order-cat-card');
+        console.log("Cat-card element:", orderCatCard); // Log the element
+
+        if (orderCatCard) {
+        orderCatCard.setAttribute('type', variantMapping[firstOrder.Variant]);
+        orderCatCard.setAttribute('description', firstOrder.Description);
+        orderCatCard.setAttribute('traits', firstOrder.Requirements.map(req => characteristicsMapping[req]).join(', '));
+        orderCatCard.style.display = 'block';
+        console.log("Cat-card found! Updating attributes..."); // Log if the element exists
+        } else {
+        console.warn("Cat-card element not found!");
+        }
 
     }
 }
 
 export function generateOrderElement(order: Order) {
     const orderDiv = cE("div");
+
+    // // Displaying the cat-card
+    // const orderCatCard = document.getElementById('order-cat-card') as any;
+    // orderCatCard.setAttribute('type', variantMapping[order.Variant]);
+    // orderCatCard.setAttribute('description', order.Description);
+    // orderCatCard.setAttribute('traits', order.Requirements.map(req => characteristicsMapping[req]).join(', '));
+
+
     for (const [key, value] of Object.entries(order)) {
 
         if (Array.isArray(value)) {
