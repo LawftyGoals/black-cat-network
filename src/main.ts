@@ -3,12 +3,14 @@ import './style.css'
 import { gameInitialState } from './state/game-state';
 import { updateDay } from './day-system';
 import { addTestCat, addTestOrder } from './test-data';
+import { initMenu } from './ui';
 
 const gameState = gameInitialState;
 
 
 function initGameStates() {
 
+  initMenu();
   addTestOrder();
   addTestCat();
   initDaySystem();

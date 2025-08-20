@@ -35,9 +35,11 @@ html, body {
 #menu{
   width: var(--menu-width);
   height: 100%;
+  display:flex;
+  flex-direction: column;
 }
 
-#workspace {
+#screen {
   width: calc(100% - var(--menu-width));
   overflow:scroll;
   padding: 16px;
