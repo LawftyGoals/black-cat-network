@@ -1,35 +1,35 @@
 // Entity.ts
 
     // Numerical type alias
-type IDnum = number;
+export type IDnum = number;
 
     // All components must have a 'type' property that is a string.
-interface Component {
+export interface Component {
     type: string;
 }
 
-interface Creature extends Component {
+export interface Creature extends Component {
     type: "Creature";
     species: string;
     sex: string;
 }
 
-interface Name extends Component {
+export interface Name extends Component {
     type: "Name";
     value: string;
 }
 
-interface CatVariant extends Component {
+export interface CatVariant extends Component {
     type: "CatVariant";
     variant: string;
 }
 
-interface CatTraits extends Component {
+export interface CatTraits extends Component {
     type: "CatTraits";
     traits: string[];
 }
 
-interface CatAbilities extends Component {
+export interface CatAbilities extends Component {
     type: "CatAbilities";
     // Agility
     reflex: number;
@@ -43,7 +43,7 @@ interface CatAbilities extends Component {
     // Intelligence
     memory: number;
     intuition: number;
-    magicinsight: number;
+    magicInsight: number;
     // Temperament
     patience: number;
     boldness: number;
@@ -55,23 +55,23 @@ interface CatAbilities extends Component {
     strength: number;
     grip: number;
     endurance: number;
-    magicresistance: number;
+    magicResistance: number;
     // Luck
     luck: number;
     
 }
 
-interface HumanTraits extends Component {
+export interface HumanTraits extends Component {
     type: "HumanTraits";
     traits: string[];
 }
 
-interface WitchVariant extends Component {
+export interface WitchVariant extends Component {
     type: "WitchVariant";
     variant: string;
 }
 
-class Entity {
+export class Entity {
     private id: IDnum;
     private components: Map<string, Component>;
 
