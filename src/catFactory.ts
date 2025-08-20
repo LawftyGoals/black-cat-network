@@ -36,11 +36,11 @@ const defaultCatAbilities: EntityModule.CatAbilities = {
   ): EntityModule.Entity {
     const cat = new EntityModule.Entity(id);
 
-    cat.addComponent({ type: "Name", value: name });
+    cat.addComponent({ type: "Name", name: name });
 
     cat.addComponent({ type: "CatVariant", variant });
 
-    const catAbilities: EntityModule.CatAbilities = { ...EntityModule.CatAbilities, ...abilities};
+    const catAbilities: EntityModule.CatAbilities = { ...CatAbilities, ...abilities};
     cat.addComponent(catAbilities);
 
     // cat.addComponent({});

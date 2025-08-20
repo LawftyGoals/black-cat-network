@@ -7,9 +7,9 @@ const cat = createCat(
     "Baby Beliaal",
     "Hexenkatze",
     {
-        reflex: 8,
-        mischief: 11,
-        magicResistance: 8,
+        // reflex: 8,
+        // mischief: 11,
+        // magicResistance: 8,
     }
 );
 

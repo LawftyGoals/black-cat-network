@@ -16,7 +16,7 @@ export interface Creature extends Component {
 
 export interface Name extends Component {
     type: "Name";
-    value: string;
+    name: string;
 }
 
 export interface CatVariant extends Component {
