@@ -61,10 +61,10 @@ class GameButton extends HTMLElement {
 
     // Get'n'set button labels
     static get observedAttributes() {
-        return['text'];
+        return ['text'];
     }
 
-    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
         if (name === 'text' && this.shadowRoot) {
             const button = this.shadowRoot.querySelector('button');
             if (button) {

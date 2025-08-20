@@ -1,4 +1,4 @@
-import { enumCatCharacteristics, enumCatVariant } from "./Cat";
+import { enumCatCharacteristics, enumCatVariant, type TenumCatCharacteristics } from "./Cat";
 import { Order, orders, updateOrdersElement } from "./Order";
 import { getRandomInt } from "./utils";
 
@@ -26,7 +26,7 @@ const reasonForPuchase = [
 
 export function addTestOrder() {
 
-    orders.set(getRandomInt(100000).toString(), new Order(`${firstNames[getRandomInt(firstNames.length)]} ${lastNames[getRandomInt(lastNames.length)]}`, reasonForPuchase[getRandomInt(reasonForPuchase.length)], getRandomInt(10000), catVariants[getRandomInt(catVariants.length)], getRandomizedCatCharacteristics(3)));
+    orders.set(getRandomInt(100000).toString(), new Order(`${firstNames[getRandomInt(firstNames.length)]} ${lastNames[getRandomInt(lastNames.length)]}`, reasonForPuchase[getRandomInt(reasonForPuchase.length)], "All the bitches you could dream of!!", catVariants[getRandomInt(catVariants.length)], getRandomizedCatCharacteristics(3)));
 
     updateOrdersElement();
 }
@@ -34,5 +34,5 @@ export function addTestOrder() {
 
 
 export function getRandomizedCatCharacteristics(characteristicsCount: number = 1) {
-    return new Array(characteristicsCount).fill(null).map(() => getRandomInt(catCharacteristics.length));
+    return new Array(characteristicsCount).fill(null).map(() => getRandomInt(catCharacteristics.length)) as TenumCatCharacteristics[];
 }
