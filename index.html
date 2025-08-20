@@ -8,18 +8,24 @@
   </head>
 
   <body>
+    <dialog id="dialog">
+      <p>Choose cat:</p>
+      <select id="cat-select"></select>
+      <button id="complete-order">Complete Order</button>
+      <button id="close-dialog">Close</button>
+    </dialog>
+
     <div id="app">
-      <dialog id="dialog">
-        <p>Choose cat:</p>
-        <select id="cat-select"></select>
-        <button id="complete-order">Complete Order</button>
-        <button id="close-dialog">Close</button>
-      </dialog>
-      <div id="" overlay>
-        <div id="orders"></div>
-        <div>
-          <p id="day">0</p>
-          <button id="advance-day">Next Day</button>
+      <div id="top-bar">
+        <div>Timebar</div>
+        <div id="day">0</div>
+        <button id="advance-day">Next Day</button>
+      </div>
+
+      <div id="content">
+        <div id="menu"></div>
+        <div id="workspace">
+          <div id="orders"></div>
         </div>
       </div>
     </div>
