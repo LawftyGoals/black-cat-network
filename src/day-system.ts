@@ -1,6 +1,7 @@
-import { enumCatVariant } from "./Cat";
-import { Order, orders, updateOrdersElement } from "./Order";
+
+import { updateOrdersElement } from "./Order";
 import { gameInitialState } from "./state/game-state";
+import { addTestOrder } from "./test-data";
 
 const gameState = gameInitialState;
 
@@ -10,7 +11,7 @@ export function updateDay() {
     dayElement && (dayElement.innerText = gameState.day.toString());
 
     /* TEMPORARY TEST STATE */
-    orders.set(Math.floor(Math.random() * 100).toString(), new Order("Jessy MacGraph", "Help me get a void", 200, enumCatVariant.BLACK, [1]));
+    addTestOrder();
 
     updateOrdersElement();
 

@@ -1,7 +1,7 @@
 import { cE, gEiD, clearChildren } from "./utils";
 import { gameInitialState } from "./state/game-state";
 import type { TenumCatCharacteristics, TenumCatVariants } from "./Cat";
-import { characteristicsMapping, clearCatSelectElement, clearSelectedCat, initializeCatSelector, variantMapping } from "./Cat";
+import { characteristicsMapping, clearCatFromInventory, clearCatSelectElement, clearSelectedCat, initializeCatSelector, variantMapping } from "./Cat";
 
 const gameState = gameInitialState;
 
@@ -94,9 +94,12 @@ export function generateOrderElement(order: Order, id: string) {
             updateOrdersElement();
 
             clearCatSelectElement();
+            clearCatFromInventory(gameState.selectedCat!.ID);
 
             clearSelectedOrder();
             clearSelectedCat();
+
+            console.log(gameState.catInventory);
 
             dialog.close();
         }
@@ -108,8 +111,8 @@ export function generateOrderElement(order: Order, id: string) {
             clearSelectedOrder();
             clearSelectedCat();
             dialog.close();
-        };
-    };
+        }
+    }
 
     orderDiv.appendChild(completeButton);
 

@@ -4,6 +4,7 @@ import { cE, clearChildren, gEiD } from "./utils";
 const gameState = gameInitialState;
 export const catInventory = gameState.catInventory;
 export const clearSelectedCat = () => gameState.selectedCat = null;
+export const clearCatFromInventory = (id: string) => catInventory.delete(id);
 
 export class Cat {
     ID: string
@@ -71,22 +72,34 @@ const catSelect = gEiD("cat-select") as HTMLSelectElement;
 const completeOrder = gEiD("complete-order") as HTMLButtonElement;
 export function initializeCatSelector() {
 
+    let selectedCat: Cat | null = null;
 
-    gameState.catInventory.forEach((cat, key) => {
-        const catOption = cE("option") as HTMLOptionElement;
-        catOption.innerText = `${cat.Name} - ${variantMapping[cat.Type]}`;
-        catOption.value = key;
-        catSelect?.appendChild(catOption);
-    });
+    if (gameState.catInventory.size < 1) {
+        completeOrder.disabled = true;
+    } else {
+        gameState.catInventory.forEach((cat, key) => {
+            if (!selectedCat) {
+                console.log("set")
+                selectedCat = cat
+            };
+            console.log({ cat, selectedCat });
+            const catOption = cE("option") as HTMLOptionElement;
+            catOption.innerText = `${cat.Name} - ${variantMapping[cat.Type]}`;
+            catOption.value = key;
+            catSelect?.appendChild(catOption);
+
+        });
+        gameState.selectedCat = selectedCat;
+    }
+
+
 
     catSelect.onchange = (event: Event) => {
         if ((event!.target! as HTMLInputElement).value !== "") {
             gameState.selectedCat = gameState.catInventory.get((event!.target! as HTMLInputElement).value)!
 
-            completeOrder!.disabled = false;
-        }
-        else {
-            completeOrder!.disabled = true;
+        } else {
+            completeOrder.disabled = true;
         }
     };
 
