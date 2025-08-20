@@ -15,16 +15,15 @@ export class Order {
     Variant: TenumCatVariants;
     Requirements: number[];
 
-    constructor(from: string, text: string, offer: number, variant: TenumCatVariants, requirements: number[]) {
+    constructor(from: string, text: string, offer: string, variant: TenumCatVariants, requirements: number[]) {
         this.From = from;
         this.Description = text;
-        this.Offer = offer
+        this.Offer = "All the bitches you could dream of!!"
         this.Variant = variant;
         this.Requirements = requirements
     }
 
 }
-
 
 export const orders = gameState.orders;
 const orderElement = gEiD("orders")!;
@@ -40,34 +39,27 @@ export function updateOrdersElement() {
             orderElement.appendChild(generateOrderElement(order));
 
         });
-
-        // Update the cat-card after rendering orders
-        const firstOrder = orders.values().next().value; // Get the first order
-        const orderCatCard = document.getElementById('order-cat-card');
-        console.log("Cat-card element:", orderCatCard); // Log the element
-
-        if (orderCatCard) {
-        orderCatCard.setAttribute('type', variantMapping[firstOrder.Variant]);
-        orderCatCard.setAttribute('description', firstOrder.Description);
-        orderCatCard.setAttribute('traits', firstOrder.Requirements.map(req => characteristicsMapping[req]).join(', '));
-        orderCatCard.style.display = 'block';
-        console.log("Cat-card found! Updating attributes..."); // Log if the element exists
-        } else {
-        console.warn("Cat-card element not found!");
-        }
-
     }
 }
+        // Update the cat-card after rendering orders
+        // const firstOrder = orders.values().next().value; // Get the first order
+        // const orderCatCard = document.getElementById('order-cat-card');
+        // console.log("Cat-card element:", orderCatCard); // Log the element
+
+        // if (orderCatCard) {
+        // orderCatCard.setAttribute('type', variantMapping[firstOrder.Variant]);
+        // orderCatCard.setAttribute('description', firstOrder.Description);
+        // orderCatCard.setAttribute('traits', firstOrder.Requirements.map(req => characteristicsMapping[req]).join(', '));
+        // orderCatCard.style.display = 'block';
+        // console.log("Cat-card found! Updating attributes..."); // Log if the element exists
+        // } else {
+        // console.warn("Cat-card element not found!");
+        // }
+
+
 
 export function generateOrderElement(order: Order) {
     const orderDiv = cE("div");
-
-    // // Displaying the cat-card
-    // const orderCatCard = document.getElementById('order-cat-card') as any;
-    // orderCatCard.setAttribute('type', variantMapping[order.Variant]);
-    // orderCatCard.setAttribute('description', order.Description);
-    // orderCatCard.setAttribute('traits', order.Requirements.map(req => characteristicsMapping[req]).join(', '));
-
 
     for (const [key, value] of Object.entries(order)) {
 
@@ -75,7 +67,15 @@ export function generateOrderElement(order: Order) {
             const DL = cE("dl");
             const DT = cE("dt");
             DT.innerText = "Requirements:";
-            DL.appendChild(DT)
+            // DL.appendChild(DT)
+            
+            // Cat-card
+            const catCard = document.createElement('cat-card');
+            catCard.setAttribute('type', variantMapping[order.Variant]);
+            catCard.setAttribute('description', order.Description);
+            catCard.setAttribute('traits', order.Requirements.map(req => characteristicsMapping[req]).join(', '));
+            DL.appendChild(catCard);
+
             const DD = cE("dd");
             DD.innerHTML = `<strong>${variantMapping[order.Variant]}</strong>`;
             DT.appendChild(DD);
@@ -93,8 +93,6 @@ export function generateOrderElement(order: Order) {
             orderDiv.appendChild(p);
 
         }
-
-
     }
 
     const completeButton = cE("button");

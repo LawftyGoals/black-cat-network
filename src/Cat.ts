@@ -1,5 +1,5 @@
-import { gameInitialState } from "./state/game-state";
-import { cE, gEiD } from "./utils";
+import { gameInitialState } from "./state/game-state.ts";
+import { cE, gEiD } from "./utils.ts";
 
 const gameState = gameInitialState;
 export const clearSelectedCat = () => gameState.selectedCat = null;
@@ -79,7 +79,7 @@ export const characteristicsMapping = Object.freeze({
     "7": "Vocal",
     "8": "Loyal",
     "9": "Aggressive",
-    "10": "Hunter",
+    "10": "Predatory",
     "11": "Food-Motivated",
     "12": "Clingy",
     "13": "Independent",
