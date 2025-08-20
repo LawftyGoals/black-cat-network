@@ -47,7 +47,7 @@ class CatCard extends HTMLElement {
         return ['type', 'description', 'traits'];
     }
 
-    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
         if (!this.shadowRoot) return;
 
         const card = this.shadowRoot.querySelector('div');
