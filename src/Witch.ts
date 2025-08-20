@@ -19,12 +19,24 @@ interface Witch {
   const firstnames = [
     "Morgana", "Belladonna", "Hecate", "Circe", "Seraphina",
     "Elspeth", "Gwendolyn", "Rowan", "Sybil", "Ursula",
-    "Jennifer", "Shoggoth"
+    "Jennifer", "Shoggoth", "Stella", "Isis", "Qaeda",
+    "Minerva", "Gladys", "Hazel", "Helga", "Olga",
+    "Fern", "Iris", "Juniper", "Raven", "Cassandra",
+    "Thea", "Astrid", "Piper", "Lilith", "Dea",
+    "Cleo", "Winnie", "Zelda", "Agatha", "Aurora",
+    "Brigitte", "Isobel", "Lydia", "Matilda", "Borghilde"
   ];
 
   const surnames = [
-    "Blackwood", "Moonshadow", "Stormweaver", "Nightshade", "Grimshaw",
-    "Thornberry", "Ravenwood", "Duskbane", "Frostveil", "Emberlyn"
+    "Blackwood", "McSpooky", "Beaumont", "Underwood", "Finch",
+    "Thorn", "Lovelace", "Menzies", "Radcliffe", "Hastings",
+    "Ellison", "Barnaby", "Winthrop", "Pemberton", "Beauclair",
+    "Davenport", "Nightingale", "Sinclair", "Devereaux", "Chilton",
+    "Addicock", "Amondsham", "Atherton", "Gavell", "Gardner",
+    "Coggshall", "Goldwell", "Goodrick", "Selwyn", "Sibbell",
+    "Massingberd", "Mauntell", "Dagworth", "Harleston", "Hancock",
+    "Basset", "Ballard", "Harper", "Culpepper", "Garwood",
+    "Halebourne", "404 not found", "Higden", "Bexley", "Trump"
   ];
 
   const covens = [
