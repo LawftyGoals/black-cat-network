@@ -44,3 +44,28 @@ html, body {
   overflow:scroll;
   padding: 16px;
 }
+
+
+#time {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 30vw;
+}
+
+.time {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+}
+
+.time.remain {
+  background-color: blueviolet;
+
+}
+
+.time.used {
+  background-color: lightgrey;
+
+}

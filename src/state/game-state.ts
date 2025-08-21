@@ -8,14 +8,14 @@ interface IGameState {
   day: number;
   catInventory: Map<string, Cat>;
   orders: Map<string, Order>;
-  selectedOrder: Order | null;
   completedOrders: Map<string, Order>;
+  selectedOrder: Order | null;
   selectedCat: Cat | null;
+  currentScreen: TScreens;
   witches: Map<number, Entity>;
   entities: Map<number, Entity>;
   remainingTime: number;
   maxTime: number;
-  currentScreen: TScreens;
 }
 
 export const gameInitialState: IGameState = {
