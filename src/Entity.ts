@@ -1,97 +1,108 @@
 // Entity.ts
 
-    // Numerical type alias
-export type IDnum = number;
-
-    // All components must have a 'type' property that is a string.
-export interface Component {
-    type: string;
-}
-
-export interface Creature extends Component {
-    type: "Creature";
-    species: string;
-    sex: string;
-}
-
-export interface Name extends Component {
-    type: "Name";
-    name: string;
-}
-
-export interface CatVariant extends Component {
-    type: "CatVariant";
-    variant: string;
-}
-
-export interface CatTraits extends Component {
-    type: "CatTraits";
-    traits: string[];
-}
-
-export interface CatAbilities extends Component {
-    type: "CatAbilities";
-    // Agility
-    reflex: number;
-    balance: number;
-    speed: number;
-    // Perception and senses
-    vision: number;
-    hearing: number;
-    smell: number;
-    taste: number;
-    // Intelligence
-    memory: number;
-    intuition: number;
-    magicInsight: number;
-    // Temperament
-    patience: number;
-    boldness: number;
-    mischief: number;
-    // Stealth
-    sneaking: number;
-    hiding: number;
-    // Power
-    strength: number;
-    grip: number;
-    endurance: number;
-    magicResistance: number;
-    // Luck
-    luck: number;
-    
-}
-
-export interface HumanTraits extends Component {
-    type: "HumanTraits";
-    traits: string[];
-}
-
-export interface WitchVariant extends Component {
-    type: "WitchVariant";
-    variant: string;
-}
+import { gameInitialState } from "./state/game-state";
+import { getRandomizedId } from "./utils";
 
 export class Entity {
-    private id: IDnum;
-    private components: Map<string, Component>;
+    id: number | null;
+    type: "witch" | "cat" | "spell" | null;
+    species: string | null;
+    sex: string | null;
+    // Agility
+    reflex: number | null;
+    balance: number | null;
+    speed: number | null;
+    // Perception and senses
+    vision: number | null;
+    hearing: number | null;
+    smell: number | null;
+    taste: number | null;
+    // Intelligence
+    memory: number | null;
+    intuition: number | null;
+    magicinsight: number | null;
+    // Temperament
+    patience: number | null;
+    boldness: number | null;
+    mischief: number | null;
+    // Stealth
+    sneaking: number | null;
+    hiding: number | null;
+    // Power
+    strength: number | null;
+    grip: number | null;
+    endurance: number | null;
+    magicresistance: number | null;
+    // Luck
+    luck: number | null;
+    traits: string[] | null;
+    variant: string | null;
 
-    // Initializes a new Entity from the IDnum with a tabula rasa, an empty Map.
-    constructor(id: IDnum) {
+    constructor(
+        id: number | null = null,
+        species: string | null = null,
+        sex: string | null = null,
+        type: "witch" | "cat" | "spell" | null = null,
+        reflex: number | null = null,
+        balance: number | null = null,
+        speed: number | null = null,
+        vision: number | null = null,
+        hearing: number | null = null,
+        smell: number | null = null,
+        taste: number | null = null,
+        memory: number | null = null,
+        intuition: number | null = null,
+        magicinsight: number | null = null,
+        patience: number | null = null,
+        boldness: number | null = null,
+        mischief: number | null = null,
+        sneaking: number | null = null,
+        hiding: number | null = null,
+        strength: number | null = null,
+        grip: number | null = null,
+        endurance: number | null = null,
+        magicresistance: number | null = null,
+        luck: number | null = null,
+        traits: string[] | null = null,
+        variant: string | null = null
+    ) {
         this.id = id;
-        this.components = new Map();
-    }
+        this.species = species;
+        this.sex = sex;
+        this.type = type;
+        this.reflex = reflex;
+        this.balance = balance;
+        this.speed = speed;
+        this.vision = vision;
+        this.hearing = hearing;
+        this.smell = smell;
+        this.taste = taste;
+        this.memory = memory;
+        this.intuition = intuition;
+        this.magicinsight = magicinsight;
+        this.patience = patience;
+        this.boldness = boldness;
+        this.mischief = mischief;
+        this.sneaking = sneaking;
+        this.hiding = hiding;
+        this.strength = strength;
+        this.grip = grip;
+        this.endurance = endurance;
+        this.magicresistance = magicresistance;
+        this.luck = luck;
+        this.traits = traits;
+        this.variant = variant;
 
-    // Function to add a component, takes a key ('type' str) and value (Component) pair.
-    addComponent(component: Component): void {
-        this.components.set(component.type, component);
     }
-    // Function to retrieve a Component (val) by its type (key) from the Map.
-    getComponent<T extends Component>(type: string): T | undefined {
-        return this.components.get(type) as T;
-    }
-    // Function to check if the Entity has a given Component.
-    hasComponent(type: string): boolean {
-        return this.components.has(type);
-    }
-    // Wait, fuck, they're called methods - not functions. Bah.
+}
+
+export function createRandomizedWitch() {
+    const id = getRandomizedId();
+    const witch = new Entity(id, "Humanish", "Female", "witch", 5, 3, 15, 100, 50, -20, 32, 100, 200, 30, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, ["peckish"], "Satanic");
+
+    gameInitialState.entities.set(id, witch);
+    gameInitialState.witches.set(id, witch);
+
+    return witch;
+
 }
