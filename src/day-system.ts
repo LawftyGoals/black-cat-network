@@ -2,6 +2,7 @@
 import { updateOrdersElement } from "./Order";
 import { gameInitialState } from "./state/game-state";
 import { addTestOrder } from "./test-data";
+import { resetRemainingTime } from "./time-system";
 
 const gameState = gameInitialState;
 
@@ -14,5 +15,7 @@ export function updateDay() {
     addTestOrder();
 
     updateOrdersElement();
+
+    resetRemainingTime();
 
 }
