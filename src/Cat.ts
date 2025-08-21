@@ -1,16 +1,19 @@
-import { gameInitialState } from "./state/game-state.ts";
-import { cE, gEiD } from "./utils.ts";
+
+import { gameInitialState } from "./state/game-state";
+import { cE, clearChildren, gEiD } from "./utils";
 
 const gameState = gameInitialState;
+export const catInventory = gameState.catInventory;
 export const clearSelectedCat = () => gameState.selectedCat = null;
-export const clearCatFromInventory = (id: string) => catInventory.delete(id);
 
 export class Cat {
-    mName: string
-    mType: typeof enumCatVariant[TCatVariants]
-    constructor(name: string, type: TenumCatVariants) {
-        this.mName = name;
-        this.mType = type;
+    ID: string
+    Name: string
+    Type: typeof enumCatVariant[TCatVariants]
+    constructor(id: string, name: string, type: TenumCatVariants) {
+        this.ID = id;
+        this.Name = name;
+        this.Type = type;
     }
 }
 
@@ -99,45 +102,32 @@ export type TenumCatCharacteristics = typeof enumCatCharacteristics[TCatCharacte
 export type TmapCatCharactheristics = keyof typeof characteristicsMapping;
 
 
-export function initializeCatInventory() {
-    gameState.catInventory.push(new Cat("Bingus", enumCatVariant.SPHYNX), new Cat("Terror of the void", enumCatVariant.BLACK));
 
-}
-
+const catSelect = gEiD("cat-select") as HTMLSelectElement;
+const completeOrder = gEiD("complete-order") as HTMLButtonElement;
 export function initializeCatSelector() {
 
-    let selectedCat: Cat | null = null;
 
-    if (gameState.catInventory.size < 1) {
-        completeOrder.disabled = true;
-    } else {
-        gameState.catInventory.forEach((cat, key) => {
-            if (!selectedCat) {
-                console.log("set")
-                selectedCat = cat
-            };
-            console.log({ cat, selectedCat });
-            const catOption = cE("option") as HTMLOptionElement;
-            catOption.innerText = `${cat.Name} - ${variantMapping[cat.Type]}`;
-            catOption.value = key;
-            catSelect?.appendChild(catOption);
-
-        });
-        gameState.selectedCat = selectedCat;
-    }
-
-
+    gameState.catInventory.forEach((cat, key) => {
+        const catOption = cE("option") as HTMLOptionElement;
+        catOption.innerText = `${cat.Name} - ${variantMapping[cat.Type]}`;
+        catOption.value = key;
+        catSelect?.appendChild(catOption);
+    });
 
     catSelect.onchange = (event: Event) => {
         if ((event!.target! as HTMLInputElement).value !== "") {
             gameState.selectedCat = gameState.catInventory.get((event!.target! as HTMLInputElement).value)!
 
-        } else {
-            completeOrder.disabled = true;
+            completeOrder!.disabled = false;
         }
-    
-        const completeOrder = gEiD("complete-order") as HTMLButtonElement;
-        completeOrder!.disabled = false;
-    }
+        else {
+            completeOrder!.disabled = true;
+        }
+    };
 
+}
+
+export function clearCatSelectElement() {
+    clearChildren(catSelect);
 }
