@@ -1,18 +1,9 @@
-import {
-  characteristicsMapping,
-  clearCatSelectElement,
-  clearSelectedCat,
-  initializeCatSelector,
-  variantMapping,
-  type TenumCatCharacteristics,
-} from "./Cat";
-import { clearSelectedOrder, setSelectedOrder } from "./order-system";
+import type { Events } from "./Events";
 import {
   gameInitialState,
   type IScreens,
   type TScreens,
 } from "./state/game-state";
-import { changeRemainingTime } from "./time-system";
 import { cE, clearChildren, gEiD } from "./utils";
 
 const gameState = gameInitialState;
@@ -65,6 +56,7 @@ export function updateTimeUI() {
   }
 }
 
+/*
 export function generateScreenElement(order: keyof IScreens, id: string) {
   const orderDiv = cE("div");
   for (const [key, value] of Object.entries(order)) {
@@ -131,6 +123,11 @@ export function generateScreenElement(order: keyof IScreens, id: string) {
   orderDiv.appendChild(completeButton);
 
   return orderDiv;
+}
+*/
+
+function createOrderComponent(order: Events) {
+  const comp = cE("event-component");
 }
 
 const screenElement = gEiD("screen")!;

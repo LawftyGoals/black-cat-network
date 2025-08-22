@@ -1,4 +1,3 @@
-import { updateOrdersElement } from "./order-system";
 import { gameInitialState } from "./state/game-state";
 import { addTestOrder } from "./test-data";
 import { resetRemainingTime } from "./time-system";
@@ -12,8 +11,6 @@ export function updateDay() {
 
   /* TEMPORARY TEST STATE */
   addTestOrder();
-
-  updateOrdersElement();
 
   resetRemainingTime();
 }
