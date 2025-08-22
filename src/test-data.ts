@@ -1,10 +1,4 @@
-import {
-  Cat,
-  catInventory,
-  enumCatCharacteristics,
-  enumCatVariant,
-} from "./Cat";
-import { Order, orders, updateOrdersElement } from "./order-system";
+import { enumCatCharacteristics, enumCatVariant } from "./Cat";
 import { getRandomInt, getRandomizedId } from "./utils";
 
 const firstNames = [
@@ -27,7 +21,7 @@ const catNames = ["Floofter", "Bingus", "Pinky", "Warhog", "Void the Terror"];
 const catVariants = Object.values(enumCatVariant);
 const catCharacteristics = Object.values(enumCatCharacteristics);
 
-const reasonForPuchase = [
+export const reasonForPuchase = [
   "Where can I find it?",
   "I'm looking to buy it.",
   "Do you know where I can get my hands on it?",
@@ -40,7 +34,7 @@ const reasonForPuchase = [
   "What's the best way to get it?",
   "Need a new kitty.",
 ];
-
+/*
 export function addTestOrder() {
   const id = getRandomizedId().toString();
   orders.set(
@@ -56,10 +50,8 @@ export function addTestOrder() {
       getRandomizedCatCharacteristics(3)
     )
   );
-
-  updateOrdersElement();
-}
-
+}*/
+/*
 export function addTestCat() {
   const id = getRandomizedId().toString();
   catInventory.set(
@@ -70,7 +62,7 @@ export function addTestCat() {
       catVariants[getRandomInt(catVariants.length)]
     )
   );
-}
+}*/
 
 export function getRandomizedCatCharacteristics(
   characteristicsCount: number = 1

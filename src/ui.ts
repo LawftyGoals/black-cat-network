@@ -1,3 +1,4 @@
+import type { Entity } from "./Entity";
 import type { Events } from "./Events";
 import {
   gameInitialState,
@@ -30,9 +31,7 @@ export function updateScreen() {
       console.log(gameState.currentScreen);
       break;
     case "orders":
-      gameState.orders.forEach((order, key) => {
-        generateOrderElement(order, key);
-      });
+      updateScreenElement("orders");
       break;
     case "witches":
       console.log(gameState.currentScreen);
@@ -126,18 +125,39 @@ export function generateScreenElement(order: keyof IScreens, id: string) {
 }
 */
 
-function createOrderComponent(order: Events) {
-  const comp = cE("event-component");
+function createCreatureComponent(entity: Entity) {
+  const comp = cE("creature-card");
+
+  return comp;
 }
+
+function createEventsComponent(event: Events) {
+  const comp = cE("event-card");
+  comp.setAttribute("title", event.Description);
+
+  return comp;
+}
+
+const eventsOrCreature = (variant: string, item: Entity | Events) =>
+  variant === "events"
+    ? createEventsComponent(item as Events)
+    : createCreatureComponent(item as Entity);
 
 const screenElement = gEiD("screen")!;
 
 export function updateScreenElement(category: keyof IScreens) {
+  const eOe =
+    category === "catInventory" || category === "witches"
+      ? "creature"
+      : "events";
   const target = gameState[category];
   clearChildren(screenElement);
+  console.log(target);
+
   if (target.size > 0) {
     target.forEach((entity, id) => {
-      screenElement.appendChild(generateOrderElement(entity, id));
+      const comp = eventsOrCreature(eOe, entity);
+      screenElement.appendChild(comp);
     });
   }
 }

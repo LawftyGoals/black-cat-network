@@ -5,7 +5,7 @@ import type { Events } from "../Events";
 export type TScreens = "catInventory" | "orders" | "witches" | "spells" | null;
 
 export interface IScreens {
-  catInventory: Map<string, Cat>;
+  catInventory: Map<string, Entity>;
   orders: Map<string, Events>;
   witches: Map<string, Entity>;
   events: Map<string, Events>;
@@ -13,6 +13,7 @@ export interface IScreens {
 
 export interface IGameState extends IScreens {
   day: number;
+  creations: number;
   completedOrders: Map<string, Events>;
   selectedOrder: Events | null;
   selectedCat: Cat | null;
@@ -29,7 +30,8 @@ export const gameInitialState: IGameState = {
   completedOrders: new Map<string, Events>(),
   events: new Map<string, Events>(),
   day: 1,
-  catInventory: new Map<string, Cat>(),
+  creations: 1,
+  catInventory: new Map<string, Entity>(),
   selectedOrder: null,
   selectedCat: null,
   currentScreen: null,

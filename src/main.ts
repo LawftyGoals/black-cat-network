@@ -2,18 +2,20 @@ import "./style.css";
 
 import { gameInitialState } from "./state/game-state";
 import { updateDay } from "./day-system";
-import { addTestCat, addTestOrder } from "./test-data";
 import { initMenu, updateTimeUI } from "./ui";
-import { EventsComponent } from "./Events";
+import { EventCard } from "./components/event-card";
+import { createRandomizedOrder } from "./order-system";
+import { CreatureCard } from "./components/creature-card";
 
 const gameState = gameInitialState;
 function initGameStates() {
+  initCustomComponents();
   initMenu();
-  addTestOrder();
-  addTestCat();
+  createRandomizedOrder();
+  createRandomizedOrder();
+
   initDaySystem();
   updateTimeUI();
-  initCustomComponents();
 }
 
 initGameStates();
@@ -28,5 +30,6 @@ function initDaySystem() {
 }
 
 function initCustomComponents() {
-  customElements.define("events", EventsComponent);
+  customElements.define("event-card", EventCard);
+  customElements.define("creature-card", CreatureCard);
 }

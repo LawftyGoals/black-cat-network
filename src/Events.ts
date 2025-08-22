@@ -1,9 +1,9 @@
 import type { TenumCatVariants } from "./Cat";
-import { cE } from "./utils";
+import type { Entity } from "./Entity";
 
 export class Events {
   ID: string;
-  From: string;
+  From: Entity;
   Description: string;
   Offer: number;
   Variant: TenumCatVariants;
@@ -11,7 +11,7 @@ export class Events {
 
   constructor(
     id: string,
-    from: string,
+    from: Entity,
     text: string,
     offer: number,
     variant: TenumCatVariants,
@@ -25,46 +25,3 @@ export class Events {
     this.Requirements = requirements;
   }
 }
-
-export class EventsComponent extends HTMLElement {
-  titleElement: HTMLElement;
-  contentElement: HTMLElement;
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-
-    const template = cE("template") as HTMLTemplateElement;
-    template.innerHTML = /*html*/ `
-       <style>
-        h1 {
-          color: green;
-        }
-        p {
-          font-size: 1.2rem;
-        }
-      </style>
-      <div>
-        <h1 id="title-slot">Hello, from my custom element!</h1>
-        <p id="content-slot">This content is created from a string.</p>
-      </div>
-    `;
-    this.shadowRoot?.appendChild(template.content.cloneNode(true));
-
-    this.titleElement = this.shadowRoot?.getElementById("title-slot")!;
-    this.contentElement = this.shadowRoot?.getElementById("content-slot")!;
-  }
-
-  static get observedAttributes() {
-    return ["title"];
-  }
-
-  attributeChangedCallback(name: any, _oldvalue: any, newValue: any) {
-    switch (name) {
-      case "title":
-        this.titleElement.textContent = newValue;
-        break;
-    }
-  }
-}
-
-customElements.define("events", EventsComponent);

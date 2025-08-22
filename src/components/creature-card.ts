@@ -1,4 +1,4 @@
-class CreatureCard extends HTMLElement {
+export class CreatureCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -83,8 +83,6 @@ class CreatureCard extends HTMLElement {
       `;
   }
 }
-
-customElements.define("creature-card", CreatureCard);
 
 // npx tsc ./src/components/creature-card.ts --target es6 --module es6 --outDir ./src/components/
 // npx tsc ./src/Entity.ts --target es6 --module es6 --outDir ./src/

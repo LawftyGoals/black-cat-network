@@ -1,5 +1,5 @@
+import { createRandomizedOrder } from "./order-system";
 import { gameInitialState } from "./state/game-state";
-import { addTestOrder } from "./test-data";
 import { resetRemainingTime } from "./time-system";
 
 const gameState = gameInitialState;
@@ -10,7 +10,7 @@ export function updateDay() {
   dayElement && (dayElement.innerText = gameState.day.toString());
 
   /* TEMPORARY TEST STATE */
-  addTestOrder();
+  createRandomizedOrder();
 
   resetRemainingTime();
 }
