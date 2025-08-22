@@ -1,108 +1,234 @@
 // Entity.ts
 
-import { gameInitialState } from "./state/game-state";
+//  import { defaultCatAbilities, defaultWitchAbilities } from "./Values";
+
 import { getRandomizedId } from "./utils";
 
+import {
+  catVariants,
+  catTraits,
+  witchTraits,
+  witchVariants,
+  catNames,
+  witchFirstNames,
+  witchSurNames,
+  // species,
+  defaultCatAbilities,
+  defaultWitchAbilities,
+} from "./Values";
+
 export class Entity {
-    id: number | null;
-    type: "witch" | "cat" | "spell" | null;
-    species: string | null;
-    sex: string | null;
+  id: number | null;
+  type: "cat" | "spell" | "witch" | null;
+  name: string | null;
+  // All Creatures
+  age: number | null;
+  deceased: boolean | null;
+  sex: string | null;
+  species: string | null;
+  traits: string[] | null;
+  variant: string | null;
+  // CAT ABILITIES & TRAITS
+  // Agility
+  balance: number | null;
+  reflex: number | null;
+  speed: number | null;
+  // Intelligence
+  intuition: number | null;
+  magicinsight: number | null;
+  memory: number | null;
+  // Perception and senses
+  hearing: number | null;
+  smell: number | null;
+  taste: number | null;
+  vision: number | null;
+  // Power
+  endurance: number | null;
+  grip: number | null;
+  magicresistance: number | null;
+  strength: number | null;
+  // Stealth
+  hiding: number | null;
+  sneaking: number | null;
+  // Temperament
+  boldness: number | null;
+  mischief: number | null;
+  patience: number | null;
+  // Luck
+  luck: number | null;
+
+  constructor(
+    id: number | null = null,
+    type: "cat" | "spell" | "witch" | null = null,
+    name: string | null = null,
+    // All Creatures
+    age: number | null = null,
+    deceased: boolean | null = null,
+    sex: string | null = null,
+    species: string | null = null,
+    traits: string[] | null = null,
+    variant: string | null = null,
     // Agility
-    reflex: number | null;
-    balance: number | null;
-    speed: number | null;
-    // Perception and senses
-    vision: number | null;
-    hearing: number | null;
-    smell: number | null;
-    taste: number | null;
+    balance: number | null = null,
+    reflex: number | null = null,
+    speed: number | null = null,
     // Intelligence
-    memory: number | null;
-    intuition: number | null;
-    magicinsight: number | null;
-    // Temperament
-    patience: number | null;
-    boldness: number | null;
-    mischief: number | null;
-    // Stealth
-    sneaking: number | null;
-    hiding: number | null;
+    intuition: number | null = null,
+    magicinsight: number | null = null,
+    memory: number | null = null,
+    // Perception and senses
+    hearing: number | null = null,
+    smell: number | null = null,
+    taste: number | null = null,
+    vision: number | null = null,
     // Power
-    strength: number | null;
-    grip: number | null;
-    endurance: number | null;
-    magicresistance: number | null;
+    endurance: number | null = null,
+    grip: number | null = null,
+    magicresistance: number | null = null,
+    strength: number | null = null,
+    // Stealth
+    hiding: number | null = null,
+    sneaking: number | null = null,
+    // Temperament
+    boldness: number | null = null,
+    mischief: number | null = null,
+    patience: number | null = null,
     // Luck
-    luck: number | null;
-    traits: string[] | null;
-    variant: string | null;
-
-    constructor(
-        id: number | null = null,
-        species: string | null = null,
-        sex: string | null = null,
-        type: "witch" | "cat" | "spell" | null = null,
-        reflex: number | null = null,
-        balance: number | null = null,
-        speed: number | null = null,
-        vision: number | null = null,
-        hearing: number | null = null,
-        smell: number | null = null,
-        taste: number | null = null,
-        memory: number | null = null,
-        intuition: number | null = null,
-        magicinsight: number | null = null,
-        patience: number | null = null,
-        boldness: number | null = null,
-        mischief: number | null = null,
-        sneaking: number | null = null,
-        hiding: number | null = null,
-        strength: number | null = null,
-        grip: number | null = null,
-        endurance: number | null = null,
-        magicresistance: number | null = null,
-        luck: number | null = null,
-        traits: string[] | null = null,
-        variant: string | null = null
-    ) {
-        this.id = id;
-        this.species = species;
-        this.sex = sex;
-        this.type = type;
-        this.reflex = reflex;
-        this.balance = balance;
-        this.speed = speed;
-        this.vision = vision;
-        this.hearing = hearing;
-        this.smell = smell;
-        this.taste = taste;
-        this.memory = memory;
-        this.intuition = intuition;
-        this.magicinsight = magicinsight;
-        this.patience = patience;
-        this.boldness = boldness;
-        this.mischief = mischief;
-        this.sneaking = sneaking;
-        this.hiding = hiding;
-        this.strength = strength;
-        this.grip = grip;
-        this.endurance = endurance;
-        this.magicresistance = magicresistance;
-        this.luck = luck;
-        this.traits = traits;
-        this.variant = variant;
-
-    }
+    luck: number | null = null
+  ) {
+    this.id = id;
+    this.type = type;
+    this.name = name;
+    // All Creatures
+    this.age = age;
+    this.deceased = deceased;
+    this.sex = sex;
+    this.species = species;
+    this.traits = traits;
+    this.variant = variant;
+    // Agility
+    this.balance = balance;
+    this.reflex = reflex;
+    this.speed = speed;
+    // Intelligence
+    this.intuition = intuition;
+    this.magicinsight = magicinsight;
+    this.memory = memory;
+    // Perception and senses
+    this.hearing = hearing;
+    this.smell = smell;
+    this.taste = taste;
+    this.vision = vision;
+    // Power
+    this.endurance = endurance;
+    this.grip = grip;
+    this.magicresistance = magicresistance;
+    this.strength = strength;
+    // Stealth
+    this.hiding = hiding;
+    this.sneaking = sneaking;
+    // Temperament
+    this.boldness = boldness;
+    this.mischief = mischief;
+    this.patience = patience;
+    // Luck
+    this.luck = luck;
+  }
 }
 
-export function createRandomizedWitch() {
-    const id = getRandomizedId();
-    const witch = new Entity(id, "Humanish", "Female", "witch", 5, 3, 15, 100, 50, -20, 32, 100, 200, 30, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, ["peckish"], "Satanic");
+export function createRandomizedCat(): Entity {
+  // const randomName = getRandomCatName();
+  // const randomVariant = getRandomCatVariant();
+  // const randomTraits = getRandomCatTraits();
 
-    gameInitialState.entities.set(id, witch);
-    gameInitialState.witches.set(id, witch);
+  const randomName = catNames[Math.floor(Math.random() * catNames.length)];
+  const randomVariant =
+    catVariants[Math.floor(Math.random() * catVariants.length)];
+  const randomTraits = [
+    catTraits[Math.floor(Math.random() * catTraits.length)],
+    catTraits[Math.floor(Math.random() * catTraits.length)],
+  ];
 
-    return witch;
+  return new Entity(
+    getRandomizedId(),
+    "cat",
+    randomName,
+    3, // age
+    false, // deceased
+    "Male", // sex
+    "Feline", // species
+    randomTraits,
+    randomVariant,
+    defaultCatAbilities.reflex,
+    defaultCatAbilities.balance,
+    defaultCatAbilities.speed,
+    defaultCatAbilities.vision,
+    defaultCatAbilities.hearing,
+    defaultCatAbilities.smell,
+    defaultCatAbilities.taste,
+    defaultCatAbilities.memory,
+    defaultCatAbilities.intuition,
+    defaultCatAbilities.magicinsight,
+    defaultCatAbilities.patience,
+    defaultCatAbilities.boldness,
+    defaultCatAbilities.mischief,
+    defaultCatAbilities.sneaking,
+    defaultCatAbilities.hiding,
+    defaultCatAbilities.strength,
+    defaultCatAbilities.grip,
+    defaultCatAbilities.endurance,
+    defaultCatAbilities.magicresistance,
+    defaultCatAbilities.luck
+  );
+}
 
+export function createRandomizedWitch(): Entity {
+  // const randomName = getRandomWitchName();
+  // const randomVariant = getRandomWitchVariant();
+  // const randomTraits = getRandomWitchTraits();
+
+  const randomFirstName =
+    witchFirstNames[Math.floor(Math.random() * witchFirstNames.length)];
+  const randomSurName =
+    witchSurNames[Math.floor(Math.random() * witchSurNames.length)];
+  const randomName = `${randomFirstName} ${randomSurName}`;
+  const randomVariant =
+    witchVariants[Math.floor(Math.random() * witchVariants.length)];
+  const randomTraits = [
+    witchTraits[Math.floor(Math.random() * witchTraits.length)],
+    witchTraits[Math.floor(Math.random() * witchTraits.length)],
+    witchTraits[Math.floor(Math.random() * witchTraits.length)],
+  ];
+
+  return new Entity(
+    getRandomizedId(),
+    "witch", // type
+    randomName,
+    50, // age
+    false, // deceased
+    "female",
+    "Human",
+    randomTraits,
+    randomVariant,
+    defaultWitchAbilities.reflex,
+    defaultWitchAbilities.balance,
+    defaultWitchAbilities.speed,
+    defaultWitchAbilities.vision,
+    defaultWitchAbilities.hearing,
+    defaultWitchAbilities.smell,
+    defaultWitchAbilities.taste,
+    defaultWitchAbilities.memory,
+    defaultWitchAbilities.intuition,
+    defaultWitchAbilities.magicinsight,
+    defaultWitchAbilities.patience,
+    defaultWitchAbilities.boldness,
+    defaultWitchAbilities.mischief,
+    defaultWitchAbilities.sneaking,
+    defaultWitchAbilities.hiding,
+    defaultWitchAbilities.strength,
+    defaultWitchAbilities.grip,
+    defaultWitchAbilities.endurance,
+    defaultWitchAbilities.magicresistance,
+    defaultWitchAbilities.luck
+  );
 }
