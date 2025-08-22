@@ -2,7 +2,7 @@
 
 //  import { defaultCatAbilities, defaultWitchAbilities } from "./Values";
 
-import { getRandomInt } from "./utils.js";
+import { getRandomInt, getRandomizedId } from "./utils.js";
 
 import {
   catVariants,
@@ -160,7 +160,7 @@ export function createRandomizedCat(): Entity {
   ];
 
   return new Entity(
-    getRandomInt(),
+    getRandomizedId(),
     "cat",
     randomName,
     getRandomInt(27, 1), // age
@@ -214,7 +214,7 @@ export function createRandomizedWitch(): Entity {
     witchApproaches[Math.floor(Math.random() * witchApproaches.length)];
 
   return new Entity(
-    getRandomInt(),
+    getRandomizedId(), //ID
     "witch", // type
     randomName,
     getRandomInt(154, 16), // age
