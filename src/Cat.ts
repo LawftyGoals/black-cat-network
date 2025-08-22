@@ -1,17 +1,19 @@
+
 import { gameInitialState } from "./state/game-state.ts";
-import { cE, gEiD } from "./utils.ts";
+import { cE, clearChildren, gEiD } from "./utils.ts";
 
 const gameState = gameInitialState;
+export const catInventory = gameState.catInventory;
 export const clearSelectedCat = () => gameState.selectedCat = null;
 
 export class Cat {
-    mName: string
-    mType: typeof enumCatVariant[TCatVariants]
-    mCharacteristics: TenumCatCharacteristics[]
-    constructor(name: string, type: TenumCatVariants, characteristics: TenumCatCharacteristics[]) {
-        this.mName = name;
-        this.mType = type;
-        this.mCharacteristics = characteristics;
+    ID: string
+    Name: string
+    Type: typeof enumCatVariant[TCatVariants]
+    constructor(id: string, name: string, type: TenumCatVariants) {
+        this.ID = id;
+        this.Name = name;
+        this.Type = type;
     }
 }
 
@@ -101,18 +103,17 @@ export type TmapCatCharactheristics = keyof typeof characteristicsMapping;
 
 
 export function initializeCatInventory() {
-    gameState.catInventory.push(new Cat("Bingus", enumCatVariant.SPHYNX, [enumCatCharacteristics.AFFECTIONATE]), new Cat("Terror of the void", enumCatVariant.BLACK, [enumCatCharacteristics.AFFECTIONATE]));
+    gameState.catInventory.push(new Cat("Bingus", enumCatVariant.NAKED), new Cat("Terror of the void", enumCatVariant.BLACK));
 
-}
-
+const catSelect = gEiD("cat-select") as HTMLSelectElement;
+const completeOrder = gEiD("complete-order") as HTMLButtonElement;
 export function initializeCatSelector() {
 
-    const catSelect = document.getElementById("cat-select") as HTMLSelectElement;
 
-    gameState.catInventory.forEach((cat, idx) => {
+    gameState.catInventory.forEach((cat, key) => {
         const catOption = cE("option") as HTMLOptionElement;
-        catOption.innerText = `${cat.mName} - ${variantMapping[cat.mType]}`;
-        catOption.value = idx.toString();
+        catOption.innerText = `${cat.Name} - ${variantMapping[cat.Type]}`;
+        catOption.value = key;
         catSelect?.appendChild(catOption);
     });
 
@@ -136,8 +137,13 @@ export function initializeCatSelector() {
             catCard.style.display = 'block';
         }
 
-        const completeOrder = gEiD("complete-order") as HTMLButtonElement;
-        completeOrder!.disabled = false;
-    }
+            completeOrder!.disabled = false;
+        }
+        else {
+            completeOrder!.disabled = true;
+        }
+    }}
 
+export function clearCatSelectElement() {
+    clearChildren(catSelect);
 }

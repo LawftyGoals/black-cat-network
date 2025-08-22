@@ -5,8 +5,7 @@ import './components/cat-card';
 
 import { gameInitialState } from './state/game-state';
 import { updateDay } from './day-system';
-import { addTestOrder } from './test-data';
-import { initializeCatInventory, initializeCatSelector } from './Cat';
+import { addTestCat, addTestOrder } from './test-data';
 
 const gameState = gameInitialState;
 
@@ -14,11 +13,8 @@ const gameState = gameInitialState;
 function initGameStates() {
 
   addTestOrder();
-  initializeCatInventory();
-  initializeCatSelector();
+  addTestCat();
   initDaySystem();
-
-
 
 }
 
