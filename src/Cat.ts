@@ -114,7 +114,7 @@ export function initializeCatSelector() {
     gameState.catInventory.forEach((cat, key) => {
       const catOption = cE("option") as HTMLOptionElement;
       catOption.innerText = `${cat.Name} - ${variantMapping[cat.Type]}`;
-      catOption.value = key;
+      catOption.value = key.toString();
       catSelect?.appendChild(catOption);
     });
 
