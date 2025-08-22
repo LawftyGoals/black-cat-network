@@ -326,7 +326,7 @@ export const witchSurNames = [
   "Whitton",
   "Wightman",
   "Winthrop",
-  "Wistringt",
+  "Wistring",
   "Worsley",
   "Wreke",
   "Yornold",
