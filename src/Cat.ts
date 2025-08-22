@@ -7,9 +7,11 @@ export const clearSelectedCat = () => gameState.selectedCat = null;
 export class Cat {
     mName: string
     mType: typeof enumCatVariant[TCatVariants]
-    constructor(name: string, type: TenumCatVariants) {
+    mCharacteristics: TenumCatCharacteristics[]
+    constructor(name: string, type: TenumCatVariants, characteristics: TenumCatCharacteristics[]) {
         this.mName = name;
         this.mType = type;
+        this.mCharacteristics = characteristics;
     }
 }
 
@@ -99,7 +101,7 @@ export type TmapCatCharactheristics = keyof typeof characteristicsMapping;
 
 
 export function initializeCatInventory() {
-    gameState.catInventory.push(new Cat("Bingus", enumCatVariant.SPHYNX), new Cat("Terror of the void", enumCatVariant.BLACK));
+    gameState.catInventory.push(new Cat("Bingus", enumCatVariant.SPHYNX, [enumCatCharacteristics.AFFECTIONATE]), new Cat("Terror of the void", enumCatVariant.BLACK, [enumCatCharacteristics.AFFECTIONATE]));
 
 }
 
@@ -124,16 +126,16 @@ export function initializeCatSelector() {
     catSelect.onchange = (event: Event) => {
         const selectedIndex = Number((event!.target! as HTMLInputElement).value);
         gameState.selectedCat = gameState.catInventory[selectedIndex];
-    
+
         const catCard = document.getElementById('cat-card') as any;
 
         if (gameState.selectedCat) {
-            catCard.setAttribute('type', enumCatVariant[gameState.selectedCat.mType]);
+            catCard.setAttribute('type', variantMapping[gameState.selectedCat.mType]);
             catCard.setAttribute('description', `Name: ${gameState.selectedCat.mName}`);
             catCard.setAttribute('traits', gameState.selectedCat.mCharacteristics.join(', '));
             catCard.style.display = 'block';
         }
-    
+
         const completeOrder = gEiD("complete-order") as HTMLButtonElement;
         completeOrder!.disabled = false;
     }

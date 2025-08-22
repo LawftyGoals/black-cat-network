@@ -20,7 +20,8 @@ export function setupDialog() {
     // closeButton!.onclick = () => dialog.close();
     closeButton!.onclick = () => {
         const dialog = document.getElementById('dialog') as HTMLDialogElement;
-        catCard.style.display = 'none';
+        dialog.close();
+        //catCard.style.display = 'none';
     }
 }
 
