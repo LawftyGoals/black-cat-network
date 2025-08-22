@@ -10,7 +10,9 @@ interface IGameState {
     completedOrders: Map<string, Order>,
     selectedCat: Cat | null,
     witches: Map<number, Entity>,
-    entities: Map<number, Entity>
+    entities: Map<number, Entity>,
+    remainingTime: number,
+    maxTime: number,
 }
 
 export const gameInitialState: IGameState = {
@@ -22,4 +24,6 @@ export const gameInitialState: IGameState = {
     selectedCat: null,
     witches: new Map<number, Entity>(),
     entities: new Map<number, Entity>(),
+    remainingTime: 16,
+    maxTime: 16,
 };
