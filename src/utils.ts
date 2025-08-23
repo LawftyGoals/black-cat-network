@@ -1,5 +1,5 @@
 export const cE = (
-  type: keyof HTMLElementTagNameMap | "event-card" | "creature-card"
+  type: keyof HTMLElementTagNameMap | "act-card" | "creature-card"
 ) => document.createElement(type);
 export const gEiD = (id: string) => document.getElementById(id);
 
@@ -25,7 +25,11 @@ export const getRandomInt = (max: number, min: number = 0) => {
 };
 
 export const getRandomizedId = () =>
-  (performance.now() * performance.now()).toString();
+  (
+    Math.floor(Math.random() * 10000) *
+    performance.now() *
+    performance.now()
+  ).toString();
 
 export function sgeid(sr: ShadowRoot, name: string) {
   return sr.getElementById(name);

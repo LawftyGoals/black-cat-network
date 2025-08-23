@@ -43,6 +43,10 @@ html, body {
   width: calc(100% - var(--menu-width));
   overflow:scroll;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
 }
 
 

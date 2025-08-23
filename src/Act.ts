@@ -1,13 +1,13 @@
-import type { TenumCatVariants } from "./Cat";
+import type { TenumCatCharacteristics, TenumCatVariants } from "./Cat";
 import type { Entity } from "./Entity";
 
-export class Events {
+export class Act {
   ID: string;
   From: Entity;
   Description: string;
   Offer: number;
   Variant: TenumCatVariants;
-  Requirements: number[];
+  Requirements: TenumCatCharacteristics[];
 
   constructor(
     id: string,
@@ -15,7 +15,7 @@ export class Events {
     text: string,
     offer: number,
     variant: TenumCatVariants,
-    requirements: number[]
+    requirements: TenumCatCharacteristics[]
   ) {
     this.ID = id;
     this.From = from;

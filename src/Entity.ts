@@ -19,7 +19,7 @@ import {
 } from "./Values.js";
 
 export class Entity {
-  id: number | null;
+  id: string | null;
   type: "cat" | "spell" | "witch" | null;
   name: string | null;
   // All Creatures
@@ -62,7 +62,7 @@ export class Entity {
   luck: number | null;
 
   constructor(
-    id: number | null = null,
+    id: string | null = null,
     type: "cat" | "spell" | "witch" | null = null,
     name: string | null = null,
     // All Creatures

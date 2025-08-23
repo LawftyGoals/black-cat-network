@@ -1,4 +1,8 @@
-import { enumCatCharacteristics, enumCatVariant } from "./Cat";
+import {
+  enumCatCharacteristics,
+  enumCatVariant,
+  type TenumCatCharacteristics,
+} from "./Cat";
 import { getRandomInt, getRandomizedId } from "./utils";
 
 const firstNames = [
@@ -69,5 +73,7 @@ export function getRandomizedCatCharacteristics(
 ) {
   return new Array(characteristicsCount)
     .fill(null)
-    .map(() => getRandomInt(catCharacteristics.length));
+    .map(() =>
+      getRandomInt(catCharacteristics.length)
+    ) as TenumCatCharacteristics[];
 }

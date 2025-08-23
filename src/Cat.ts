@@ -1,6 +1,5 @@
 import { gameInitialState } from "./state/game-state";
 import { cE, clearChildren, gEiD } from "./utils";
-
 const gameState = gameInitialState;
 export const catInventory = gameState.catInventory;
 export const clearSelectedCat = () => (gameState.selectedCat = null);
@@ -113,7 +112,7 @@ export function initializeCatSelector() {
     )[0];
     gameState.catInventory.forEach((cat, key) => {
       const catOption = cE("option") as HTMLOptionElement;
-      catOption.innerText = `${cat.Name} - ${variantMapping[cat.Type]}`;
+      catOption.innerText = `${cat.name} - ${cat.variant!}`;
       catOption.value = key.toString();
       catSelect?.appendChild(catOption);
     });

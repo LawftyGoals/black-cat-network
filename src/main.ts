@@ -3,7 +3,7 @@ import "./style.css";
 import { gameInitialState } from "./state/game-state";
 import { updateDay } from "./day-system";
 import { initMenu, updateTimeUI } from "./ui";
-import { EventCard } from "./components/event-card";
+import { ActCard } from "./components/act-card";
 import { createRandomizedOrder } from "./order-system";
 import { CreatureCard } from "./components/creature-card";
 
@@ -30,6 +30,6 @@ function initDaySystem() {
 }
 
 function initCustomComponents() {
-  customElements.define("event-card", EventCard);
+  customElements.define("act-card", ActCard);
   customElements.define("creature-card", CreatureCard);
 }

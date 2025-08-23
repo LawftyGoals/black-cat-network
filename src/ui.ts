@@ -1,15 +1,23 @@
 import type { Entity } from "./Entity";
-import type { Events } from "./Events";
+import type { Act } from "./Act";
 import {
   gameInitialState,
   type IScreens,
   type TScreens,
 } from "./state/game-state";
 import { cE, clearChildren, gEiD } from "./utils";
+import { characteristicsMapping, variantMapping } from "./Cat";
+import type { ActCard } from "./components/act-card";
 
 const gameState = gameInitialState;
 
 const menu = gEiD("menu")!;
+const dialog = gEiD("dialog")! as HTMLDialogElement;
+const closeButton = gEiD("close-dialog");
+
+closeButton!.onclick = () => {
+  dialog.close();
+};
 
 const menuChildren = menu.children;
 const [cats, orders, witches, spells] = menuChildren;
@@ -131,32 +139,41 @@ function createCreatureComponent(entity: Entity) {
   return comp;
 }
 
-function createEventsComponent(event: Events) {
-  const comp = cE("event-card");
-  comp.setAttribute("title", event.Description);
+function createActComponent(act: Act) {
+  const comp = cE("act-card") as ActCard;
+  comp.setAttribute("title", act.Description);
+
+  comp.setAttribute(
+    "content",
+    `${act.From.name!} is looking for a ${
+      variantMapping[act.Variant]
+    } cat that is ${act.Requirements.map((r) => characteristicsMapping[r]).join(
+      ", "
+    )}`
+  );
+
+  comp.setDivClick(() => dialog.showModal());
 
   return comp;
 }
 
-const eventsOrCreature = (variant: string, item: Entity | Events) =>
-  variant === "events"
-    ? createEventsComponent(item as Events)
+const actsOrCreature = (variant: string, item: Entity | Act) =>
+  variant === "act"
+    ? createActComponent(item as Act)
     : createCreatureComponent(item as Entity);
 
 const screenElement = gEiD("screen")!;
 
 export function updateScreenElement(category: keyof IScreens) {
-  const eOe =
-    category === "catInventory" || category === "witches"
-      ? "creature"
-      : "events";
+  const aOe =
+    category === "catInventory" || category === "witches" ? "creature" : "act";
   const target = gameState[category];
   clearChildren(screenElement);
   console.log(target);
 
   if (target.size > 0) {
-    target.forEach((entity, id) => {
-      const comp = eventsOrCreature(eOe, entity);
+    target.forEach((entity, _id) => {
+      const comp = actsOrCreature(aOe, entity);
       screenElement.appendChild(comp);
     });
   }
