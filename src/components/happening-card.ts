@@ -1,6 +1,6 @@
 import { cE, sgeid } from "../utils";
 
-export class ActCard extends HTMLElement {
+export class HappeningCard extends HTMLElement {
   titleElement: HTMLElement;
   contentElement: HTMLElement;
   clickableElement: HTMLElement;

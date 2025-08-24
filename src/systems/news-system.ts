@@ -1,4 +1,4 @@
-import { Act } from "../Act";
+import { Happening } from "../Happening";
 import { createRandomizedWitch } from "../Entity";
 import { gameInitialState } from "../state/game-state";
 import { getRandomizedId } from "../utils";
@@ -8,7 +8,7 @@ const gameState = gameInitialState;
 export function createRandomizedNews() {
   const id = getRandomizedId();
 
-  const news = new Act(
+  const news = new Happening(
     id,
     "news",
     createRandomizedWitch(),
@@ -19,7 +19,7 @@ export function createRandomizedNews() {
     null
   );
 
-  gameState.acts.set(id, news);
+  gameState.happenings.set(id, news);
   gameState.news.set(id, news);
 
   return news;
