@@ -1,13 +1,19 @@
 import type { Entity } from "../Entity";
 import type { Act } from "../Act";
 
-export type TScreens = "catInventory" | "orders" | "witches" | "spells" | null;
+export type TScreens =
+  | "catInventory"
+  | "orders"
+  | "witches"
+  | "spells"
+  | "news"
+  | null;
 
 export interface IScreens {
   catInventory: Map<string, Entity>;
   orders: Map<string, Act>;
   witches: Map<string, Entity>;
-  acts: Map<string, Act>;
+  news: Map<string, Act>;
 }
 
 export interface IGameState extends IScreens {
@@ -20,6 +26,7 @@ export interface IGameState extends IScreens {
   entities: Map<string, Entity>;
   remainingTime: number;
   maxTime: number;
+  acts: Map<string, Act>;
 }
 
 export const gameInitialState: IGameState = {
@@ -27,6 +34,7 @@ export const gameInitialState: IGameState = {
   entities: new Map<string, Entity>(),
   orders: new Map<string, Act>(),
   completedOrders: new Map<string, Act>(),
+  news: new Map<string, Act>(),
   acts: new Map<string, Act>(),
   day: 1,
   creations: 1,

@@ -6,6 +6,7 @@ import { initMenu, updateTimeUI } from "./ui";
 import { ActCard } from "./components/act-card";
 import { createRandomizedOrder } from "./order-system";
 import { CreatureCard } from "./components/creature-card";
+import { createRandomizedNews } from "./news-system";
 
 const gameState = gameInitialState;
 function initGameStates() {
@@ -13,6 +14,7 @@ function initGameStates() {
   initMenu();
   createRandomizedOrder();
   createRandomizedOrder();
+  createRandomizedNews();
 
   initDaySystem();
   updateTimeUI();

@@ -20,7 +20,7 @@ closeButton!.onclick = () => {
 };
 
 const menuChildren = menu.children;
-const [cats, orders, witches, spells] = menuChildren;
+const [cats, orders, witches, spells, news] = menuChildren;
 
 export function initMenu() {
   (Array.from(menuChildren) as HTMLButtonElement[]).forEach((element) => {
@@ -34,20 +34,7 @@ export function initMenu() {
 const screen = gEiD("screen")!;
 
 export function updateScreen() {
-  switch (gameState.currentScreen) {
-    case "catInventory":
-      console.log(gameState.currentScreen);
-      break;
-    case "orders":
-      updateScreenElement("orders");
-      break;
-    case "witches":
-      console.log(gameState.currentScreen);
-      break;
-    case "spells":
-      console.log(gameState.currentScreen);
-      break;
-  }
+  updateScreenElement(gameState.currentScreen as keyof IScreens);
 }
 
 const time = gEiD("time")!;
@@ -141,18 +128,14 @@ function createCreatureComponent(entity: Entity) {
 
 function createActComponent(act: Act) {
   const comp = cE("act-card") as ActCard;
-  comp.setAttribute("title", act.Description);
+  comp.setAttribute("title", act.Title);
 
-  comp.setAttribute(
-    "content",
-    `${act.From.name!} is looking for a ${
-      variantMapping[act.Variant]
-    } cat that is ${act.Requirements.map((r) => characteristicsMapping[r]).join(
-      ", "
-    )}`
-  );
+  comp.setAttribute("content", act.Contents);
 
-  comp.setDivClick(() => dialog.showModal());
+  if (act.Variant === "request") {
+    comp;
+    comp.setDivClick(() => dialog.showModal());
+  }
 
   return comp;
 }

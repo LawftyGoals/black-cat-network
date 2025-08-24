@@ -7,15 +7,15 @@ import { getRandomizedCatCharacteristics, reasonForPuchase } from "./test-data";
 const gameState = gameInitialState;
 
 export const clearSelectedOrder = () => (gameState.selectedOrder = null);
-export const setSelectedOrder = (order: Act) =>
-  (gameState.selectedOrder = order);
 
 export function createRandomizedOrder() {
   gameState.creations += 1;
   const id = getRandomizedId() + gameState.creations;
   const order = new Act(
     id,
+    "request",
     createRandomizedWitch(),
+    "I would like to acquire a BLACK CAT",
     reasonForPuchase[getRandomInt(reasonForPuchase.length)],
     100,
     0,
