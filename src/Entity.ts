@@ -2,6 +2,7 @@
 
 //  import { defaultCatAbilities, defaultWitchAbilities } from "./Values";
 
+import { gameInitialState } from "./state/game-state.js";
 import { getRandomInt, getRandomizedId } from "./utils.js";
 
 import {
@@ -18,10 +19,12 @@ import {
   defaultWitchAbilities,
 } from "./Values.js";
 
+const gameState = gameInitialState;
+
 export class Entity {
   id: string | null;
-  type: "cat" | "spell" | "witch" | null;
-  name: string | null;
+  type: "cat" | "spell" | "witch";
+  name: string;
   // All Creatures
   age: number | null;
   deceased: boolean | null;
@@ -63,8 +66,8 @@ export class Entity {
 
   constructor(
     id: string | null = null,
-    type: "cat" | "spell" | "witch" | null = null,
-    name: string | null = null,
+    type: "cat" | "spell" | "witch",
+    name: string,
     // All Creatures
     age: number | null = null,
     deceased: boolean | null = null,
@@ -147,10 +150,7 @@ export class Entity {
 }
 
 export function createRandomizedCat(): Entity {
-  // const randomName = getRandomCatName();
-  // const randomVariant = getRandomCatVariant();
-  // const randomTraits = getRandomCatTraits();
-
+  const id = getRandomizedId();
   const randomName = catNames[Math.floor(Math.random() * catNames.length)];
   const randomVariant =
     catVariants[Math.floor(Math.random() * catVariants.length)];
@@ -159,8 +159,8 @@ export function createRandomizedCat(): Entity {
     catTraits[Math.floor(Math.random() * catTraits.length)],
   ];
 
-  return new Entity(
-    getRandomizedId(),
+  const cat = new Entity(
+    id,
     "cat",
     randomName,
     getRandomInt(27, 1), // age
@@ -192,9 +192,15 @@ export function createRandomizedCat(): Entity {
     defaultCatAbilities.magicresistance,
     defaultCatAbilities.luck
   );
+
+  gameState.catInventory.set(id, cat);
+  gameState.entities.set(id, cat);
+
+  return cat;
 }
 
 export function createRandomizedWitch(): Entity {
+  const id = getRandomizedId();
   const randomFirstName =
     witchFirstNames[Math.floor(Math.random() * witchFirstNames.length)];
   const randomSurName =
@@ -213,8 +219,8 @@ export function createRandomizedWitch(): Entity {
   const randomApproach =
     witchApproaches[Math.floor(Math.random() * witchApproaches.length)];
 
-  return new Entity(
-    getRandomizedId(), //ID
+  const witch = new Entity(
+    id, //ID
     "witch", // type
     randomName,
     getRandomInt(154, 16), // age
@@ -246,4 +252,9 @@ export function createRandomizedWitch(): Entity {
     defaultWitchAbilities.magicresistance,
     defaultWitchAbilities.luck
   );
+
+  gameState.witches.set(id, witch);
+  gameState.entities.set(id, witch);
+
+  return witch;
 }

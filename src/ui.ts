@@ -6,7 +6,6 @@ import {
   type TScreens,
 } from "./state/game-state";
 import { cE, clearChildren, gEiD } from "./utils";
-import { characteristicsMapping, variantMapping } from "./Cat";
 import type { ActCard } from "./components/act-card";
 
 const gameState = gameInitialState;
@@ -20,7 +19,7 @@ closeButton!.onclick = () => {
 };
 
 const menuChildren = menu.children;
-const [cats, orders, witches, spells, news] = menuChildren;
+//const [cats, orders, witches, spells, news] = menuChildren;
 
 export function initMenu() {
   (Array.from(menuChildren) as HTMLButtonElement[]).forEach((element) => {
@@ -30,8 +29,6 @@ export function initMenu() {
     };
   });
 }
-
-const screen = gEiD("screen")!;
 
 export function updateScreen() {
   updateScreenElement(gameState.currentScreen as keyof IScreens);
@@ -121,7 +118,19 @@ export function generateScreenElement(order: keyof IScreens, id: string) {
 */
 
 function createCreatureComponent(entity: Entity) {
+  const isCat = entity.type === "cat";
+  const description = isCat
+    ? `Variant: ${entity.variant}, Age: ${entity.age}`
+    : `Age: ${entity.age}<br>A ${
+        entity.domain
+      } known for her ${entity.approach?.join(" & ")} approach to her craft.`;
+
   const comp = cE("creature-card");
+  comp.setAttribute("name", entity.name);
+  comp.setAttribute("type", entity.type!);
+  comp.setAttribute("description", description);
+  entity.traits && comp.setAttribute("traits", entity.traits?.join(", "));
+  comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
 
   return comp;
 }

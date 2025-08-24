@@ -7,14 +7,13 @@ import { ActCard } from "./components/act-card";
 import { createRandomizedOrder } from "./systems/order-system";
 import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
+import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 
 const gameState = gameInitialState;
 function initGameStates() {
   initCustomComponents();
   initMenu();
-  createRandomizedOrder();
-  createRandomizedOrder();
-  createRandomizedNews();
+  generateData();
 
   initDaySystem();
   updateTimeUI();
@@ -34,4 +33,13 @@ function initDaySystem() {
 function initCustomComponents() {
   customElements.define("act-card", ActCard);
   customElements.define("creature-card", CreatureCard);
+}
+
+function generateData() {
+  for (let i = 0; i < 10; i++) {
+    createRandomizedOrder();
+    createRandomizedNews();
+    createRandomizedCat();
+    createRandomizedWitch();
+  }
 }

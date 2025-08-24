@@ -33,7 +33,7 @@ export class CreatureCard extends HTMLElement {
   }
 
   render() {
-    this.shadowRoot!.innerHTML = `
+    this.shadowRoot!.innerHTML = /*html*/ `
         <style>
           .card {
             background-color: #1a122f;

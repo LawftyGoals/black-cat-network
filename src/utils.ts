@@ -29,8 +29,4 @@ export const getRandomInt = (max: number, min: number = 0) => {
 };
 
 export const getRandomizedId = () =>
-  (
-    Math.floor(Math.random() * 10000) *
-    performance.now() *
-    performance.now()
-  ).toString();
+  (getRandomInt(100000) * performance.now()).toString();
