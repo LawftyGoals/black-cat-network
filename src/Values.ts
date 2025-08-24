@@ -90,6 +90,7 @@ export const catNames: string[] = [
   "Gary",
   "Floofter",
   "Bingus",
+  "Mingus",
   "Pinky",
   "Warhog",
   "Void the Terror",
