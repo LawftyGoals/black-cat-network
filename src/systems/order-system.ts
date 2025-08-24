@@ -1,5 +1,5 @@
 import { gameInitialState } from "../state/game-state";
-import { Act } from "../Act";
+import { Happening } from "../Happening";
 import { getRandomInt, getRandomizedId } from "../utils";
 import { createRandomizedWitch } from "../Entity";
 import { getRandomizedCatCharacteristics } from "../Cat";
@@ -11,7 +11,7 @@ export const clearSelectedOrder = () => (gameState.selectedOrder = null);
 export function createRandomizedOrder() {
   gameState.creations += 1;
   const id = getRandomizedId() + gameState.creations;
-  const order = new Act(
+  const order = new Happening(
     id,
     "request",
     createRandomizedWitch(),
@@ -23,7 +23,7 @@ export function createRandomizedOrder() {
   );
 
   gameState.orders.set(id, order);
-  gameState.acts.set(id, order);
+  gameState.happenings.set(id, order);
 }
 
 export const reasonForPuchase = [

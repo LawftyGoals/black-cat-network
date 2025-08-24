@@ -1,11 +1,11 @@
 import type { TenumCatCharacteristics, TenumCatVariants } from "./Cat";
 import type { Entity } from "./Entity";
 
-type TActVariants = "news" | "request";
+type THappeningVariants = "news" | "request";
 
-export class Act {
+export class Happening {
   ID: string;
-  Variant: TActVariants;
+  Variant: THappeningVariants;
   From: Entity | null;
   Title: string;
   Contents: string;
@@ -15,7 +15,7 @@ export class Act {
 
   constructor(
     id: string,
-    variant: TActVariants,
+    variant: THappeningVariants,
     from: Entity | null,
     title: string,
     contents: string,

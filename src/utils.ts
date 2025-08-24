@@ -1,5 +1,5 @@
 export const cE = (
-  type: keyof HTMLElementTagNameMap | "act-card" | "creature-card"
+  type: keyof HTMLElementTagNameMap | "happening" | "creature-card"
 ) => document.createElement(type);
 export const gEiD = (id: string) => document.getElementById(id);
 

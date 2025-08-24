@@ -1,12 +1,12 @@
 import type { Entity } from "./Entity";
-import type { Act } from "./Act";
+import type { Happening } from "./Happening";
 import {
   gameInitialState,
   type IScreens,
   type TScreens,
 } from "./state/game-state";
 import { cE, clearChildren, gEiD } from "./utils";
-import type { ActCard } from "./components/act-card";
+import type { HappeningCard } from "./components/happening-card";
 
 const gameState = gameInitialState;
 
@@ -135,13 +135,13 @@ function createCreatureComponent(entity: Entity) {
   return comp;
 }
 
-function createActComponent(act: Act) {
-  const comp = cE("act-card") as ActCard;
-  comp.setAttribute("title", act.Title);
+function createHappeningComponent(happening: Happening) {
+  const comp = cE("happening") as HappeningCard;
+  comp.setAttribute("title", happening.Title);
 
-  comp.setAttribute("content", act.Contents);
+  comp.setAttribute("content", happening.Contents);
 
-  if (act.Variant === "request") {
+  if (happening.Variant === "request") {
     comp;
     comp.setDivClick(() => dialog.showModal());
   }
@@ -149,22 +149,24 @@ function createActComponent(act: Act) {
   return comp;
 }
 
-const actsOrCreature = (variant: string, item: Entity | Act) =>
-  variant === "act"
-    ? createActComponent(item as Act)
+const happeningsOrCreature = (variant: string, item: Entity | Happening) =>
+  variant === "happening"
+    ? createHappeningComponent(item as Happening)
     : createCreatureComponent(item as Entity);
 
 const screenElement = gEiD("screen")!;
 
 export function updateScreenElement(category: keyof IScreens) {
   const aOe =
-    category === "catInventory" || category === "witches" ? "creature" : "act";
+    category === "catInventory" || category === "witches"
+      ? "creature"
+      : "happening";
   const target = gameState[category];
   clearChildren(screenElement);
 
   if (target.size > 0) {
     target.forEach((entity, _id) => {
-      const comp = actsOrCreature(aOe, entity);
+      const comp = happeningsOrCreature(aOe, entity);
       screenElement.appendChild(comp);
     });
   }
