@@ -25,13 +25,9 @@ export function initMenu() {
   (Array.from(menuChildren) as HTMLButtonElement[]).forEach((element) => {
     element.onclick = () => {
       gameState.currentScreen = element.id.replace("m-", "") as TScreens;
-      updateScreen();
+      updateScreenElement(gameState.currentScreen as keyof IScreens);
     };
   });
-}
-
-export function updateScreen() {
-  updateScreenElement(gameState.currentScreen as keyof IScreens);
 }
 
 const time = gEiD("time")!;
@@ -47,76 +43,6 @@ export function updateTimeUI() {
   }
 }
 
-/*
-export function generateScreenElement(order: keyof IScreens, id: string) {
-  const orderDiv = cE("div");
-  for (const [key, value] of Object.entries(order)) {
-    if (Array.isArray(value)) {
-      const DL = cE("dl");
-      const DT = cE("dt");
-      DT.innerText = "Requirements:";
-      DL.appendChild(DT);
-      const DD = cE("dd");
-      DD.innerHTML = `<strong>${variantMapping[order.Variant]}</strong>`;
-      DT.appendChild(DD);
-
-      value.forEach((requirement) => {
-        const DD = cE("dd");
-        DD.innerText =
-          characteristicsMapping[requirement as TenumCatCharacteristics];
-        DT.appendChild(DD);
-      });
-      orderDiv.appendChild(DL);
-    } else {
-      const p = cE("p");
-      p.innerText = `${key}: ` + value;
-      orderDiv.appendChild(p);
-    }
-  }
-
-  const completeButton = cE("button");
-  completeButton.innerText = "Complete Order";
-  completeButton.onclick = () => {
-    setSelectedOrder(order);
-
-    const dialog = gEiD("dialog") as HTMLDialogElement;
-    dialog?.showModal();
-
-    initializeCatSelector();
-
-    const completeButton = gEiD("complete-order");
-    completeButton!.onclick = () => {
-      gameState.completedOrders.set(id, order);
-      gameState.orders.delete(id);
-      gameState.catInventory.delete(gameState.selectedCat!.ID);
-      updateOrdersElement();
-
-      changeRemainingTime();
-      updateTimeUI();
-
-      clearCatSelectElement();
-
-      clearSelectedOrder();
-      clearSelectedCat();
-
-      dialog.close();
-    };
-
-    const closeButton = gEiD("close-dialog");
-
-    closeButton!.onclick = () => {
-      clearSelectedOrder();
-      clearSelectedCat();
-      dialog.close();
-    };
-  };
-
-  orderDiv.appendChild(completeButton);
-
-  return orderDiv;
-}
-*/
-
 function createCreatureComponent(entity: Entity) {
   const isCat = entity.type === "cat";
   const description = isCat
@@ -125,12 +51,19 @@ function createCreatureComponent(entity: Entity) {
         entity.domain
       } known for her ${entity.approach?.join(" & ")} approach to her craft.`;
 
+  const attributes = [
+    ["name", entity.name],
+    ["type", entity.type],
+    ["description", description],
+    ["traits", entity.traits],
+    ["image", `./src/img/${isCat ? "cat" : "witch"}.jpg`],
+  ];
+
   const comp = cE("creature-card");
-  comp.setAttribute("name", entity.name);
-  comp.setAttribute("type", entity.type!);
-  comp.setAttribute("description", description);
-  entity.traits && comp.setAttribute("traits", entity.traits?.join(", "));
-  comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
+  attributes.forEach(
+    ([tag, attribute]) =>
+      attribute && comp.setAttribute(tag as string, attribute as string)
+  );
 
   return comp;
 }
@@ -156,7 +89,7 @@ const actsOrCreature = (variant: string, item: Entity | Act) =>
 
 const screenElement = gEiD("screen")!;
 
-export function updateScreenElement(category: keyof IScreens) {
+export function updateScreenElement(category: TScreens) {
   const aOe =
     category === "catInventory" || category === "witches" ? "creature" : "act";
   const target = gameState[category];

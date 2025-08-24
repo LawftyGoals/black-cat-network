@@ -30,3 +30,7 @@ export const getRandomInt = (max: number, min: number = 0) => {
 
 export const getRandomizedId = () =>
   (getRandomInt(100000) * performance.now()).toString();
+
+export function getArrayOfItemsFromMap<T, V>(map: Map<T, V>) {
+  return Array.from(map, ([_id, entOrHap]) => entOrHap);
+}

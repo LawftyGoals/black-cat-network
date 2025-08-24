@@ -2,7 +2,7 @@ import "./style.css";
 
 import { gameInitialState } from "./state/game-state";
 import { updateDay } from "./systems/day-system";
-import { initMenu, updateTimeUI } from "./ui";
+import { initMenu, updateScreenElement, updateTimeUI } from "./ui";
 import { ActCard } from "./components/act-card";
 import { createRandomizedOrder } from "./systems/order-system";
 import { CreatureCard } from "./components/creature-card";
@@ -14,7 +14,7 @@ function initGameStates() {
   initCustomComponents();
   initMenu();
   generateData();
-
+  updateScreenElement(gameState.currentScreen);
   initDaySystem();
   updateTimeUI();
 }

@@ -42,11 +42,8 @@ export class CreatureCard extends HTMLElement {
             padding: 16px;
             color: #e0d8f1;
             font-family: 'Times New Roman', serif;
-            max-width: 200px;
-            min-height: 250px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             margin: 8px;
-            text-align: center;
           }
           h3 {
             margin-top: 0;
@@ -63,7 +60,6 @@ export class CreatureCard extends HTMLElement {
             width: 50px;
             height: 50px;
             border-radius: 4px;
-            margin: 8px auto;
             background-color: #666;
             border: 2px solid #333;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -71,14 +67,18 @@ export class CreatureCard extends HTMLElement {
             background-position: center;
             display: inline-block;
           }
+          .content{
+            display:flex;
+            gap: 8px;
+          }
         </style>
         <div class="card">
-          <h3>${this.name} (${this.type})</h3>
+          <h3>${this.name} (${this.type})</h3><div class="content">
           <div class="profile-picture" style="background-image: ${
             this.image ? `url('${this.image}')` : "none"
-          }"></div>
+          }"></div><div>
           <p>${this.description}</p>
-          <p class="traits">${this.traits}</p>
+          <p class="traits">${this.traits}</p></div></div>
         </div>
       `;
   }
