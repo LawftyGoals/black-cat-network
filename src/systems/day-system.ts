@@ -1,5 +1,5 @@
 import { createRandomizedOrder } from "./order-system";
-import { gameInitialState } from "./state/game-state";
+import { gameInitialState } from "../state/game-state";
 import { resetRemainingTime } from "./time-system";
 
 const gameState = gameInitialState;

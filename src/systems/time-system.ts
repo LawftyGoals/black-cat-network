@@ -1,5 +1,5 @@
-import { gameInitialState } from "./state/game-state";
-import { updateTimeUI } from "./ui";
+import { gameInitialState } from "../state/game-state";
+import { updateTimeUI } from "../ui";
 
 const gameState = gameInitialState;
 

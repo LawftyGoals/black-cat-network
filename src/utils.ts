@@ -3,6 +3,10 @@ export const cE = (
 ) => document.createElement(type);
 export const gEiD = (id: string) => document.getElementById(id);
 
+export function sgeid(sr: ShadowRoot, name: string) {
+  return sr.getElementById(name);
+}
+
 export function clearChildren(element: HTMLElement) {
   while (element.firstChild) {
     element.lastChild && element.removeChild(element.lastChild);
@@ -30,7 +34,3 @@ export const getRandomizedId = () =>
     performance.now() *
     performance.now()
   ).toString();
-
-export function sgeid(sr: ShadowRoot, name: string) {
-  return sr.getElementById(name);
-}

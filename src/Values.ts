@@ -88,6 +88,11 @@ export const catNames: string[] = [
   "Alioth",
   "Djinni",
   "Gary",
+  "Floofter",
+  "Bingus",
+  "Pinky",
+  "Warhog",
+  "Void the Terror",
 ];
 
 export const witchFirstNames = [

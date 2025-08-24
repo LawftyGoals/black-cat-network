@@ -1,7 +1,7 @@
-import { Act } from "./Act";
-import { createRandomizedWitch } from "./Entity";
-import { gameInitialState } from "./state/game-state";
-import { getRandomizedId } from "./utils";
+import { Act } from "../Act";
+import { createRandomizedWitch } from "../Entity";
+import { gameInitialState } from "../state/game-state";
+import { getRandomizedId } from "../utils";
 
 const gameState = gameInitialState;
 

@@ -1,19 +1,8 @@
 import { gameInitialState } from "./state/game-state";
-import { cE, clearChildren, gEiD } from "./utils";
+import { cE, clearChildren, gEiD, getRandomInt } from "./utils";
 const gameState = gameInitialState;
 export const catInventory = gameState.catInventory;
 export const clearSelectedCat = () => (gameState.selectedCat = null);
-
-export class Cat {
-  ID: string;
-  Name: string;
-  Type: (typeof enumCatVariant)[TCatVariants];
-  constructor(id: string, name: string, type: TenumCatVariants) {
-    this.ID = id;
-    this.Name = name;
-    this.Type = type;
-  }
-}
 
 export const enumCatVariant = Object.freeze({
   BLACK: 0,
@@ -94,6 +83,8 @@ export const characteristicsMapping = Object.freeze({
   "21": "Gentle",
 });
 
+const catCharacteristics = Object.values(characteristicsMapping);
+
 export type TCatCharacteristics = keyof typeof enumCatCharacteristics;
 export type TenumCatCharacteristics =
   (typeof enumCatCharacteristics)[TCatCharacteristics];
@@ -133,4 +124,14 @@ export function initializeCatSelector() {
 
 export function clearCatSelectElement() {
   clearChildren(catSelect);
+}
+
+export function getRandomizedCatCharacteristics(
+  characteristicsCount: number = 1
+) {
+  return new Array(characteristicsCount)
+    .fill(null)
+    .map(() =>
+      getRandomInt(catCharacteristics.length)
+    ) as TenumCatCharacteristics[];
 }
