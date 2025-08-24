@@ -55,7 +55,7 @@ function createCreatureComponent(entity: Entity) {
     ["name", entity.name],
     ["type", entity.type],
     ["description", description],
-    ["traits", entity.traits],
+    ["traits", entity.traits?.join(", ")],
     ["image", `./src/img/${isCat ? "cat" : "witch"}.jpg`],
   ];
 
