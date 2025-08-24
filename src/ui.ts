@@ -169,7 +169,6 @@ export function updateScreenElement(category: keyof IScreens) {
     category === "catInventory" || category === "witches" ? "creature" : "act";
   const target = gameState[category];
   clearChildren(screenElement);
-  console.log(target);
 
   if (target.size > 0) {
     target.forEach((entity, _id) => {
