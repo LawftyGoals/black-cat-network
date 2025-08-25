@@ -43,7 +43,7 @@ export function updateTimeUI() {
   }
 }
 
-function createCreatureComponentTest(entity: Entity) {
+function createCreatureComponent(entity: Entity) {
   const isCat = entity.type === "cat";
   const comp = cE("creature-card");
   entity.knowns.forEach((value) => {
@@ -55,29 +55,10 @@ function createCreatureComponentTest(entity: Entity) {
   );
 
   comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
-  /*
-  const description = isCat
-    ? `Variant: ${entity.variant}, Age: ${entity.age}`
-    : `Age: ${entity.age}<br>A ${
-        entity.domain
-      } known for her ${entity.approach?.join(" & ")} approach to her craft.`;
 
-  const attributes = [
-    ["name", entity.name],
-    ["type", entity.type],
-    ["description", description],
-    ["traits", entity.traits?.join(", ")],
-    ["image", `./src/img/${isCat ? "cat" : "witch"}.jpg`],
-  ];
-
-  attributes.forEach(
-    ([tag, attribute]) =>
-      attribute && comp.setAttribute(tag as string, attribute as string)
-  );
-*/
   return comp;
 }
-
+/*
 function createCreatureComponent(entity: Entity) {
   const isCat = entity.type === "cat";
 
@@ -102,7 +83,7 @@ function createCreatureComponent(entity: Entity) {
   );
 
   return comp;
-}
+}*/
 
 function createHappeningComponent(happening: Happening) {
   const comp = cE("happening-card") as HappeningCard;
@@ -121,7 +102,7 @@ function createHappeningComponent(happening: Happening) {
 const happeningsOrCreature = (variant: string, item: Entity | Happening) =>
   variant === "happening"
     ? createHappeningComponent(item as Happening)
-    : createCreatureComponentTest(item as Entity);
+    : createCreatureComponent(item as Entity);
 
 const screenElement = gEiD("screen")!;
 
