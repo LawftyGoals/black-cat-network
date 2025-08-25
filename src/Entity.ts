@@ -9,11 +9,10 @@ import {
   catVariants,
   catTraits,
   witchTraits,
-  witchVariants,
   catNames,
   witchFirstNames,
   witchSurNames,
-  witchDomains,
+  witchVocations,
   witchApproaches,
   defaultCatAbilities,
   defaultWitchAbilities,
@@ -33,7 +32,7 @@ export class Entity {
   traits: string[] | null;
   variant: string | null;
   // Witch-specific
-  domain: string | null;
+  vocation: string | null;
   approach: string[] | null;
   // CAT ABILITIES & TRAITS
   // Agility
@@ -76,7 +75,7 @@ export class Entity {
     traits: string[] | null = null,
     variant: string | null = null,
     // Witch-specific
-    domain: string | null = null,
+    vocation: string | null = null,
     approach: string[] | null = null,
     // Agility
     balance: number | null = null,
@@ -117,7 +116,7 @@ export class Entity {
     this.traits = traits;
     this.variant = variant;
     // Witch-specific
-    this.domain = domain;
+    this.vocation = vocation;
     this.approach = approach;
     // Agility
     this.balance = balance;
@@ -206,16 +205,14 @@ export function createRandomizedWitch(): Entity {
   const randomSurName =
     witchSurNames[Math.floor(Math.random() * witchSurNames.length)];
   const randomName = `${randomFirstName} ${randomSurName}`;
-  const randomVariant =
-    witchVariants[Math.floor(Math.random() * witchVariants.length)];
   const randomTraits = [
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
   ];
 
-  const randomDomain =
-    witchDomains[Math.floor(Math.random() * witchDomains.length)];
+  const randomVocation =
+    witchVocations[Math.floor(Math.random() * witchVocations.length)];
   const randomApproach =
     witchApproaches[Math.floor(Math.random() * witchApproaches.length)];
 
@@ -228,8 +225,8 @@ export function createRandomizedWitch(): Entity {
     "female",
     "Human",
     randomTraits,
-    randomVariant,
-    randomDomain,
+    null,
+    randomVocation,
     randomApproach,
     defaultWitchAbilities.reflex,
     defaultWitchAbilities.balance,
