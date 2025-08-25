@@ -52,7 +52,7 @@ function createCreatureComponent(entity: Entity) {
   const description = isCat
     ? `Variant: ${entity.variant}, Age: ${entity.age}`
     : `Age: ${entity.age}<br>A ${
-        entity.domain
+        entity.vocation
       } known for her ${entity.approach?.join(" & ")} approach to her craft.`;
 
   const comp = cE("creature-card");
