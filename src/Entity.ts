@@ -3,7 +3,11 @@
 //  import { defaultCatAbilities, defaultWitchAbilities } from "./Values";
 
 import { gameInitialState } from "./state/game-state.js";
-import { getRandomInt, getRandomizedId } from "./utils.js";
+import {
+  getRandomAmountOrNone,
+  getRandomInt,
+  getRandomizedId,
+} from "./utils.js";
 
 import {
   catVariants,
@@ -21,16 +25,21 @@ import {
 
 const gameState = gameInitialState;
 
+export const witchGivens = ["name", "type", "deceased"];
+export const catGivens = ["name", "type", "age", "sex", "deceased"];
+
 export class Entity {
   id: string | null;
   type: "cat" | "spell" | "witch";
   name: string;
+  knowns: string[];
   // All Creatures
-  age: number | null;
-  deceased: boolean | null;
-  sex: string | null;
+  age: number;
+  deceased: boolean;
+  sex: string;
   species: string | null;
-  traits: string[] | null;
+  traits: string[];
+  knownTraits: string[];
   variant: string | null;
   // Witch-specific
   domain: string | null;
@@ -68,12 +77,14 @@ export class Entity {
     id: string | null = null,
     type: "cat" | "spell" | "witch",
     name: string,
+    knowns: string[] = [],
     // All Creatures
-    age: number | null = null,
-    deceased: boolean | null = null,
-    sex: string | null = null,
+    age: number,
+    deceased: boolean,
+    sex: string,
     species: string | null = null,
-    traits: string[] | null = null,
+    traits: string[],
+    knownTraits: string[],
     variant: string | null = null,
     // Witch-specific
     domain: string | null = null,
@@ -109,12 +120,14 @@ export class Entity {
     this.id = id;
     this.type = type;
     this.name = name;
+    this.knowns = [...(type === "cat" ? catGivens : witchGivens), ...knowns];
     // All Creatures
     this.age = age;
     this.deceased = deceased;
     this.sex = sex;
     this.species = species;
     this.traits = traits;
+    this.knownTraits = knownTraits;
     this.variant = variant;
     // Witch-specific
     this.domain = domain;
@@ -163,11 +176,13 @@ export function createRandomizedCat(): Entity {
     id,
     "cat",
     randomName,
+    ["age"],
     getRandomInt(27, 1), // age
     false, // deceased
     "Male", // sex
     "Feline", // species
     randomTraits,
+    getRandomAmountOrNone(randomTraits, 2, 10),
     randomVariant,
     null,
     null,
@@ -223,11 +238,13 @@ export function createRandomizedWitch(): Entity {
     id, //ID
     "witch", // type
     randomName,
+    undefined,
     getRandomInt(154, 16), // age
     false, // deceased
     "female",
     "Human",
     randomTraits,
+    getRandomAmountOrNone(randomTraits, 2, 50),
     randomVariant,
     randomDomain,
     randomApproach,

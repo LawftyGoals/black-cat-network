@@ -34,3 +34,22 @@ export const getRandomizedId = () =>
 export function getArrayOfItemsFromMap<T, V>(map: Map<T, V>) {
   return Array.from(map, ([_id, entOrHap]) => entOrHap);
 }
+
+export function getRandomAmountOrNone<T>(
+  list: T[],
+  maxReveal?: number,
+  chanceOfNone?: number
+) {
+  let max = maxReveal ?? list.length;
+  const revealed = [];
+  if (chanceOfNone && getRandomInt(101) <= chanceOfNone) {
+    return [];
+  }
+
+  if (max >= list.length) return list;
+
+  for (let i = 0; i < getRandomInt(max) + 1; i++) {
+    revealed.push(...list.splice(getRandomInt(list.length), 1));
+  }
+  return revealed;
+}
