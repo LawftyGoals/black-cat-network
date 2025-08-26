@@ -46,12 +46,15 @@ export function updateTimeUI() {
 function createCreatureComponent(entity: Entity) {
   const isCat = entity.type === "cat";
   const comp = cE("creature-card");
-  entity.knowns.forEach((value) => {
+  const { name, age, knowns, coreKnowns, knownTraits } = { ...entity };
+  coreKnowns.forEach((value) => {
     comp.setAttribute(value, { ...entity }[value] as string);
   });
   comp.setAttribute(
     "description",
-    `What you know about ${entity.name}: ${entity.knownTraits.join(", ")}`
+    `What you know about ${name}: ${knowns
+      .map((k) => ({ ...entity, age: `${age} years` }[k]))
+      .join(", ")}, ${knownTraits.join(", ")}`
   );
 
   comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
@@ -116,8 +119,7 @@ export function updateScreenElement(category: TScreens) {
 
   if (target.size > 0) {
     target.forEach((entity, _id) => {
-      const comp = happeningsOrCreature(aOe, entity);
-      screenElement.appendChild(comp);
+      screenElement.appendChild(happeningsOrCreature(aOe, entity));
     });
   }
 }

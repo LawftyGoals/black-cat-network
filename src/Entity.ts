@@ -25,13 +25,15 @@ import {
 
 const gameState = gameInitialState;
 
-export const witchGivens = ["name", "type", "deceased"];
-export const catGivens = ["name", "type", "age", "sex", "deceased"];
+export const coreGivens = ["name", "type", "deceased"];
+export const witchGivens = ["domain"];
+export const catGivens = ["age", "sex"];
 
 export class Entity {
   id: string | null;
   type: "cat" | "spell" | "witch";
   name: string;
+  coreKnowns: string[];
   knowns: string[];
   // All Creatures
   age: number;
@@ -77,6 +79,7 @@ export class Entity {
     id: string | null = null,
     type: "cat" | "spell" | "witch",
     name: string,
+    coreKnowns: string[] = [],
     knowns: string[] = [],
     // All Creatures
     age: number,
@@ -120,6 +123,7 @@ export class Entity {
     this.id = id;
     this.type = type;
     this.name = name;
+    this.coreKnowns = [...coreGivens, ...coreKnowns];
     this.knowns = [...(type === "cat" ? catGivens : witchGivens), ...knowns];
     // All Creatures
     this.age = age;
@@ -176,7 +180,8 @@ export function createRandomizedCat(): Entity {
     id,
     "cat",
     randomName,
-    ["age"],
+    undefined,
+    undefined,
     getRandomInt(27, 1), // age
     false, // deceased
     "Male", // sex
@@ -238,6 +243,7 @@ export function createRandomizedWitch(): Entity {
     id, //ID
     "witch", // type
     randomName,
+    ["type"],
     undefined,
     getRandomInt(154, 16), // age
     false, // deceased

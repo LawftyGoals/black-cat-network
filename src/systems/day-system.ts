@@ -1,4 +1,4 @@
-import { createRandomizedOrder } from "./order-system";
+import { createRandomizedBonding } from "./bonding-system";
 import { gameInitialState } from "../state/game-state";
 import { resetRemainingTime } from "./time-system";
 
@@ -10,7 +10,7 @@ export function updateDay() {
   dayElement && (dayElement.innerText = gameState.day.toString());
 
   /* TEMPORARY TEST STATE */
-  createRandomizedOrder();
+  createRandomizedBonding();
 
   resetRemainingTime();
 }

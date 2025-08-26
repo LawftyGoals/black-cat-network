@@ -4,7 +4,7 @@ import { gameInitialState } from "./state/game-state";
 import { updateDay } from "./systems/day-system";
 import { initMenu, updateScreenElement, updateTimeUI } from "./ui";
 import { HappeningCard } from "./components/happening-card";
-import { createRandomizedOrder } from "./systems/order-system";
+import { createRandomizedBonding } from "./systems/bonding-system";
 import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
@@ -37,7 +37,7 @@ function initCustomComponents() {
 
 function generateData() {
   for (let i = 0; i < 10; i++) {
-    createRandomizedOrder();
+    createRandomizedBonding();
     createRandomizedNews();
     createRandomizedCat();
     createRandomizedWitch();
