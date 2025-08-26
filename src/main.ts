@@ -1,13 +1,14 @@
 import "./style.css";
 
 import { gameInitialState } from "./state/game-state";
-import { updateDay } from "./systems/day-system";
-import { initMenu, updateScreenElement, updateTimeUI } from "./ui";
+import { initDaySystem } from "./systems/day-system";
+import { initMenu, updateScreenElement } from "./ui";
 import { HappeningCard } from "./components/happening-card";
 import { createRandomizedBonding } from "./systems/bonding-system";
 import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
+import { initTimeSystem } from "./systems/time-system";
 
 const gameState = gameInitialState;
 function initGameStates() {
@@ -16,19 +17,10 @@ function initGameStates() {
   generateData();
   updateScreenElement(gameState.currentScreen);
   initDaySystem();
-  updateTimeUI();
+  initTimeSystem();
 }
 
 initGameStates();
-
-function initDaySystem() {
-  const element = document.getElementById("day");
-  (element as HTMLElement).innerText = gameState.day.toString();
-
-  const updateDayButton = document.getElementById("advance-day");
-
-  updateDayButton!.onclick = updateDay;
-}
 
 function initCustomComponents() {
   customElements.define("happening-card", HappeningCard);

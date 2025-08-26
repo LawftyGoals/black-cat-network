@@ -7,15 +7,13 @@ import {
 } from "./state/game-state";
 import { cE, clearChildren, gEiD } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
+import { closeDialogElement, dialogElement } from "./get-elements";
 
 const gameState = gameInitialState;
 
 const menu = gEiD("menu")!;
-const dialog = gEiD("dialog")! as HTMLDialogElement;
-const closeButton = gEiD("close-dialog");
-
-closeButton!.onclick = () => {
-  dialog.close();
+closeDialogElement.onclick = () => {
+  dialogElement.close();
 };
 
 const menuChildren = menu.children;
@@ -96,7 +94,7 @@ function createHappeningComponent(happening: Happening) {
 
   if (happening.Variant === "request") {
     comp;
-    comp.setDivClick(() => dialog.showModal());
+    comp.setDivClick(() => dialogElement.showModal());
   }
 
   return comp;

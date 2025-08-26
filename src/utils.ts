@@ -1,7 +1,9 @@
+import { closeDialogElement } from "./get-elements";
+
 export const cE = (
   type: keyof HTMLElementTagNameMap | "happening-card" | "creature-card"
 ) => document.createElement(type);
-export const gEiD = (id: string) => document.getElementById(id);
+export const gEiD = (id: string) => document.getElementById(id)!;
 
 export function sgeid(sr: ShadowRoot, name: string) {
   return sr.getElementById(name);
@@ -20,8 +22,7 @@ export function appendChildren(element: HTMLElement, children: HTMLElement[]) {
 export function setupDialog() {
   const dialog = gEiD("dialog") as HTMLDialogElement;
   dialog?.showModal();
-  const closeButton = gEiD("close-dialog");
-  closeButton!.onclick = () => dialog.close();
+  closeDialogElement.onclick = () => dialog.close();
 }
 
 export const getRandomInt = (max: number, min: number = 0) => {
