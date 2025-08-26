@@ -1,8 +1,7 @@
 import { createRandomizedBonding } from "./bonding-system";
 import { gameInitialState } from "../state/game-state";
 import { resetRemainingTime } from "./time-system";
-import { gEiD } from "../utils";
-import { dayElement } from "../get-elements";
+import { dayElement, gEiD } from "../get-elements";
 
 const gameState = gameInitialState;
 

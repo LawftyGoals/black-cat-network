@@ -1,5 +1,6 @@
+import { gEiD } from "./get-elements";
 import { gameInitialState } from "./state/game-state";
-import { cE, clearChildren, gEiD, getRandomInt } from "./utils";
+import { cE, clearChildren, getRandomInt } from "./utils";
 const gameState = gameInitialState;
 export const catInventory = gameState.catInventory;
 export const clearSelectedCat = () => (gameState.selectedCat = null);

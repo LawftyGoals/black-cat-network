@@ -1,9 +1,8 @@
-import { closeDialogElement } from "./get-elements";
+import { closeDialogElement, gEiD } from "./get-elements";
 
 export const cE = (
   type: keyof HTMLElementTagNameMap | "happening-card" | "creature-card"
 ) => document.createElement(type);
-export const gEiD = (id: string) => document.getElementById(id)!;
 
 export function sgeid(sr: ShadowRoot, name: string) {
   return sr.getElementById(name);

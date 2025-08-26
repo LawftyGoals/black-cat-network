@@ -1,4 +1,4 @@
-import { gEiD } from "./utils";
+export const gEiD = (id: string) => document.getElementById(id)!;
 
 export const dayElement = gEiD("day");
 

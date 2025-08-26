@@ -5,9 +5,9 @@ import {
   type IScreens,
   type TScreens,
 } from "./state/game-state";
-import { cE, clearChildren, gEiD } from "./utils";
+import { cE, clearChildren } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
-import { closeDialogElement, dialogElement } from "./get-elements";
+import { closeDialogElement, dialogElement, gEiD } from "./get-elements";
 
 const gameState = gameInitialState;
 

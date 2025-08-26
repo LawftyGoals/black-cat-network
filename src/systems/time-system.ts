@@ -1,6 +1,6 @@
+import { gEiD } from "../get-elements";
 import { gameInitialState } from "../state/game-state";
 import { updateTimeUI } from "../ui";
-import { gEiD } from "../utils";
 const gameState = gameInitialState;
 export const advTimeButton = gEiD("advance-time") as HTMLButtonElement;
 
