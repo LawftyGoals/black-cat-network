@@ -4,9 +4,12 @@ export class HappeningCard extends HTMLElement {
   titleElement: HTMLElement;
   contentElement: HTMLElement;
   clickableElement: HTMLElement;
+  fromElement: HTMLElement;
+  offerElement: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+    const sr = this.shadowRoot!;
 
     const template = cE("template") as HTMLTemplateElement;
     template.innerHTML = /*html*/ `
@@ -34,36 +37,42 @@ export class HappeningCard extends HTMLElement {
       </style>
       <div id="clickable">
         <h1 id="title-slot"></h1>
+        <p>From: <span id="from-slot"></span></p>
         <p id="content-slot"></p>
+        <p id="offer-slot"></p>
       </div>
     `;
 
-    this.shadowRoot?.appendChild(template.content.cloneNode(true));
+    sr.appendChild(template.content.cloneNode(true));
 
-    this.titleElement = sgeid(this.shadowRoot!, "title-slot")!;
-    this.contentElement = sgeid(this.shadowRoot!, "content-slot")!;
-    this.clickableElement = sgeid(this.shadowRoot!, "clickable")!;
+    this.titleElement = sgeid(sr, "title-slot");
+    this.contentElement = sgeid(sr, "content-slot");
+    this.clickableElement = sgeid(sr, "clickable");
+    this.fromElement = sgeid(sr, "from-slot");
+    this.offerElement = sgeid(sr, "offer-slot");
   }
 
   static get observedAttributes() {
-    return ["title", "content"];
+    return ["title", "content", "from", "offer"];
   }
 
   setDivClick(onClick: () => any) {
     this.clickableElement.onclick = onClick;
   }
 
-  attributeChangedCallback(
-    name: any,
-    _oldvalue: any,
-    newValue: string | (() => void)
-  ) {
+  attributeChangedCallback(name: any, _oldvalue: any, newValue: string) {
     switch (name) {
       case "title":
-        this.titleElement.textContent = newValue as string;
+        this.titleElement.textContent = newValue;
         break;
       case "content":
-        this.contentElement.textContent = newValue as string;
+        this.contentElement.textContent = newValue;
+        break;
+      case "from":
+        this.fromElement.textContent = newValue;
+        break;
+      case "offer":
+        this.offerElement.textContent = `${newValue} gp`;
         break;
     }
   }

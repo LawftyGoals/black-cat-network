@@ -2,20 +2,22 @@ import "./style.css";
 
 import { gameInitialState } from "./state/game-state";
 import { initDaySystem } from "./systems/day-system";
-import { initMenu, updateScreenElement } from "./ui";
+import { initMenu, updateElementWithList } from "./ui";
 import { HappeningCard } from "./components/happening-card";
 import { createRandomizedBonding } from "./systems/bonding-system";
 import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
+import { coinFlip } from "./utils";
+import { screen } from "./get-elements";
 
-const gameState = gameInitialState;
+//const gameState = gameInitialState;
 function initGameStates() {
   initCustomComponents();
   initMenu();
   generateData();
-  updateScreenElement(gameState.currentScreen);
+  updateElementWithList(screen);
   initDaySystem();
   initTimeSystem();
 }
@@ -27,11 +29,15 @@ function initCustomComponents() {
   customElements.define("creature-card", CreatureCard);
 }
 
-function generateData() {
+function forit(cre: () => void) {
   for (let i = 0; i < 10; i++) {
-    createRandomizedBonding();
-    createRandomizedNews();
-    createRandomizedCat();
-    createRandomizedWitch();
+    cre();
   }
+}
+
+function generateData() {
+  forit(() => createRandomizedWitch(coinFlip()));
+  forit(createRandomizedCat);
+  forit(createRandomizedBonding);
+  forit(createRandomizedNews);
 }

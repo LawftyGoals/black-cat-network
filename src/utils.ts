@@ -5,7 +5,7 @@ export const cE = (
 ) => document.createElement(type);
 
 export function sgeid(sr: ShadowRoot, name: string) {
-  return sr.getElementById(name);
+  return sr.getElementById(name)!;
 }
 
 export function clearChildren(element: HTMLElement) {
@@ -52,4 +52,8 @@ export function getRandomAmountOrNone<T>(
     revealed.push(...list.splice(getRandomInt(list.length), 1));
   }
   return revealed;
+}
+
+export function coinFlip() {
+  return Math.random() > 0.5;
 }

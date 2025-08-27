@@ -1,17 +1,20 @@
 import type { Entity } from "./Entity";
 import type { Happening } from "./Happening";
-import {
-  gameInitialState,
-  type IScreens,
-  type TScreens,
-} from "./state/game-state";
+import { gameInitialState, type TScreens } from "./state/game-state";
 import { cE, clearChildren } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
-import { closeDialogElement, dialogElement, gEiD } from "./get-elements";
+import {
+  closeDialogElement,
+  dialogContentElement,
+  dialogElement,
+  gEiD,
+} from "./get-elements";
+import type { CreatureCard } from "./components/creature-card";
 
 const gameState = gameInitialState;
 
 const menu = gEiD("menu")!;
+
 closeDialogElement.onclick = () => {
   dialogElement.close();
 };
@@ -22,8 +25,9 @@ const menuChildren = menu.children;
 export function initMenu() {
   (Array.from(menuChildren) as HTMLButtonElement[]).forEach((element) => {
     element.onclick = () => {
-      gameState.currentScreen = element.id.replace("m-", "") as TScreens;
-      updateScreenElement(gameState.currentScreen as keyof IScreens);
+      const screenName = element.id.replace("m-", "") as TScreens;
+      gameState.currentScreen = screenName;
+      updateElementWithList(gEiD("screen"));
     };
   });
 }
@@ -43,7 +47,7 @@ export function updateTimeUI() {
 
 function createCreatureComponent(entity: Entity) {
   const isCat = entity.type === "cat";
-  const comp = cE("creature-card");
+  const comp = cE("creature-card") as CreatureCard;
   const { name, age, knowns, coreKnowns, knownTraits } = { ...entity };
   coreKnowns.forEach((value) => {
     comp.setAttribute(value, { ...entity }[value] as string);
@@ -59,65 +63,57 @@ function createCreatureComponent(entity: Entity) {
 
   return comp;
 }
-/*
-function createCreatureComponent(entity: Entity) {
-  const isCat = entity.type === "cat";
 
-  const description = isCat
-    ? `Variant: ${entity.variant}, Age: ${entity.age}`
-    : `Age: ${entity.age}<br>A ${
-        entity.domain
-      } known for her ${entity.approach?.join(" & ")} approach to her craft.`;
-
-  const attributes = [
-    ["name", entity.name],
-    ["type", entity.type],
-    ["description", description],
-    ["traits", entity.traits?.join(", ")],
-    ["image", `./src/img/${isCat ? "cat" : "witch"}.jpg`],
-  ];
-
-  const comp = cE("creature-card");
-  attributes.forEach(
-    ([tag, attribute]) =>
-      attribute && comp.setAttribute(tag as string, attribute as string)
-  );
-
-  return comp;
-}*/
-
-function createHappeningComponent(happening: Happening) {
+function createHappeningComponent({
+  Knowns,
+  Request_Variant,
+  ...happening
+}: Happening) {
   const comp = cE("happening-card") as HappeningCard;
+  const end = {
+    ...happening,
+    Request_Variant,
+    Knowns,
+    From: happening.From?.name,
+  };
   comp.setAttribute("title", happening.Title);
 
-  comp.setAttribute("content", happening.Contents);
+  Knowns.forEach((val) => {
+    comp.setAttribute(val.toLocaleLowerCase(), end[val] as string);
+  });
 
-  if (happening.Variant === "request") {
-    comp;
-    comp.setDivClick(() => dialogElement.showModal());
+  if (happening.Variant === "bonding") {
+    comp.setDivClick(() => {
+      dialogElement.showModal();
+    });
   }
 
   return comp;
 }
 
-const happeningsOrCreature = (variant: string, item: Entity | Happening) =>
-  variant === "happening"
-    ? createHappeningComponent(item as Happening)
-    : createCreatureComponent(item as Entity);
-
-const screenElement = gEiD("screen")!;
-
-export function updateScreenElement(category: TScreens) {
-  const aOe =
-    category === "catInventory" || category === "witches"
-      ? "creature"
-      : "happening";
-  const target = gameState[category];
-  clearChildren(screenElement);
-
+export function updateElementWithList(
+  element: HTMLElement,
+  map?: Map<string, Entity | Happening>
+) {
+  const target = map ?? gameState[gameState.currentScreen];
+  clearChildren(element);
   if (target.size > 0) {
-    target.forEach((entity, _id) => {
-      screenElement.appendChild(happeningsOrCreature(aOe, entity));
-    });
+    if (element.id === "screen") {
+      target.forEach((entity, _id) => {
+        switch (gameState.currentScreen) {
+          case "catInventory":
+          case "knownWitches":
+            element.appendChild(createCreatureComponent(entity as Entity));
+            break;
+          default:
+            element.appendChild(createHappeningComponent(entity as Happening));
+            updateElementWithList(dialogContentElement, gameState.catInventory);
+        }
+      });
+    } else {
+      target.forEach((entity) =>
+        element.appendChild(createCreatureComponent(entity as Entity))
+      );
+    }
   }
 }

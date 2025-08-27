@@ -7,12 +7,13 @@ export type TScreens = keyof IScreens;
 export interface IScreens {
   catInventory: Map<string, Entity>;
   bondings: Map<string, Happening>;
-  witches: Map<string, Entity>;
+  knownWitches: Map<string, Entity>;
   news: Map<string, Happening>;
 }
 
 export interface IGameState extends IScreens {
   day: number;
+  witches: Map<string, Entity>;
   creations: number;
   completedBondings: Map<string, Happening>;
   selectedBonding: Happening | null;
@@ -25,6 +26,7 @@ export interface IGameState extends IScreens {
 }
 
 export const gameInitialState: IGameState = {
+  knownWitches: new Map<string, Entity>(),
   witches: new Map<string, Entity>(),
   entities: new Map<string, Entity>(),
   bondings: new Map<string, Happening>(),
@@ -36,13 +38,17 @@ export const gameInitialState: IGameState = {
   catInventory: new Map<string, Entity>(),
   selectedBonding: null,
   selectedCat: null,
-  currentScreen: "catInventory",
+  currentScreen: "bondings",
   remainingTime: 16,
   maxTime: 16,
 };
 
 export function getWitches() {
   return gameInitialState.witches;
+}
+
+export function getKnownWitches() {
+  return gameInitialState.knownWitches;
 }
 
 export function getRandomExistingWitch() {

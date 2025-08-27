@@ -219,7 +219,7 @@ export function createRandomizedCat(): Entity {
   return cat;
 }
 
-export function createRandomizedWitch(): Entity {
+export function createRandomizedWitch(known: boolean = false): Entity {
   const id = getRandomizedId();
   const randomFirstName =
     witchFirstNames[Math.floor(Math.random() * witchFirstNames.length)];
@@ -275,6 +275,8 @@ export function createRandomizedWitch(): Entity {
     defaultWitchAbilities.magicresistance,
     defaultWitchAbilities.luck
   );
+
+  known && gameState.knownWitches.set(id, witch);
 
   gameState.witches.set(id, witch);
   gameState.entities.set(id, witch);

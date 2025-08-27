@@ -11,12 +11,13 @@ export function createRandomizedBonding() {
   const id = getRandomizedId();
   const order = new Happening(
     id,
-    "request",
+    undefined,
+    "bonding",
     getRandomExistingWitch(),
     "I would like to acquire a BLACK CAT",
     reasonForPuchase[getRandomInt(reasonForPuchase.length)],
-    100,
-    0,
+    getRandomInt(200),
+    gameState.catInventory,
     getRandomizedCatCharacteristics(3)
   );
 
