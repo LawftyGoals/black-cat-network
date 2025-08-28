@@ -10,6 +10,7 @@ export function createRandomizedNews() {
 
   const news = new Happening(
     id,
+    undefined,
     "news",
     createRandomizedWitch(),
     "Witch hunt!",

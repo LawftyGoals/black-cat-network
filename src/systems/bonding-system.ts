@@ -15,7 +15,7 @@ export function createRandomizedBonding() {
   const randomWitch = getRandomExistingWitch();
   const order = new Happening(
     id,
-    undefined,
+    ["Offer"],
     "bonding",
     randomWitch,
     "I would like to acquire a BLACK CAT",

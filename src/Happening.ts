@@ -26,7 +26,7 @@ export class Happening {
     requirements: TenumCatCharacteristics[] | null
   ) {
     this.ID = id;
-    this.Knowns = ["From", "Title", "Content", "Offer", ...knowns];
+    this.Knowns = ["From", "Title", "Content", ...knowns];
     this.Variant = variant;
     this.From = from;
     this.Title = title;
