@@ -11,17 +11,21 @@ const gameState = gameInitialState;
 
 export function createRandomizedBonding() {
   const id = getRandomizedId();
+
+  const randomWitch = getRandomExistingWitch();
   const order = new Happening(
     id,
     undefined,
     "bonding",
-    getRandomExistingWitch(),
+    randomWitch,
     "I would like to acquire a BLACK CAT",
     reasonForPuchase[getRandomInt(reasonForPuchase.length)],
     getRandomInt(200),
     gameState.catInventory,
     getRandomizedCatCharacteristics(3)
   );
+
+  gameState.knownWitches.set(randomWitch.id, randomWitch);
 
   gameState.bondings.set(id, order);
   gameState.happenings.set(id, order);

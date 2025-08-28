@@ -30,7 +30,7 @@ export const witchGivens = ["domain"];
 export const catGivens = ["age", "sex"];
 
 export class Entity {
-  id: string | null;
+  id: string;
   type: "cat" | "spell" | "witch";
   name: string;
   coreKnowns: string[];
@@ -76,7 +76,7 @@ export class Entity {
   luck: number | null;
 
   constructor(
-    id: string | null = null,
+    id: string,
     type: "cat" | "spell" | "witch",
     name: string,
     coreKnowns: string[] = [],

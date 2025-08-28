@@ -89,7 +89,6 @@ function createHappeningComponent(happening: Happening) {
       gameState.selectedBonding = happening;
     });
   }
-  console.log(Cat);
 
   if (Cat) {
     comp.setAttribute("cat", Cat.name);

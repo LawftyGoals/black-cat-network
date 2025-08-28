@@ -8,7 +8,6 @@ import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
-import { coinFlip } from "./utils";
 import { screen } from "./get-elements";
 
 function initGameStates() {
@@ -34,7 +33,7 @@ function forit(cre: () => void) {
 }
 
 function generateData() {
-  forit(() => createRandomizedWitch(coinFlip()));
+  forit(() => createRandomizedWitch());
   forit(createRandomizedCat);
   forit(createRandomizedBonding);
   forit(createRandomizedNews);
