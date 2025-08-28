@@ -32,6 +32,16 @@ export const catTraits: string[] = [
   "intelligent",
 ];
 
+// Cat Traits Reworked    (Are we missing Playful or Mischievous?)
+// export const catTraitsNew: string[] = [
+//   ["Active", "Lazy"],
+//   ["Curious", "Shy"],
+//   ["Cunning", "Derpy"],
+//   ["Impulsive", "Anxious"],
+//   ["Sweet", "Mischievous"],
+//   ["Vocal", "Quiet"],
+// ];
+
 // Witch Traits
 export const witchTraits: string[] = [
   "vindictive",
