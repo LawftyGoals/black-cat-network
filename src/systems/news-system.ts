@@ -14,9 +14,9 @@ export function createRandomizedNews() {
     createRandomizedWitch(),
     "Witch hunt!",
     "Crazy things are happening in the news as the witchhunt begins.",
-    null,
-    null,
-    null
+    null, // Offer
+    null, // Request_Variant
+    null // Requirements
   );
 
   gameState.happenings.set(id, news);
