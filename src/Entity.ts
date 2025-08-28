@@ -3,7 +3,11 @@
 //  import { defaultCatAbilities, defaultWitchAbilities } from "./Values";
 
 import { gameInitialState } from "./state/game-state.js";
-import { getRandomInt, getRandomizedId } from "./utils.js";
+import {
+  getRandomAmountOrNone,
+  getRandomInt,
+  getRandomizedId,
+} from "./utils.js";
 
 import {
   catVariants,
@@ -20,16 +24,23 @@ import {
 
 const gameState = gameInitialState;
 
+export const coreGivens = ["name", "type", "deceased"];
+export const witchGivens = ["domain"];
+export const catGivens = ["age", "sex"];
+
 export class Entity {
-  id: string | null;
+  id: string;
   type: "cat" | "spell" | "witch";
   name: string;
+  coreKnowns: string[];
+  knowns: string[];
   // All Creatures
-  age: number | null;
-  deceased: boolean | null;
-  sex: string | null;
+  age: number;
+  deceased: boolean;
+  sex: string;
   species: string | null;
-  traits: string[] | null;
+  traits: string[];
+  knownTraits: string[];
   variant: string | null;
   // Witch-specific
   vocation: string | null;
@@ -64,15 +75,18 @@ export class Entity {
   luck: number | null;
 
   constructor(
-    id: string | null = null,
+    id: string,
     type: "cat" | "spell" | "witch",
     name: string,
+    coreKnowns: string[] = [],
+    knowns: string[] = [],
     // All Creatures
-    age: number | null = null,
-    deceased: boolean | null = null,
-    sex: string | null = null,
+    age: number,
+    deceased: boolean,
+    sex: string,
     species: string | null = null,
-    traits: string[] | null = null,
+    traits: string[],
+    knownTraits: string[],
     variant: string | null = null,
     // Witch-specific
     vocation: string | null = null,
@@ -108,12 +122,15 @@ export class Entity {
     this.id = id;
     this.type = type;
     this.name = name;
+    this.coreKnowns = [...coreGivens, ...coreKnowns];
+    this.knowns = [...(type === "cat" ? catGivens : witchGivens), ...knowns];
     // All Creatures
     this.age = age;
     this.deceased = deceased;
     this.sex = sex;
     this.species = species;
     this.traits = traits;
+    this.knownTraits = knownTraits;
     this.variant = variant;
     // Witch-specific
     this.vocation = vocation;
@@ -162,11 +179,14 @@ export function createRandomizedCat(): Entity {
     id,
     "cat",
     randomName,
+    undefined,
+    undefined,
     getRandomInt(27, 1), // age
     false, // deceased
     "Male", // sex
     "Feline", // species
     randomTraits,
+    getRandomAmountOrNone(randomTraits, 2, 10),
     randomVariant,
     null,
     null,
@@ -198,7 +218,7 @@ export function createRandomizedCat(): Entity {
   return cat;
 }
 
-export function createRandomizedWitch(): Entity {
+export function createRandomizedWitch(known: boolean = false): Entity {
   const id = getRandomizedId();
   const randomFirstName =
     witchFirstNames[Math.floor(Math.random() * witchFirstNames.length)];
@@ -220,13 +240,16 @@ export function createRandomizedWitch(): Entity {
     id, //ID
     "witch", // type
     randomName,
+    ["type"],
+    undefined,
     getRandomInt(154, 16), // age
     false, // deceased
     "female",
     "Human",
     randomTraits,
-    null,
-    randomVocation,
+    getRandomAmountOrNone(randomTraits, 2, 50),
+    randomVariant,
+    randomDomain,
     randomApproach,
     defaultWitchAbilities.reflex,
     defaultWitchAbilities.balance,
@@ -249,6 +272,8 @@ export function createRandomizedWitch(): Entity {
     defaultWitchAbilities.magicresistance,
     defaultWitchAbilities.luck
   );
+
+  known && gameState.knownWitches.set(id, witch);
 
   gameState.witches.set(id, witch);
   gameState.entities.set(id, witch);

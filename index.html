@@ -9,24 +9,25 @@
 
   <body>
     <dialog id="dialog">
-      <p>Choose cat:</p>
-      <select id="cat-select"></select>
-      <button id="complete-order">Complete Order</button>
-      <button id="close-dialog">Close</button>
+      <button id="close-dialog">X</button>
+      <div id="dialog-content"></div>
     </dialog>
 
     <div id="app">
       <div id="top-bar">
         <div id="time"></div>
         <div id="day">0</div>
-        <button id="advance-day">Next Day</button>
+        <div>
+          <button id="advance-day">Next Day</button>
+          <button id="advance-time">Hour Tick</button>
+        </div>
       </div>
 
       <div id="content">
         <div id="menu">
           <button id="m-catInventory">Cats</button>
-          <button id="m-orders">Orders</button>
-          <button id="m-witches">Witches</button>
+          <button id="m-bondings">Bondings</button>
+          <button id="m-knownWitches">Witches</button>
           <button id="m-spells">Spells</button>
           <button id="m-news">Wiccan Times</button>
         </div>

@@ -1,45 +1,40 @@
 import "./style.css";
 
-import { gameInitialState } from "./state/game-state";
-import { updateDay } from "./systems/day-system";
-import { initMenu, updateTimeUI } from "./ui";
+import { initDaySystem } from "./systems/day-system";
+import { initMenu, updateElementWithList } from "./ui";
 import { HappeningCard } from "./components/happening-card";
-import { createRandomizedOrder } from "./systems/order-system";
+import { createRandomizedBonding } from "./systems/bonding-system";
 import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
+import { initTimeSystem } from "./systems/time-system";
+import { screen } from "./get-elements";
 
-const gameState = gameInitialState;
 function initGameStates() {
   initCustomComponents();
   initMenu();
   generateData();
-
+  updateElementWithList(screen);
   initDaySystem();
-  updateTimeUI();
+  initTimeSystem();
 }
 
 initGameStates();
-
-function initDaySystem() {
-  const element = document.getElementById("day");
-  (element as HTMLElement).innerText = gameState.day.toString();
-
-  const updateDayButton = document.getElementById("advance-day");
-
-  updateDayButton!.onclick = updateDay;
-}
 
 function initCustomComponents() {
   customElements.define("happening-card", HappeningCard);
   customElements.define("creature-card", CreatureCard);
 }
 
-function generateData() {
+function forit(cre: () => void) {
   for (let i = 0; i < 10; i++) {
-    createRandomizedOrder();
-    createRandomizedNews();
-    createRandomizedCat();
-    createRandomizedWitch();
+    cre();
   }
+}
+
+function generateData() {
+  forit(() => createRandomizedWitch());
+  forit(createRandomizedCat);
+  forit(createRandomizedBonding);
+  forit(createRandomizedNews);
 }

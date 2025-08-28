@@ -1,28 +1,33 @@
 import { gameInitialState } from "../state/game-state";
 import { Happening } from "../Happening";
-import { getRandomInt, getRandomizedId } from "../utils";
-import { createRandomizedWitch } from "../Entity";
+import {
+  getRandomExistingWitch,
+  getRandomInt,
+  getRandomizedId,
+} from "../utils";
 import { getRandomizedCatCharacteristics } from "../Cat";
 
 const gameState = gameInitialState;
 
-export const clearSelectedOrder = () => (gameState.selectedOrder = null);
+export function createRandomizedBonding() {
+  const id = getRandomizedId();
 
-export function createRandomizedOrder() {
-  gameState.creations += 1;
-  const id = getRandomizedId() + gameState.creations;
+  const randomWitch = getRandomExistingWitch();
   const order = new Happening(
     id,
-    "request",
-    createRandomizedWitch(),
+    ["Offer"],
+    "bonding",
+    randomWitch,
     "I would like to acquire a BLACK CAT",
     reasonForPuchase[getRandomInt(reasonForPuchase.length)],
-    100,
-    0,
+    getRandomInt(200),
+    gameState.catInventory,
     getRandomizedCatCharacteristics(3)
   );
 
-  gameState.orders.set(id, order);
+  gameState.knownWitches.set(randomWitch.id, randomWitch);
+
+  gameState.bondings.set(id, order);
   gameState.happenings.set(id, order);
 }
 
