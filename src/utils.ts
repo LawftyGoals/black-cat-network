@@ -1,4 +1,7 @@
 import { closeDialogElement, gEiD } from "./get-elements";
+import { gameInitialState } from "./state/game-state";
+
+const gameState = gameInitialState;
 
 export const cE = (
   type: keyof HTMLElementTagNameMap | "happening-card" | "creature-card"
@@ -56,4 +59,22 @@ export function getRandomAmountOrNone<T>(
 
 export function coinFlip() {
   return Math.random() > 0.5;
+}
+
+export function clearSelecteds() {
+  gameState.selectedBonding = null;
+  gameState.selectedCat = null;
+}
+
+export function getWitches() {
+  return gameInitialState.witches;
+}
+
+export function getKnownWitches() {
+  return gameInitialState.knownWitches;
+}
+
+export function getRandomExistingWitch() {
+  const w = gameInitialState.witches;
+  return Array.from(w.values())[getRandomInt(w.size)];
 }

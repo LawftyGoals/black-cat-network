@@ -6,6 +6,7 @@ export class HappeningCard extends HTMLElement {
   clickableElement: HTMLElement;
   fromElement: HTMLElement;
   offerElement: HTMLElement;
+  catElement: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -40,6 +41,7 @@ export class HappeningCard extends HTMLElement {
         <p>From: <span id="from-slot"></span></p>
         <p id="content-slot"></p>
         <p id="offer-slot"></p>
+        <p id="cat-slot"></p>
       </div>
     `;
 
@@ -50,17 +52,18 @@ export class HappeningCard extends HTMLElement {
     this.clickableElement = sgeid(sr, "clickable");
     this.fromElement = sgeid(sr, "from-slot");
     this.offerElement = sgeid(sr, "offer-slot");
+    this.catElement = sgeid(sr, "cat-slot");
   }
 
   static get observedAttributes() {
-    return ["title", "content", "from", "offer"];
+    return ["title", "content", "from", "offer", "cat"];
   }
 
   setDivClick(onClick: () => any) {
     this.clickableElement.onclick = onClick;
   }
 
-  attributeChangedCallback(name: any, _oldvalue: any, newValue: string) {
+  attributeChangedCallback(name: string, _oldvalue: string, newValue: string) {
     switch (name) {
       case "title":
         this.titleElement.textContent = newValue;
@@ -73,6 +76,9 @@ export class HappeningCard extends HTMLElement {
         break;
       case "offer":
         this.offerElement.textContent = `${newValue} gp`;
+        break;
+      case "cat":
+        this.catElement.textContent = `Selected Cat: ${newValue}`;
         break;
     }
   }

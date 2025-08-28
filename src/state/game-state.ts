@@ -1,6 +1,5 @@
 import type { Entity } from "../Entity";
 import type { Happening } from "../Happening";
-import { getRandomInt } from "../utils";
 
 export type TScreens = keyof IScreens;
 
@@ -42,16 +41,3 @@ export const gameInitialState: IGameState = {
   remainingTime: 16,
   maxTime: 16,
 };
-
-export function getWitches() {
-  return gameInitialState.witches;
-}
-
-export function getKnownWitches() {
-  return gameInitialState.knownWitches;
-}
-
-export function getRandomExistingWitch() {
-  const w = gameInitialState.witches;
-  return Array.from(w.values())[getRandomInt(w.size)];
-}

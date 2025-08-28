@@ -1,11 +1,13 @@
-import { gameInitialState, getRandomExistingWitch } from "../state/game-state";
+import { gameInitialState } from "../state/game-state";
 import { Happening } from "../Happening";
-import { getRandomInt, getRandomizedId } from "../utils";
+import {
+  getRandomExistingWitch,
+  getRandomInt,
+  getRandomizedId,
+} from "../utils";
 import { getRandomizedCatCharacteristics } from "../Cat";
 
 const gameState = gameInitialState;
-
-export const clearSelectedOrder = () => (gameState.selectedBonding = null);
 
 export function createRandomizedBonding() {
   const id = getRandomizedId();

@@ -1,6 +1,5 @@
 import "./style.css";
 
-import { gameInitialState } from "./state/game-state";
 import { initDaySystem } from "./systems/day-system";
 import { initMenu, updateElementWithList } from "./ui";
 import { HappeningCard } from "./components/happening-card";
@@ -12,7 +11,6 @@ import { initTimeSystem } from "./systems/time-system";
 import { coinFlip } from "./utils";
 import { screen } from "./get-elements";
 
-//const gameState = gameInitialState;
 function initGameStates() {
   initCustomComponents();
   initMenu();

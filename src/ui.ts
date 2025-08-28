@@ -1,7 +1,7 @@
 import type { Entity } from "./Entity";
 import type { Happening } from "./Happening";
 import { gameInitialState, type TScreens } from "./state/game-state";
-import { cE, clearChildren } from "./utils";
+import { cE, clearChildren, clearSelecteds } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import {
   closeDialogElement,
@@ -28,6 +28,7 @@ export function initMenu() {
       const screenName = element.id.replace("m-", "") as TScreens;
       gameState.currentScreen = screenName;
       updateElementWithList(gEiD("screen"));
+      clearSelecteds();
     };
   });
 }
@@ -45,7 +46,7 @@ export function updateTimeUI() {
   }
 }
 
-function createCreatureComponent(entity: Entity) {
+function createCreatureComponent(entity: Entity, onClick?: () => void) {
   const isCat = entity.type === "cat";
   const comp = cE("creature-card") as CreatureCard;
   const { name, age, knowns, coreKnowns, knownTraits } = { ...entity };
@@ -61,19 +62,19 @@ function createCreatureComponent(entity: Entity) {
 
   comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
 
+  comp.setDivClick(onClick);
+
   return comp;
 }
 
-function createHappeningComponent({
-  Knowns,
-  Request_Variant,
-  ...happening
-}: Happening) {
+function createHappeningComponent(happening: Happening) {
+  const { Knowns, Request_Variant, Cat } = happening;
   const comp = cE("happening-card") as HappeningCard;
   const end = {
     ...happening,
     Request_Variant,
     Knowns,
+    Cat,
     From: happening.From?.name,
   };
   comp.setAttribute("title", happening.Title);
@@ -85,7 +86,13 @@ function createHappeningComponent({
   if (happening.Variant === "bonding") {
     comp.setDivClick(() => {
       dialogElement.showModal();
+      gameState.selectedBonding = happening;
     });
+  }
+  console.log(Cat);
+
+  if (Cat) {
+    comp.setAttribute("cat", Cat.name);
   }
 
   return comp;
@@ -111,9 +118,16 @@ export function updateElementWithList(
         }
       });
     } else {
-      target.forEach((entity) =>
-        element.appendChild(createCreatureComponent(entity as Entity))
-      );
+      target.forEach((entity) => {
+        element.appendChild(
+          createCreatureComponent(entity as Entity, () => {
+            dialogElement.close();
+            gameState.selectedBonding!.Cat = entity as Entity;
+
+            updateElementWithList(gEiD("screen"));
+          })
+        );
+      });
     }
   }
 }

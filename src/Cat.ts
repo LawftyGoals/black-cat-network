@@ -3,7 +3,6 @@ import { gameInitialState } from "./state/game-state";
 import { cE, clearChildren, getRandomInt } from "./utils";
 const gameState = gameInitialState;
 export const catInventory = gameState.catInventory;
-export const clearSelectedCat = () => (gameState.selectedCat = null);
 
 export const enumCatVariant = Object.freeze({
   BLACK: 0,
