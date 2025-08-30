@@ -78,3 +78,15 @@ export function getRandomExistingWitch() {
   const w = gameInitialState.witches;
   return Array.from(w.values())[getRandomInt(w.size)];
 }
+
+export function getCurrentDayAndTime() {
+  const { day, remainingTime } = gameState;
+  return { day: day, time: remainingTime };
+}
+
+export function convertTicksToDaysAndTicks(ticks: number) {
+  return {
+    days: Math.floor(ticks / 16),
+    ticks: ticks % 16,
+  };
+}

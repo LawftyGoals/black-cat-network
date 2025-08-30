@@ -1,6 +1,7 @@
 import { gameInitialState } from "../state/game-state";
 import { Happening } from "../Happening";
 import {
+  convertTicksToDaysAndTicks,
   getRandomExistingWitch,
   getRandomInt,
   getRandomizedId,
@@ -13,8 +14,14 @@ export function createRandomizedBonding() {
   const id = getRandomizedId();
 
   const randomWitch = getRandomExistingWitch();
+
+  const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
+
   const order = new Happening(
     id,
+    false,
+    gameState.day + days,
+    ticks,
     ["Offer"],
     "bonding",
     randomWitch,

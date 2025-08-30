@@ -68,31 +68,50 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
 }
 
 function createHappeningComponent(happening: Happening) {
-  const { Knowns, Request_Variant, Cat } = happening;
+  const { Knowns, Request_Variant, Cat } = { ...happening };
+  let Variant = happening.Variant;
   const comp = cE("happening-card") as HappeningCard;
+
+  if (happening.Variant === "bonding") {
+    if (!happening.Active) {
+      comp.setDivClick(() => {
+        dialogElement.showModal();
+        gameState.selectedBonding = happening;
+      });
+
+      if (Cat) {
+        comp.setAttribute("cat", Cat.name);
+        comp.setAttribute("clear", "block");
+        comp.setClearCat(() => {
+          happening.Cat &&
+            gameState.catInventory.set(happening.Cat.id, happening.Cat);
+          happening.Cat = null;
+          updateElementWithList(gEiD("screen"));
+        });
+        comp.setSendBonding(() => {
+          happening.Active = true;
+          updateElementWithList(gEiD("screen"));
+        });
+      }
+    } else {
+      Variant = "active-bonding";
+
+      Cat && comp.setAttribute("cat", Cat.name);
+    }
+  }
+
   const end = {
     ...happening,
+    Variant,
     Request_Variant,
     Knowns,
     Cat,
     From: happening.From?.name,
   };
-  comp.setAttribute("title", happening.Title);
-
   Knowns.forEach((val) => {
+    console.log(val, end[val]);
     comp.setAttribute(val.toLocaleLowerCase(), end[val] as string);
   });
-
-  if (happening.Variant === "bonding") {
-    comp.setDivClick(() => {
-      dialogElement.showModal();
-      gameState.selectedBonding = happening;
-    });
-  }
-
-  if (Cat) {
-    comp.setAttribute("cat", Cat.name);
-  }
 
   return comp;
 }
@@ -121,8 +140,10 @@ export function updateElementWithList(
         element.appendChild(
           createCreatureComponent(entity as Entity, () => {
             dialogElement.close();
+            const catField = gameState.selectedBonding!.Cat;
+            catField && gameState.catInventory.set(catField.id, catField);
             gameState.selectedBonding!.Cat = entity as Entity;
-
+            gameState.catInventory.delete(entity.id);
             updateElementWithList(gEiD("screen"));
           })
         );

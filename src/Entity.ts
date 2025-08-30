@@ -215,6 +215,7 @@ export function createRandomizedCat(): Entity {
 
   gameState.catInventory.set(id, cat);
   gameState.entities.set(id, cat);
+  gameState.cats.set(id, cat);
 
   return cat;
 }

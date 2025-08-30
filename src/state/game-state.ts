@@ -16,6 +16,7 @@ export interface IGameState extends IScreens {
   creations: number;
   completedBondings: Map<string, Happening>;
   selectedBonding: Happening | null;
+  cats: Map<string, Entity>;
   selectedCat: Entity | null;
   currentScreen: TScreens;
   entities: Map<string, Entity>;
@@ -35,6 +36,7 @@ export const gameInitialState: IGameState = {
   day: 1,
   creations: 1,
   catInventory: new Map<string, Entity>(),
+  cats: new Map<string, Entity>(),
   selectedBonding: null,
   selectedCat: null,
   currentScreen: "bondings",

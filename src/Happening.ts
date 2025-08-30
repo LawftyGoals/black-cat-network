@@ -1,10 +1,13 @@
 import type { TenumCatCharacteristics } from "./Cat";
 import type { Entity } from "./Entity";
 
-type THappeningVariants = "news" | "bonding";
+type THappeningVariants = "news" | "bonding" | "active-bonding";
 
 export class Happening {
-  ID: string;
+  id: string;
+  Active: boolean;
+  NextEventDay: number | null;
+  NextEventTick: number | null;
   Knowns: TK[];
   Variant: THappeningVariants;
   From: Entity | null;
@@ -16,6 +19,9 @@ export class Happening {
   Cat: Entity | null;
   constructor(
     id: string,
+    active: boolean,
+    nextEventDay: number | null,
+    nextEventTick: number | null,
     knowns: TK[] = [],
     variant: THappeningVariants,
     from: Entity | null,
@@ -25,8 +31,11 @@ export class Happening {
     requestVariant: Map<string, Entity | Happening> | null,
     requirements: TenumCatCharacteristics[] | null
   ) {
-    this.ID = id;
-    this.Knowns = ["From", "Title", "Content", ...knowns];
+    this.id = id;
+    this.Active = active;
+    this.NextEventDay = nextEventDay;
+    this.NextEventTick = nextEventTick;
+    this.Knowns = ["From", "Title", "Content", "Variant", "Active", ...knowns];
     this.Variant = variant;
     this.From = from;
     this.Title = title;
