@@ -34,7 +34,7 @@ export const catVariants: string[] = [
 ];
 
 // Cat Traits
-export const catTraits: string[] = [
+export const catTraits = [
   "playful",
   "curious",
   "affectionate",

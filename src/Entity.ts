@@ -25,13 +25,14 @@ import {
 
 const gameState = gameInitialState;
 
-export const coreGivens = ["name", "type", "deceased"];
+export const coreGivens = ["name", "type", "deceased", "inBonding"];
 export const witchGivens = ["domain"];
 export const catGivens = ["age", "sex"];
 
 export class Entity {
   id: string;
   type: "cat" | "spell" | "witch";
+  inBonding: boolean;
   name: string;
   coreKnowns: string[];
   knowns: string[];
@@ -78,6 +79,7 @@ export class Entity {
   constructor(
     id: string,
     type: "cat" | "spell" | "witch",
+    inBonding: boolean = false,
     name: string,
     coreKnowns: string[] = [],
     knowns: string[] = [],
@@ -122,6 +124,7 @@ export class Entity {
   ) {
     this.id = id;
     this.type = type;
+    this.inBonding = inBonding;
     this.name = name;
     this.coreKnowns = [...coreGivens, ...coreKnowns];
     this.knowns = [...(type === "cat" ? catGivens : witchGivens), ...knowns];
@@ -174,11 +177,13 @@ export function createRandomizedCat(): Entity {
   const randomTraits = [
     catTraits[Math.floor(Math.random() * catTraits.length)],
     catTraits[Math.floor(Math.random() * catTraits.length)],
+    catTraits[Math.floor(Math.random() * catTraits.length)],
   ];
 
   const cat = new Entity(
     id,
     "cat",
+    false,
     randomName,
     undefined,
     undefined,
@@ -213,11 +218,21 @@ export function createRandomizedCat(): Entity {
     defaultCatAbilities.luck
   );
 
+  console.log(cat);
+
   gameState.catInventory.set(id, cat);
   gameState.entities.set(id, cat);
   gameState.cats.set(id, cat);
 
   return cat;
+}
+
+export function getRandomizedCatCharacteristics(
+  characteristicsCount: number = 1
+) {
+  return new Array(characteristicsCount)
+    .fill(null)
+    .map(() => catTraits[getRandomInt(catTraits.length)]);
 }
 
 export function createRandomizedWitch(known: boolean = false): Entity {
@@ -243,6 +258,7 @@ export function createRandomizedWitch(known: boolean = false): Entity {
   const witch = new Entity(
     id, //ID
     "witch", // type
+    false,
     randomName,
     ["type"],
     undefined,

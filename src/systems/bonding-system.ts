@@ -6,7 +6,8 @@ import {
   getRandomInt,
   getRandomizedId,
 } from "../utils";
-import { getRandomizedCatCharacteristics } from "../Cat";
+import { getRandomizedCatCharacteristics } from "../Entity";
+import { updateGp } from "../ui";
 
 const gameState = gameInitialState;
 
@@ -36,6 +37,48 @@ export function createRandomizedBonding() {
 
   gameState.bondings.set(id, order);
   gameState.happenings.set(id, order);
+}
+
+export function updateBondings() {
+  gameState.bondings.forEach((bonding) => {
+    const active = bonding.Active;
+    const cat = bonding.Cat!;
+    const requirements = bonding.Requirements!;
+    if (!active && bonding.NextEventDay! < gameState.day) {
+      gameState.expiredBondings.set(bonding.id, bonding);
+      gameState.bondings.delete(bonding.id);
+    }
+
+    if (active && bonding.NextEventDay === gameState.day) {
+      console.log({ cat: cat, requirements });
+      const reqsFullfilled = requirements?.reduce((accu, curr) => {
+        if (cat.traits.includes(curr)) return accu + 1;
+        return accu;
+      }, 0);
+
+      gameState.completedBondings.set(bonding.id, bonding);
+      gameState.bondings.delete(bonding.id);
+      updateGp(
+        Math.ceil(bonding.Offer! * (reqsFullfilled / requirements.length))
+      );
+      console.log(reqsFullfilled / requirements.length);
+    }
+  });
+
+  console.log({
+    bondings: gameState.bondings,
+    completed: gameState.completedBondings,
+    expired: gameState.expiredBondings,
+  });
+}
+
+export function acceptbonding(bonding: Happening) {
+  bonding.Active = true;
+
+  const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
+
+  bonding.NextEventDay = days;
+  bonding.NextEventTick = ticks;
 }
 
 export const reasonForPuchase = [

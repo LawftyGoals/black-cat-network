@@ -43,16 +43,17 @@ export function getRandomAmountOrNone<T>(
   maxReveal?: number,
   chanceOfNone?: number
 ) {
+  const workingList = [...list];
   let max = maxReveal ?? list.length;
   const revealed = [];
   if (chanceOfNone && getRandomInt(101) <= chanceOfNone) {
     return [];
   }
 
-  if (max >= list.length) return list;
+  if (max >= workingList.length) return list;
 
   for (let i = 0; i < getRandomInt(max) + 1; i++) {
-    revealed.push(...list.splice(getRandomInt(list.length), 1));
+    revealed.push(...workingList.splice(getRandomInt(workingList.length), 1));
   }
   return revealed;
 }

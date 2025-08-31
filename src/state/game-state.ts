@@ -15,6 +15,7 @@ export interface IGameState extends IScreens {
   witches: Map<string, Entity>;
   creations: number;
   completedBondings: Map<string, Happening>;
+  expiredBondings: Map<string, Happening>;
   selectedBonding: Happening | null;
   cats: Map<string, Entity>;
   selectedCat: Entity | null;
@@ -23,6 +24,7 @@ export interface IGameState extends IScreens {
   remainingTime: number;
   maxTime: number;
   happenings: Map<string, Happening>;
+  gp: number;
 }
 
 export const gameInitialState: IGameState = {
@@ -31,6 +33,7 @@ export const gameInitialState: IGameState = {
   entities: new Map<string, Entity>(),
   bondings: new Map<string, Happening>(),
   completedBondings: new Map<string, Happening>(),
+  expiredBondings: new Map<string, Happening>(),
   news: new Map<string, Happening>(),
   happenings: new Map<string, Happening>(),
   day: 1,
@@ -42,4 +45,5 @@ export const gameInitialState: IGameState = {
   currentScreen: "bondings",
   remainingTime: 16,
   maxTime: 16,
+  gp: 0,
 };

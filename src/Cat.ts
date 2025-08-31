@@ -125,13 +125,3 @@ export function initializeCatSelector() {
 export function clearCatSelectElement() {
   clearChildren(catSelect);
 }
-
-export function getRandomizedCatCharacteristics(
-  characteristicsCount: number = 1
-) {
-  return new Array(characteristicsCount)
-    .fill(null)
-    .map(() =>
-      getRandomInt(catCharacteristics.length)
-    ) as TenumCatCharacteristics[];
-}

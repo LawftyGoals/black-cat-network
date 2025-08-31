@@ -8,13 +8,12 @@ import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
-import { screen } from "./get-elements";
 
 function initGameStates() {
   initCustomComponents();
   initMenu();
   generateData();
-  updateElementWithList(screen);
+  updateElementWithList("screen");
   initDaySystem();
   initTimeSystem();
 }

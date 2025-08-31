@@ -10,6 +10,7 @@ import {
   gEiD,
 } from "./get-elements";
 import type { CreatureCard } from "./components/creature-card";
+import { acceptbonding } from "./systems/bonding-system";
 
 const gameState = gameInitialState;
 
@@ -27,7 +28,7 @@ export function initMenu() {
     element.onclick = () => {
       const screenName = element.id.replace("m-", "") as TScreens;
       gameState.currentScreen = screenName;
-      updateElementWithList(gEiD("screen"));
+      updateElementWithList("screen");
       clearSelecteds();
     };
   });
@@ -68,7 +69,7 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
 }
 
 function createHappeningComponent(happening: Happening) {
-  const { Knowns, Request_Variant, Cat } = { ...happening };
+  const { Knowns, Request_Variant, Cat, Requirements } = { ...happening };
   let Variant = happening.Variant;
   const comp = cE("happening-card") as HappeningCard;
 
@@ -86,11 +87,11 @@ function createHappeningComponent(happening: Happening) {
           happening.Cat &&
             gameState.catInventory.set(happening.Cat.id, happening.Cat);
           happening.Cat = null;
-          updateElementWithList(gEiD("screen"));
+          updateElementWithList("screen");
         });
         comp.setSendBonding(() => {
-          happening.Active = true;
-          updateElementWithList(gEiD("screen"));
+          acceptbonding(happening);
+          updateElementWithList("screen");
         });
       }
     } else {
@@ -98,6 +99,7 @@ function createHappeningComponent(happening: Happening) {
 
       Cat && comp.setAttribute("cat", Cat.name);
     }
+    comp.setAttribute("content", `Needs to be: ${Requirements!.join(", ")}. `);
   }
 
   const end = {
@@ -106,10 +108,10 @@ function createHappeningComponent(happening: Happening) {
     Request_Variant,
     Knowns,
     Cat,
+    Requirements,
     From: happening.From?.name,
   };
   Knowns.forEach((val) => {
-    console.log(val, end[val]);
     comp.setAttribute(val.toLocaleLowerCase(), end[val] as string);
   });
 
@@ -117,9 +119,10 @@ function createHappeningComponent(happening: Happening) {
 }
 
 export function updateElementWithList(
-  element: HTMLElement,
+  name: string,
   map?: Map<string, Entity | Happening>
 ) {
+  const element = gEiD(name);
   const target = map ?? gameState[gameState.currentScreen];
   clearChildren(element);
   if (target.size > 0) {
@@ -132,22 +135,26 @@ export function updateElementWithList(
             break;
           default:
             element.appendChild(createHappeningComponent(entity as Happening));
-            updateElementWithList(dialogContentElement, gameState.catInventory);
+            updateElementWithList("dialog", gameState.catInventory);
         }
       });
     } else {
       target.forEach((entity) => {
-        element.appendChild(
-          createCreatureComponent(entity as Entity, () => {
-            dialogElement.close();
-            const catField = gameState.selectedBonding!.Cat;
-            catField && gameState.catInventory.set(catField.id, catField);
-            gameState.selectedBonding!.Cat = entity as Entity;
-            gameState.catInventory.delete(entity.id);
-            updateElementWithList(gEiD("screen"));
-          })
-        );
+        !(entity as Entity).inBonding &&
+          element.appendChild(
+            createCreatureComponent(entity as Entity, () => {
+              dialogElement.close();
+              gameState.selectedBonding!.Cat = entity as Entity;
+              (entity as Entity).inBonding = true;
+              updateElementWithList("screen");
+            })
+          );
       });
     }
   }
+}
+
+export function updateGp(amount: number) {
+  gameState.gp += amount;
+  gEiD("gp").textContent = gameState.gp.toString();
 }

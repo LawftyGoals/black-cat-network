@@ -1,4 +1,4 @@
-import type { TenumCatCharacteristics } from "./Cat";
+import type { catTraits } from "./Values";
 import type { Entity } from "./Entity";
 
 type THappeningVariants = "news" | "bonding" | "active-bonding";
@@ -15,7 +15,7 @@ export class Happening {
   Content: string;
   Offer: number | null;
   Request_Variant: Map<string, Entity | Happening> | null;
-  Requirements: TenumCatCharacteristics[] | null;
+  Requirements: string[] | null;
   Cat: Entity | null;
   constructor(
     id: string,
@@ -29,7 +29,7 @@ export class Happening {
     content: string,
     offer: number | null,
     requestVariant: Map<string, Entity | Happening> | null,
-    requirements: TenumCatCharacteristics[] | null
+    requirements: string[] | null
   ) {
     this.id = id;
     this.Active = active;
