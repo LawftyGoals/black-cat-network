@@ -144,6 +144,8 @@ export function updateElementWithList(
           element.appendChild(
             createCreatureComponent(entity as Entity, () => {
               dialogElement.close();
+              const catField = gameState.selectedBonding!.Cat;
+              catField && (catField.inBonding = false);
               gameState.selectedBonding!.Cat = entity as Entity;
               (entity as Entity).inBonding = true;
               updateElementWithList("screen");
