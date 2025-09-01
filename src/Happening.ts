@@ -1,4 +1,3 @@
-import type { catTraits } from "./Values";
 import type { Entity } from "./Entity";
 
 type THappeningVariants = "news" | "bonding" | "active-bonding";

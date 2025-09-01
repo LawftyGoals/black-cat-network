@@ -3,12 +3,7 @@ import type { Happening } from "./Happening";
 import { gameInitialState, type TScreens } from "./state/game-state";
 import { cE, clearChildren, clearSelecteds } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
-import {
-  closeDialogElement,
-  dialogContentElement,
-  dialogElement,
-  gEiD,
-} from "./get-elements";
+import { closeDialogElement, dialogElement, gEiD } from "./get-elements";
 import type { CreatureCard } from "./components/creature-card";
 import { acceptbonding } from "./systems/bonding-system";
 

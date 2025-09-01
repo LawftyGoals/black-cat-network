@@ -1,5 +1,3 @@
-import type { Happening } from "../Happening";
-import { type IGameState } from "../state/game-state";
 import { cE, sgeid } from "../utils";
 
 export class HappeningCard extends HTMLElement {
