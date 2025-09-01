@@ -50,7 +50,6 @@ export function updateBondings() {
     }
 
     if (active && bonding.NextEventDay === gameState.day) {
-      console.log({ cat: cat, requirements });
       const reqsFullfilled = requirements?.reduce((accu, curr) => {
         if (cat.traits.includes(curr)) return accu + 1;
         return accu;
@@ -61,14 +60,7 @@ export function updateBondings() {
       updateGp(
         Math.ceil(bonding.Offer! * (reqsFullfilled / requirements.length))
       );
-      console.log(reqsFullfilled / requirements.length);
     }
-  });
-
-  console.log({
-    bondings: gameState.bondings,
-    completed: gameState.completedBondings,
-    expired: gameState.expiredBondings,
   });
 }
 

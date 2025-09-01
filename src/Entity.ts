@@ -13,20 +13,19 @@ import {
   catVariants,
   catTraits,
   witchTraits,
-  witchVariants,
   catNames,
   witchFirstNames,
   witchSurNames,
-  witchDomains,
   witchApproaches,
   defaultCatAbilities,
   defaultWitchAbilities,
+  witchVocations,
 } from "./Values.js";
 
 const gameState = gameInitialState;
 
 export const coreGivens = ["name", "type", "deceased", "inBonding"];
-export const witchGivens = ["domain"];
+export const witchGivens = ["approach"];
 export const catGivens = ["age", "sex"];
 
 export class Entity {
@@ -45,8 +44,7 @@ export class Entity {
   knownTraits: string[];
   variant: string | null;
   // Witch-specific
-  domain: string | null;
-  approach: string[] | null;
+  approach: string | null;
   // CAT ABILITIES & TRAITS
   // Agility
   balance: number | null;
@@ -92,8 +90,7 @@ export class Entity {
     knownTraits: string[],
     variant: string | null = null,
     // Witch-specific
-    domain: string | null = null,
-    approach: string[] | null = null,
+    approach: string | null = null,
     // Agility
     balance: number | null = null,
     reflex: number | null = null,
@@ -137,7 +134,6 @@ export class Entity {
     this.knownTraits = knownTraits;
     this.variant = variant;
     // Witch-specific
-    this.domain = domain;
     this.approach = approach;
     // Agility
     this.balance = balance;
@@ -195,7 +191,6 @@ export function createRandomizedCat(): Entity {
     getRandomAmountOrNone(randomTraits, 2, 10),
     randomVariant,
     null,
-    null,
     defaultCatAbilities.reflex,
     defaultCatAbilities.balance,
     defaultCatAbilities.speed,
@@ -217,8 +212,6 @@ export function createRandomizedCat(): Entity {
     defaultCatAbilities.magicresistance,
     defaultCatAbilities.luck
   );
-
-  console.log(cat);
 
   gameState.catInventory.set(id, cat);
   gameState.entities.set(id, cat);
@@ -243,24 +236,24 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     witchSurNames[Math.floor(Math.random() * witchSurNames.length)];
   const randomName = `${randomFirstName} ${randomSurName}`;
   const randomVariant =
-    witchVariants[Math.floor(Math.random() * witchVariants.length)];
+    witchVocations[Math.floor(Math.random() * witchVocations.length)];
   const randomTraits = [
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
   ];
 
-  const randomDomain =
-    witchDomains[Math.floor(Math.random() * witchDomains.length)];
   const randomApproach =
-    witchApproaches[Math.floor(Math.random() * witchApproaches.length)];
+    witchApproaches[Math.floor(Math.random() * witchApproaches.length)][
+      Math.floor(Math.random() * 2)
+    ];
 
   const witch = new Entity(
     id, //ID
     "witch", // type
     false,
     randomName,
-    ["type"],
+    [],
     undefined,
     getRandomInt(154, 16), // age
     false, // deceased
@@ -269,7 +262,6 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 50),
     randomVariant,
-    randomDomain,
     randomApproach,
     defaultWitchAbilities.reflex,
     defaultWitchAbilities.balance,

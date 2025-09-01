@@ -43,19 +43,22 @@ export function updateTimeUI() {
 }
 
 function createCreatureComponent(entity: Entity, onClick?: () => void) {
-  const isCat = entity.type === "cat";
   const comp = cE("creature-card") as CreatureCard;
   const { name, age, knowns, coreKnowns, knownTraits } = { ...entity };
   coreKnowns.forEach((value) => {
     comp.setAttribute(value, { ...entity }[value] as string);
   });
+
+  const allKnowns = [
+    ...knowns.map((k) => ({ ...entity, age: `${age} years` }[k])),
+    ...knownTraits,
+  ].filter((tk) => tk);
   comp.setAttribute(
     "description",
-    `What you know about ${name}: ${knowns
-      .map((k) => ({ ...entity, age: `${age} years` }[k]))
-      .join(", ")}, ${knownTraits.join(", ")}`
+    `What you know about ${name}: ${allKnowns.join(", ")}`
   );
 
+  const isCat = entity.type === "cat";
   comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
 
   comp.setDivClick(onClick);
