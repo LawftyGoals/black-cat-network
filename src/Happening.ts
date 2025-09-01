@@ -1,7 +1,7 @@
 import type { TenumCatCharacteristics } from "./Cat";
 import type { Entity } from "./Entity";
 
-type THappeningVariants = "news" | "bonding";
+type THappeningVariants = "news" | "bonding" | "spell";
 
 export class Happening {
   ID: string;
