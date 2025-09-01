@@ -1,6 +1,10 @@
 import type { Entity } from "./Entity";
 
-type THappeningVariants = "news" | "bonding" | "active-bonding";
+type THappeningVariants =
+  | "news"
+  | "bonding"
+  | "active-bonding"
+  | "notification";
 
 export class Happening {
   id: string;

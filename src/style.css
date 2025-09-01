@@ -34,7 +34,7 @@ html, body {
 }
 
 #menu{
-  height: 100%;
+  height: calc(100% - var(--bar-height));
   display:flex;
   flex-direction: column;
   padding: 8px 2px;
@@ -77,4 +77,19 @@ html, body {
 
 #dialog {
   max-height: 70vh;
+}
+
+#notifications{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding:8px;
+
+}
+#notifications-screen {
+  height: 60vh;
+  background-color: blue;
+  width: 100%;
+  border-radius: 8px;
+
 }
