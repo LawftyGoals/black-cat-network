@@ -1,0 +1,56 @@
+import { cE, sgeid } from "../utils";
+
+export class NotificationCard extends HTMLElement {
+  titleSlot: HTMLElement;
+  close: HTMLElement;
+  clickable: HTMLElement;
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    const sr = this.shadowRoot!;
+
+    const template = cE("template") as HTMLTemplateElement;
+    template.innerHTML = /*html*/ `
+    <style>
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+        }
+        div:hover {
+            background: #ADD8E6;
+        }
+        div #inActive {
+            background-color: gray;
+        }
+    </style>
+    <div id="clickable-slot">
+        <p id="title-slot"></p>
+    </div>`;
+
+    sr.appendChild(template.content.cloneNode(true));
+    this.clickable = sgeid(sr, "clickable-slot");
+    this.titleSlot = sgeid(sr, "title-slot");
+    this.close = sgeid(sr, "close");
+  }
+
+  static get observedAttributes() {
+    return ["title", "active"];
+  }
+
+  setClickable(onClick: () => void) {
+    this.clickable.onclick = onClick;
+  }
+
+  attributeChangedCallback(name: string, _oldvalue: string, newValue: string) {
+    switch (name) {
+      case "title":
+        this.titleSlot.textContent = newValue;
+        break;
+      case "active":
+        this.clickable.className = newValue === "false" ? "inactive" : "active";
+        break;
+    }
+  }
+}

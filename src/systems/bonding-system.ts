@@ -18,7 +18,6 @@ export function createRandomizedBonding() {
   const randomWitch = getRandomExistingWitch();
 
   const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
-  console.log(gameState.day, days);
 
   const order = new Happening(
     id,
@@ -52,8 +51,6 @@ export function updateBondings() {
 
     const cat = bonding.Cat!;
     const requirements = bonding.Requirements!;
-
-    if (active) console.log(bonding);
 
     if (active && bonding.NextEventDay === gameState.day) {
       const reqsFullfilled = requirements?.reduce((accu, curr) => {

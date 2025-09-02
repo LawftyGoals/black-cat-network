@@ -8,6 +8,7 @@ import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
+import { NotificationCard } from "./components/notification-card";
 
 function initGameStates() {
   initCustomComponents();
@@ -23,6 +24,7 @@ initGameStates();
 function initCustomComponents() {
   customElements.define("happening-card", HappeningCard);
   customElements.define("creature-card", CreatureCard);
+  customElements.define("notification-card", NotificationCard);
 }
 
 function forit(cre: () => void) {

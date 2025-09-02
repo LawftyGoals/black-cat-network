@@ -10,8 +10,8 @@ export class CreatureCard extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     const sr = this.shadowRoot!;
-    const template = cE("template");
-    template.innerHTML = this.shadowRoot!.innerHTML = /*html*/ `
+    const template = cE("template") as HTMLTemplateElement;
+    template.innerHTML = /*html*/ `
         <style>
           #card-slot {
             background-color: #1a122f;
@@ -62,7 +62,8 @@ export class CreatureCard extends HTMLElement {
           <div id="bonding-slot" style="display:none"><button>Test</button></div>
         </div>
       `;
-    sr.appendChild(template);
+
+    sr.appendChild(template.content.cloneNode(true));
 
     this.cardElement = sgeid(sr, "card-slot");
     this.titleElement = sgeid(sr, "title-slot");

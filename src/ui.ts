@@ -3,9 +3,15 @@ import type { Happening, TK } from "./Happening";
 import { gameInitialState, type TScreens } from "./state/game-state";
 import { cE, clearChildren, clearSelecteds, getRandomInt } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
-import { closeDialogElement, dialogElement, gEiD } from "./get-elements";
+import {
+  closeDialogElement,
+  dialogContentElement,
+  dialogElement,
+  gEiD,
+} from "./get-elements";
 import type { CreatureCard } from "./components/creature-card";
 import { acceptbonding } from "./systems/bonding-system";
+import type { NotificationCard } from "./components/notification-card";
 
 const gameState = gameInitialState;
 
@@ -66,6 +72,24 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
   return comp;
 }
 
+function createNotificationComponent(notification: Happening) {
+  const comp = cE("notification-card") as NotificationCard;
+  comp.setAttribute("title", notification.Title);
+  comp.setAttribute("active", notification.Active.toString());
+  comp.setClickable(() => {
+    const hapCom = cE("happening-card");
+    notification.Knowns.forEach((known) =>
+      hapCom.setAttribute(known, notification[known])
+    );
+    clearChildren(dialogContentElement);
+    dialogContentElement.appendChild(hapCom);
+    dialogElement.show();
+    notification.Active = false;
+  });
+
+  return comp;
+}
+
 function createHappeningComponent(happening: Happening) {
   const { Knowns, Request_Variant, Cat, Requirements } = { ...happening };
   let Variant = happening.Variant;
@@ -74,7 +98,9 @@ function createHappeningComponent(happening: Happening) {
   if (happening.Variant === "bonding") {
     if (!happening.Active) {
       comp.setDivClick(() => {
+        updateElementWithList("dialog-content", gameState.catInventory);
         dialogElement.showModal();
+
         gameState.selectedBonding = happening;
       });
 
@@ -117,7 +143,7 @@ function createHappeningComponent(happening: Happening) {
 }
 
 export function updateElementWithList(
-  name: "screen" | "dialog" | "notifications",
+  name: "screen" | "dialog-content" | "notifications",
   map?: Map<string, Entity | Happening>
 ) {
   const element = gEiD(name);
@@ -137,19 +163,29 @@ export function updateElementWithList(
             element.appendChild(
               createHappeningComponent(entityOrHappening as Happening)
             );
-            updateElementWithList("dialog", gameState.catInventory);
+            break;
         }
       });
       break;
-
     case "notifications":
-      target.forEach((notification) => {
+      const active = (Array.from(target.values()) as Happening[]).filter(
+        (noti) => noti.Active
+      );
+      const inActive = (Array.from(target.values()) as Happening[]).filter(
+        (noti) => !noti.Active
+      );
+      active.forEach((notification) => {
         element.appendChild(
-          createHappeningComponent(notification as Happening)
+          createNotificationComponent(notification as Happening)
+        );
+      });
+      inActive.forEach((notification) => {
+        element.appendChild(
+          createNotificationComponent(notification as Happening)
         );
       });
       break;
-    default:
+    case "dialog-content":
       target.forEach((entity) => {
         !(entity as Entity).inBonding &&
           element.appendChild(

@@ -4,7 +4,11 @@ import { gameInitialState } from "./state/game-state";
 const gameState = gameInitialState;
 
 export const cE = (
-  type: keyof HTMLElementTagNameMap | "happening-card" | "creature-card"
+  type:
+    | keyof HTMLElementTagNameMap
+    | "happening-card"
+    | "creature-card"
+    | "notification-card"
 ) => document.createElement(type);
 
 export function sgeid(sr: ShadowRoot, name: string) {
