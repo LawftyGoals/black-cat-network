@@ -79,7 +79,7 @@ function createNotificationComponent(notification: Happening) {
   comp.setClickable(() => {
     const hapCom = cE("happening-card");
     notification.Knowns.forEach((known) =>
-      hapCom.setAttribute(known, notification[known])
+      hapCom.setAttribute(known, notification[known as TK] as string)
     );
     clearChildren(dialogContentElement);
     dialogContentElement.appendChild(hapCom);
