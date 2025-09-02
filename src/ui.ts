@@ -1,7 +1,7 @@
 import type { Entity } from "./Entity";
-import type { Happening } from "./Happening";
+import type { Happening, TK } from "./Happening";
 import { gameInitialState, type TScreens } from "./state/game-state";
-import { cE, clearChildren, clearSelecteds } from "./utils";
+import { cE, clearChildren, clearSelecteds, getRandomInt } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import { closeDialogElement, dialogElement, gEiD } from "./get-elements";
 import type { CreatureCard } from "./components/creature-card";
@@ -110,47 +110,61 @@ function createHappeningComponent(happening: Happening) {
     From: happening.From?.name,
   };
   Knowns.forEach((val) => {
-    comp.setAttribute(val.toLocaleLowerCase(), end[val] as string);
+    comp.setAttribute(val.toLocaleLowerCase(), end[val as TK] as string);
   });
 
   return comp;
 }
 
 export function updateElementWithList(
-  name: string,
+  name: "screen" | "dialog" | "notifications",
   map?: Map<string, Entity | Happening>
 ) {
   const element = gEiD(name);
   const target = map ?? gameState[gameState.currentScreen];
   clearChildren(element);
-  if (target.size > 0) {
-    if (element.id === "screen") {
-      target.forEach((entity, _id) => {
+  switch (name) {
+    case "screen":
+      target.forEach((entityOrHappening, _id) => {
         switch (gameState.currentScreen) {
           case "catInventory":
           case "knownWitches":
-            element.appendChild(createCreatureComponent(entity as Entity));
+            element.appendChild(
+              createCreatureComponent(entityOrHappening as Entity)
+            );
             break;
           default:
-            element.appendChild(createHappeningComponent(entity as Happening));
+            element.appendChild(
+              createHappeningComponent(entityOrHappening as Happening)
+            );
             updateElementWithList("dialog", gameState.catInventory);
         }
       });
-    } else {
+      break;
+
+    case "notifications":
+      target.forEach((notification) => {
+        element.appendChild(
+          createHappeningComponent(notification as Happening)
+        );
+      });
+      break;
+    default:
       target.forEach((entity) => {
         !(entity as Entity).inBonding &&
           element.appendChild(
             createCreatureComponent(entity as Entity, () => {
+              const selectedBonding = gameState.selectedBonding!;
               dialogElement.close();
-              const catField = gameState.selectedBonding!.Cat;
+              const catField = selectedBonding.Cat;
               catField && (catField.inBonding = false);
-              gameState.selectedBonding!.Cat = entity as Entity;
+              selectedBonding.Cat = entity as Entity;
               (entity as Entity).inBonding = true;
               updateElementWithList("screen");
             })
           );
       });
-    }
+      break;
   }
 }
 

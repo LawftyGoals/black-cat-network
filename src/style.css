@@ -79,14 +79,14 @@ html, body {
   max-height: 70vh;
 }
 
-#notifications{
+#notifications-wrapper{
   display:flex;
   justify-content: center;
   align-items: center;
   padding:8px;
 
 }
-#notifications-screen {
+#notifications {
   height: 60vh;
   background-color: blue;
   width: 100%;

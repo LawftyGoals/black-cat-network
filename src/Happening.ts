@@ -11,7 +11,7 @@ export class Happening {
   Active: boolean;
   NextEventDay: number | null;
   NextEventTick: number | null;
-  Knowns: TK[];
+  Knowns: string[] | TK[];
   Variant: THappeningVariants;
   From: Entity | null;
   Title: string;
@@ -25,7 +25,7 @@ export class Happening {
     active: boolean,
     nextEventDay: number | null,
     nextEventTick: number | null,
-    knowns: TK[] = [],
+    knowns: string[] | TK[] = [],
     variant: THappeningVariants,
     from: Entity | null,
     title: string,

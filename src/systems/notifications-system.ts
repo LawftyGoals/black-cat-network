@@ -1,6 +1,8 @@
-import { Happening } from "../Happening";
+import type { Entity } from "../Entity";
+import { Happening, type TK } from "../Happening";
 import { gameInitialState } from "../state/game-state";
-import { getKnownWitches, getRandomInt, getRandomizedId } from "../utils";
+import { updateElementWithList } from "../ui";
+import { getRandomExistingWitch, getRandomizedId } from "../utils";
 const gameState = gameInitialState;
 
 export function generateRandomNotificaiton() {
@@ -13,7 +15,7 @@ export function generateRandomNotificaiton() {
     null,
     undefined,
     "notification",
-    [...getKnownWitches().values()][getRandomInt(getKnownWitches().size)],
+    getRandomExistingWitch(),
     "look here!",
     "while you were on the loo something happened!",
     null,
@@ -25,4 +27,33 @@ export function generateRandomNotificaiton() {
   gameState.notifications.set(id, notification);
 
   return notification;
+}
+
+export function createNotification(
+  title: string,
+  content: string,
+  knowns: string[],
+  from: Entity,
+  reward: number
+) {
+  const id = getRandomizedId();
+  const notification = new Happening(
+    id,
+    true,
+    null,
+    null,
+    knowns,
+    "notification",
+    from,
+    title,
+    content,
+    reward,
+    null,
+    null
+  );
+
+  gameState.happenings.set(id, notification);
+  gameState.notifications.set(id, notification);
+
+  updateElementWithList("notifications", gameState.notifications);
 }
