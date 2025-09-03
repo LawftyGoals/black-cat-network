@@ -96,7 +96,7 @@ function createNotificationComponent(notification: Happening) {
 
     clearChildren(dialogContentElement);
     dialogContentElement.appendChild(hapCom);
-    dialogElement.show();
+    dialogElement.showModal();
     notification.Active = false;
   });
 

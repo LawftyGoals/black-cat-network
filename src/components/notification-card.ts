@@ -12,23 +12,23 @@ export class NotificationCard extends HTMLElement {
     const template = cE("template") as HTMLTemplateElement;
     template.innerHTML = /*html*/ `
     <style>
-        div {
+        #clickable-slot {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             background: white;
         }
-        div:hover {
+        #clickable-slot:hover {
             background: #ADD8E6;
         }
-        div #inActive {
+        #clickable-slot #inActive {
             background-color: gray;
         }
     </style>
     <div id="clickable-slot">
-    <p id="from-slot"></p>
-        <p id="title-slot"></p>
+    <div id="from-slot"></div>
+    <div id="title-slot"></div>
     </div>`;
 
     sr.appendChild(template.content.cloneNode(true));
