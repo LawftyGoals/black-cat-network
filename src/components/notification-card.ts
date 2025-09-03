@@ -2,8 +2,8 @@ import { cE, sgeid } from "../utils";
 
 export class NotificationCard extends HTMLElement {
   titleSlot: HTMLElement;
-  close: HTMLElement;
   clickable: HTMLElement;
+  fromSlot: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -14,6 +14,7 @@ export class NotificationCard extends HTMLElement {
     <style>
         div {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background: white;
@@ -26,17 +27,18 @@ export class NotificationCard extends HTMLElement {
         }
     </style>
     <div id="clickable-slot">
+    <p id="from-slot"></p>
         <p id="title-slot"></p>
     </div>`;
 
     sr.appendChild(template.content.cloneNode(true));
     this.clickable = sgeid(sr, "clickable-slot");
     this.titleSlot = sgeid(sr, "title-slot");
-    this.close = sgeid(sr, "close");
+    this.fromSlot = sgeid(sr, "from-slot");
   }
 
   static get observedAttributes() {
-    return ["title", "active"];
+    return ["title", "active", "from"];
   }
 
   setClickable(onClick: () => void) {
@@ -50,6 +52,9 @@ export class NotificationCard extends HTMLElement {
         break;
       case "active":
         this.clickable.className = newValue === "false" ? "inactive" : "active";
+        break;
+      case "from":
+        this.fromSlot.textContent = newValue;
         break;
     }
   }

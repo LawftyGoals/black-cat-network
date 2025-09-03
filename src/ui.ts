@@ -76,11 +76,24 @@ function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
   comp.setAttribute("title", notification.Title);
   comp.setAttribute("active", notification.Active.toString());
+  comp.setAttribute("from", `From: ${notification.From!.name}`);
   comp.setClickable(() => {
     const hapCom = cE("happening-card");
-    notification.Knowns.forEach((known) =>
-      hapCom.setAttribute(known, notification[known as TK] as string)
+    const restKnowns = notification.Knowns.filter(
+      (known) =>
+        typeof notification[known as TK] === "string" ||
+        typeof notification[known as TK] === "number"
     );
+
+    restKnowns.forEach((known) => {
+      hapCom.setAttribute(
+        known.toLowerCase(),
+        notification[known as TK] as string
+      );
+    });
+
+    hapCom.setAttribute("from", notification.From!.name);
+
     clearChildren(dialogContentElement);
     dialogContentElement.appendChild(hapCom);
     dialogElement.show();
