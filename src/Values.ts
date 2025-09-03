@@ -220,3 +220,5 @@ export const defaultWitchAbilities = {
   magicresistance: 40,
   luck: 40,
 };
+
+export const defaultGuardianAbilities = {};
