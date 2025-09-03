@@ -1,7 +1,6 @@
 // hap-manager.ts
 import { Happening } from "../Happening";
 import { hapWitchySmalltalk } from "../HapVariants";
-// import { gameInitialState as gameState } from "../state/game-state";
 import { gameState, getRandomizedId } from "../utils";
 
 // Function to generate a news Hap
@@ -12,15 +11,14 @@ export function createNewsHap(): Happening {
     variant: "news",
     title: "Normal Life Cont'd!",
     content: "Ordinary life keeps on keeping on in the town...",
-    triggerKeyword: ["news", "daily"],
+    triggerKeyword: ["newsworthy"],
     eventResolution: {
       timerType: "immediate",
       timerCount: 0,
     },
     eventPrerequisites: [],
-    agent: "System",
+    agent: null,
   });
-
   gameState.happenings.set(id, newsHap);
   gameState.news.set(id, newsHap);
   return newsHap;
@@ -29,12 +27,9 @@ export function createNewsHap(): Happening {
 // Function to generate daily happenings (including news)
 export function generateDailyHappenings(): Happening[] {
   const happenings: Happening[] = [];
-
   // Add witchy smalltalk
   happenings.push(hapWitchySmalltalk());
-
   // Add news
   happenings.push(createNewsHap());
-
   return happenings;
 }

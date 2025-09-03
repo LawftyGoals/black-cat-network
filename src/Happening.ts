@@ -1,5 +1,7 @@
 // Happening.ts
-import type { Entity } from "./Entity";
+import { Entity } from "./Entity";
+
+export type TK = keyof Happening;
 
 type THappeningVariants =
   | "news"
@@ -34,15 +36,17 @@ export class Happening {
     criteriaValue?: string | number;
   }[];
   // Actions
-  agent?: Entity | string;
-  patient?: Entity | string;
+  agent: Entity | null;
+  patient?: Entity | null;
   instrument?: Entity | string;
+  cause?: Happening | string;
+  valence?: string;
+  ongoing?: boolean;
   // Bonding
-  Active?: boolean;
-  NextEventDay?: number | null;
-  NextEventTick?: number | null;
-  Knowns?: string[] | TK[];
-  Request_Variant?: Map<string, Entity | Happening> | null;
+  nextEventDay?: number | null;
+  nextEventTick?: number | null;
+  knowns?: string[] | TK[];
+  requestVariant?: Map<string, Entity | Happening> | null;
   bondRequirements?: string[] | null;
   bondCat?: Entity | null;
   // Interactions
@@ -56,8 +60,8 @@ export class Happening {
   success?: Happening;
   failure?: Happening;
   // Description
-  title?: string;
-  content?: string;
+  title?: string | null;
+  content?: string | null;
   // Spellcasting
   domain?: string;
   enchantment?: Entity;
@@ -84,14 +88,16 @@ export class Happening {
       criteriaCount?: number;
       criteriaValue?: string | number;
     }[];
-    agent?: Entity | string;
-    patient?: Entity | string;
+    agent: Entity | null;
+    patient?: Entity | null;
     instrument?: Entity | string;
-    Active?: boolean;
-    NextEventDay?: number | null;
-    NextEventTick?: number | null;
-    bondKnowns?: string[] | TK[];
-    bondRequestVariant?: Map<string, Entity | Happening> | null;
+    cause?: Happening | string;
+    valence?: string;
+    ongoing?: boolean;
+    nextEventDay?: number | null;
+    nextEventTick?: number | null;
+    knowns?: string[] | TK[];
+    requestVariant?: Map<string, Entity | Happening> | null;
     bondRequirements?: string[] | null;
     bondCat?: Entity | null;
     dialogueTree?: string[];
@@ -101,8 +107,8 @@ export class Happening {
     outcome?: Happening;
     success?: Happening;
     failure?: Happening;
-    title?: string;
-    content?: string;
+    title?: string | null;
+    content?: string | null;
     domain?: string;
     enchantment?: Entity;
     curse?: Entity;
@@ -115,11 +121,13 @@ export class Happening {
     this.agent = data.agent;
     this.patient = data.patient;
     this.instrument = data.instrument;
-    this.Active = data.Active;
-    this.NextEventDay = data.NextEventDay;
-    this.NextEventTick = data.NextEventTick;
-    this.Knowns = data.bondKnowns;
-    this.Request_Variant = data.bondRequestVariant;
+    this.cause = data.cause;
+    this.valence = data.valence;
+    this.ongoing = data.ongoing;
+    this.nextEventDay = data.nextEventDay;
+    this.nextEventTick = data.nextEventTick;
+    this.knowns = data.knowns;
+    this.requestVariant = data.requestVariant;
     this.bondRequirements = data.bondRequirements;
     this.bondCat = data.bondCat;
     this.dialogueTree = data.dialogueTree;
@@ -136,5 +144,3 @@ export class Happening {
     this.curse = data.curse;
   }
 }
-
-export type TK = keyof Happening;

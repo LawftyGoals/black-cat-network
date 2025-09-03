@@ -74,12 +74,12 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
 
 function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
-  comp.setAttribute("title", notification.Title);
-  comp.setAttribute("active", notification.Active.toString());
-  comp.setAttribute("from", `From: ${notification.From!.name}`);
+  comp.setAttribute("title", notification.title);
+  comp.setAttribute("ongoing", notification.ongoing.toString());
+  comp.setAttribute("agent", `From: ${notification.agent!.name}`);
   comp.setClickable(() => {
     const hapCom = cE("happening-card");
-    const restKnowns = notification.Knowns.filter(
+    const restKnowns = notification.knowns.filter(
       (known) =>
         typeof notification[known as TK] === "string" ||
         typeof notification[known as TK] === "number"
@@ -92,12 +92,12 @@ function createNotificationComponent(notification: Happening) {
       );
     });
 
-    hapCom.setAttribute("from", notification.From!.name);
+    hapCom.setAttribute("from", notification.agent!.name);
 
     clearChildren(dialogContentElement);
     dialogContentElement.appendChild(hapCom);
     dialogElement.showModal();
-    notification.Active = false;
+    notification.ongoing = false;
     updateElementWithList("notifications", gameState.notifications);
   });
 
@@ -105,12 +105,14 @@ function createNotificationComponent(notification: Happening) {
 }
 
 function createHappeningComponent(happening: Happening) {
-  const { Knowns, Request_Variant, Cat, Requirements } = { ...happening };
-  let Variant = happening.Variant;
+  const { knowns, requestVariant, bondCat, bondRequirements } = {
+    ...happening,
+  };
+  let Variant = happening.variant;
   const comp = cE("happening-card") as HappeningCard;
 
-  if (happening.Variant === "bonding") {
-    if (!happening.Active) {
+  if (happening.variant === "bonding") {
+    if (!happening.ongoing) {
       comp.setDivClick(() => {
         updateElementWithList("dialog-content", gameState.catInventory);
         dialogElement.showModal();
@@ -118,13 +120,13 @@ function createHappeningComponent(happening: Happening) {
         gameState.selectedBonding = happening;
       });
 
-      if (Cat) {
-        comp.setAttribute("cat", Cat.name);
+      if (bondCat) {
+        comp.setAttribute("cat", bondCat.name);
         comp.setAttribute("clear", "block");
         comp.setClearCat(() => {
-          happening.Cat &&
-            gameState.catInventory.set(happening.Cat.id, happening.Cat);
-          happening.Cat = null;
+          happening.bondCat &&
+            gameState.catInventory.set(happening.bondCat.id, happening.bondCat);
+          happening.bondCat = null;
           updateElementWithList("screen");
         });
         comp.setSendBonding(() => {
@@ -135,21 +137,24 @@ function createHappeningComponent(happening: Happening) {
     } else {
       Variant = "active-bonding";
 
-      Cat && comp.setAttribute("cat", Cat.name);
+      bondCat && comp.setAttribute("cat", bondCat.name);
     }
-    comp.setAttribute("content", `Needs to be: ${Requirements!.join(", ")}. `);
+    comp.setAttribute(
+      "content",
+      `Needs to be: ${bondRequirements!.join(", ")}. `
+    );
   }
 
   const end = {
     ...happening,
     Variant,
-    Request_Variant,
-    Knowns,
-    Cat,
-    Requirements,
-    From: happening.From?.name,
+    requestVariant,
+    knowns,
+    bondCat,
+    bondRequirements,
+    From: happening.agent?.name,
   };
-  Knowns.forEach((val) => {
+  knowns.forEach((val) => {
     comp.setAttribute(val.toLocaleLowerCase(), end[val as TK] as string);
   });
 
@@ -183,10 +188,10 @@ export function updateElementWithList(
       break;
     case "notifications":
       const active = (Array.from(target.values()) as Happening[]).filter(
-        (noti) => noti.Active
+        (noti) => noti.ongoing
       );
       const inActive = (Array.from(target.values()) as Happening[]).filter(
-        (noti) => !noti.Active
+        (noti) => !noti.ongoing
       );
       active.forEach((notification) => {
         element.appendChild(
@@ -206,9 +211,9 @@ export function updateElementWithList(
             createCreatureComponent(entity as Entity, () => {
               const selectedBonding = gameState.selectedBonding!;
               dialogElement.close();
-              const catField = selectedBonding.Cat;
+              const catField = selectedBonding.bondCat;
               catField && (catField.inBonding = false);
-              selectedBonding.Cat = entity as Entity;
+              selectedBonding.bondCat = entity as Entity;
               (entity as Entity).inBonding = true;
               updateElementWithList("screen");
             })

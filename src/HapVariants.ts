@@ -22,6 +22,6 @@ export function hapWitchySmalltalk(): Happening {
       timerCount: 0,
     },
     eventPrerequisites: [],
-    agent: agentWitch.name,
+    agent: agentWitch,
   });
 }
