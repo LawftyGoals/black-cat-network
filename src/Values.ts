@@ -2,7 +2,6 @@
 
 // Species
 export const species: string[] = ["Human", "Feline", "Other"];
-export const species: string[] = ["Human", "Feline", "Other"];
 
 // Cat Variants
 export const catVariants: string[] = [
