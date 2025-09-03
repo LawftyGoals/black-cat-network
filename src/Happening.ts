@@ -19,7 +19,15 @@ export class Happening {
   variant: THappeningVariants;
   triggerKeyword: string[];
   eventResolution: {
-    timerType: "immediate" | "sunrise" | "noon" | "sunset" | "midnight" | null;
+    timerType:
+      | "permanent"
+      | "immediate"
+      | "tick"
+      | "sunrise"
+      | "noon"
+      | "sunset"
+      | "midnight"
+      | null;
     timerCount?: number;
   };
   eventPrerequisites: {
@@ -28,15 +36,15 @@ export class Happening {
     criteriaValue?: string | number;
   }[];
   // Actions
-  agent?: string;
-  patient?: Entity;
-  instrument?: Entity;
+  agent?: Entity | string;
+  patient?: Entity | string;
+  instrument?: Entity | string;
   // Bonding
   Active?: boolean;
   NextEventDay?: number | null;
   NextEventTick?: number | null;
-  bondKnowns?: string[] | TK[];
-  bondRequestVariant?: Map<string, Entity | Happening> | null;
+  Knowns?: string[] | TK[];
+  Request_Variant?: Map<string, Entity | Happening> | null;
   bondRequirements?: string[] | null;
   bondCat?: Entity | null;
   // Interactions
@@ -63,7 +71,9 @@ export class Happening {
     triggerKeyword: string[];
     eventResolution: {
       timerType:
+        | "permanent"
         | "immediate"
+        | "tick"
         | "sunrise"
         | "noon"
         | "sunset"
@@ -76,9 +86,9 @@ export class Happening {
       criteriaCount?: number;
       criteriaValue?: string | number;
     }[];
-    agent?: string;
-    patient?: Entity;
-    instrument?: Entity;
+    agent?: Entity | string;
+    patient?: Entity | string;
+    instrument?: Entity | string;
     Active?: boolean;
     NextEventDay?: number | null;
     NextEventTick?: number | null;
@@ -110,8 +120,8 @@ export class Happening {
     this.Active = data.Active;
     this.NextEventDay = data.NextEventDay;
     this.NextEventTick = data.NextEventTick;
-    this.bondKnowns = data.bondKnowns;
-    this.bondRequestVariant = data.bondRequestVariant;
+    this.Knowns = data.bondKnowns;
+    this.Request_Variant = data.bondRequestVariant;
     this.bondRequirements = data.bondRequirements;
     this.bondCat = data.bondCat;
     this.dialogueTree = data.dialogueTree;
