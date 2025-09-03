@@ -165,21 +165,7 @@ export function updateElementWithList(
   clearChildren(element);
   switch (name) {
     case "screen":
-      target.forEach((entityOrHappening, _id) => {
-        switch (gameState.currentScreen) {
-          case "catInventory":
-          case "knownWitches":
-            element.appendChild(
-              createCreatureComponent(entityOrHappening as Entity)
-            );
-            break;
-          default:
-            element.appendChild(
-              createHappeningComponent(entityOrHappening as Happening)
-            );
-            break;
-        }
-      });
+      changeScreens(element, target);
       break;
     case "notifications":
       const active = (Array.from(target.values()) as Happening[]).filter(
@@ -221,4 +207,28 @@ export function updateElementWithList(
 export function updateGp(amount: number) {
   gameState.gp += amount;
   gEiD("gp").textContent = gameState.gp.toString();
+}
+
+function changeScreens(
+  element: HTMLElement,
+  target: Map<string, Entity | Happening>
+) {
+  target.forEach((entityOrHappening, _id) => {
+    switch (gameState.currentScreen) {
+      case "catInventory":
+      case "knownWitches":
+        element.appendChild(
+          createCreatureComponent(entityOrHappening as Entity)
+        );
+        break;
+      case "news":
+      case "bondings":
+        element.appendChild(
+          createHappeningComponent(entityOrHappening as Happening)
+        );
+        break;
+      case "catAcquisition":
+        break;
+    }
+  });
 }
