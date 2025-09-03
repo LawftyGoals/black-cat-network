@@ -1,45 +1,65 @@
 // Happening.ts
 import type { Entity } from "./Entity";
 
+type THappeningVariants =
+  | "news"
+  | "bonding"
+  | "active-bonding"
+  | "notification"
+  | "action"
+  | "spellcasting"
+  | "skill-check"
+  | "interaction"
+  | "spell-effect";
+
+type TK = string;
+
 export class Happening {
   id: string;
-  variant: string;
-  triggerKeyword: string[]; // Keyword to filter eligible Haps by the Hap-Manager.
+  variant: THappeningVariants;
+  triggerKeyword: string[];
   eventResolution: {
     timerType: "immediate" | "sunrise" | "noon" | "sunset" | "midnight" | null;
-    timerCount?: number; // e.g. X ticks or X midnights
+    timerCount?: number;
   };
   eventPrerequisites: {
-    criteriaType: string; // e.g. "vocation", "trait", "location"
-    criteriaCount?: number; // How many of this criteria are required.
-    criteriaValue?: string | number; // Value to match (e.g. "Divination", or "reflex: 60").
+    criteriaType: string;
+    criteriaCount?: number;
+    criteriaValue?: string | number;
   }[];
   // Actions
   agent?: string;
   patient?: Entity;
   instrument?: Entity;
+  // Bonding
+  Active?: boolean;
+  NextEventDay?: number | null;
+  NextEventTick?: number | null;
+  bondKnowns?: string[] | TK[];
+  bondRequestVariant?: Map<string, Entity | Happening> | null;
+  bondRequirements?: string[] | null;
+  bondCat?: Entity | null;
   // Interactions
   dialogueTree?: string[];
   // Skill Check
   skill?: string;
-  difficulty?: number; // d20 or 100% system, tho?
+  difficulty?: number;
   // Costs & Consequences
-  cost?: {};
+  cost?: Record<string, number | string>;
   outcome?: Happening;
   success?: Happening;
   failure?: Happening;
-  // News Item
+  // Description
   title?: string;
   content?: string;
   // Spellcasting
   domain?: string;
-  // Spell Effect
   enchantment?: Entity;
   curse?: Entity;
 
   constructor(data: {
     id: string;
-    variant: string;
+    variant: THappeningVariants;
     triggerKeyword: string[];
     eventResolution: {
       timerType:
@@ -59,6 +79,13 @@ export class Happening {
     agent?: string;
     patient?: Entity;
     instrument?: Entity;
+    Active?: boolean;
+    NextEventDay?: number | null;
+    NextEventTick?: number | null;
+    bondKnowns?: string[] | TK[];
+    bondRequestVariant?: Map<string, Entity | Happening> | null;
+    bondRequirements?: string[] | null;
+    bondCat?: Entity | null;
     dialogueTree?: string[];
     skill?: string;
     difficulty?: number;
@@ -80,6 +107,13 @@ export class Happening {
     this.agent = data.agent;
     this.patient = data.patient;
     this.instrument = data.instrument;
+    this.Active = data.Active;
+    this.NextEventDay = data.NextEventDay;
+    this.NextEventTick = data.NextEventTick;
+    this.bondKnowns = data.bondKnowns;
+    this.bondRequestVariant = data.bondRequestVariant;
+    this.bondRequirements = data.bondRequirements;
+    this.bondCat = data.bondCat;
     this.dialogueTree = data.dialogueTree;
     this.skill = data.skill;
     this.difficulty = data.difficulty;
