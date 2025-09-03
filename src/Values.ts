@@ -205,7 +205,7 @@ export const witchVocations = [
 export const witchApproaches = [
   ["Animist", "Materialist"],
   ["Authoritarian", "Egalitarian"],
-  ["Explorer", "Scholastic"],
+  ["Exploratory", "Scholastic"],
   ["Extremist", "Moderate"],
   ["Purist", "Syncretic"],
 ];

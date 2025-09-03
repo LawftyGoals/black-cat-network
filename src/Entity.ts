@@ -20,7 +20,6 @@ import {
   witchApproaches,
   defaultCatAbilities,
   defaultWitchAbilities,
-  witchVocations,
 } from "./Values.js";
 
 const gameState = gameInitialState;
@@ -46,7 +45,7 @@ export class Entity {
   variant: string | null;
   // Witch-specific
   vocation: string | null;
-  approach: string[] | null;
+  approach: string | null;
   // CAT ABILITIES & TRAITS
   // Agility
   balance: number | null;
@@ -93,7 +92,7 @@ export class Entity {
     variant: string | null = null,
     // Witch-specific
     vocation: string | null = null,
-    approach: string[] | null = null,
+    approach: string | null = null,
     // Agility
     balance: number | null = null,
     reflex: number | null = null,
@@ -195,8 +194,9 @@ export function createRandomizedCat(): Entity {
     getRandomAmountOrNone(randomTraits, 2, 10),
     randomVariant,
     null,
-    defaultCatAbilities.reflex,
+    null,
     defaultCatAbilities.balance,
+    defaultCatAbilities.reflex,
     defaultCatAbilities.speed,
     defaultCatAbilities.vision,
     defaultCatAbilities.hearing,
@@ -268,8 +268,8 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     null,
     randomVocation,
     randomApproach,
-    defaultWitchAbilities.reflex,
     defaultWitchAbilities.balance,
+    defaultWitchAbilities.reflex,
     defaultWitchAbilities.speed,
     defaultWitchAbilities.vision,
     defaultWitchAbilities.hearing,

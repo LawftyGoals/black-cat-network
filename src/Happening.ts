@@ -12,8 +12,6 @@ type THappeningVariants =
   | "interaction"
   | "spell-effect";
 
-type TK = string;
-
 export class Happening {
   id: string;
   variant: THappeningVariants;
@@ -138,3 +136,5 @@ export class Happening {
     this.curse = data.curse;
   }
 }
+
+export type TK = keyof Happening;
