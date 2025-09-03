@@ -2,6 +2,7 @@ import { Happening } from "../Happening";
 import { createRandomizedWitch } from "../Entity";
 import { gameInitialState } from "../state/game-state";
 import { getRandomizedId } from "../utils";
+import { hapWitchySmalltalk } from "../HapVariants";
 
 const gameState = gameInitialState;
 
@@ -19,6 +20,8 @@ export function createRandomizedNews() {
     null, // Request_Variant
     null // Requirements
   );
+
+  // const news = hapWitchySmalltalk();
 
   gameState.happenings.set(id, news);
   gameState.news.set(id, news);
