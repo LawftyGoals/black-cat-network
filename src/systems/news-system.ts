@@ -1,30 +1,9 @@
-import { Happening } from "../Happening";
-import { createRandomizedWitch } from "../Entity";
-import { gameInitialState } from "../state/game-state";
-import { getRandomizedId } from "../utils";
-import { hapWitchySmalltalk } from "../HapVariants";
-
-const gameState = gameInitialState;
+// import { Happening } from "../Happening";
+// import { createRandomizedWitch } from "../Entity";
+// import { gameInitialState } from "../state/game-state";
+// import { gameState, getRandomizedId } from "../utils";
+import { createNewsHap } from "./hap-manager";
 
 export function createRandomizedNews() {
-  const id = getRandomizedId();
-
-  const news = new Happening(
-    id,
-    undefined,
-    "news",
-    createRandomizedWitch(),
-    "Witch hunt!",
-    "Crazy things are happening in the news as the witchhunt begins.",
-    null, // Offer
-    null, // Request_Variant
-    null // Requirements
-  );
-
-  // const news = hapWitchySmalltalk();
-
-  gameState.happenings.set(id, news);
-  gameState.news.set(id, news);
-
-  return news;
+  return createNewsHap();
 }

@@ -15,7 +15,7 @@ export function hapWitchySmalltalk(): Happening {
     id: `smalltalk_${agentWitch.id}_${patientWitch.id}`,
     variant: "news",
     title: `Witches make small talk: ${agentWitch.name} and ${patientWitch.name}`,
-    content: `This morning, ${agentWitch.name} complained to ${patientWitch.name}, a ${patientWitch.vocation}, about ${conversationTopic.name} being a ${agentWitch.vocation}.`,
+    content: `This morning, ${agentWitch.name} complained to ${patientWitch.name}, a ${patientWitch.vocation}, about being a ${agentWitch.vocation}.`,
     triggerKeyword: ["daily", "news", "witchInteraction"],
     eventResolution: {
       timerType: "immediate",

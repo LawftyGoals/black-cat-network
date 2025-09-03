@@ -1,7 +1,7 @@
 import { closeDialogElement, gEiD } from "./get-elements";
 import { gameInitialState } from "./state/game-state";
 
-const gameState = gameInitialState;
+export const gameState = gameInitialState;
 
 export const cE = (
   type: keyof HTMLElementTagNameMap | "happening-card" | "creature-card"
