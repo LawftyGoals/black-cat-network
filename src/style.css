@@ -7,6 +7,7 @@ html, body {
 :root{
   --bar-height: 3vh;
   --menu-width: 15vw;
+  --notification-width: 20vw;
 }
 
 
@@ -26,15 +27,14 @@ html, body {
 
 
 #content {
-  display:flex;
-  flex-direction:row;
+  display:grid;
+  grid-template-columns: 1fr 3fr 1.5fr;
   height: calc(100% - var(--bar-height));
   width: 100%;
 }
 
 #menu{
-  width: var(--menu-width);
-  height: 100%;
+  height: calc(100% - var(--bar-height));
   display:flex;
   flex-direction: column;
   padding: 8px 2px;
@@ -42,7 +42,6 @@ html, body {
 }
 
 #screen {
-  width: calc(100% - var(--menu-width));
   overflow:scroll;
   padding: 16px;
   display: flex;
@@ -74,4 +73,26 @@ html, body {
 .time.used {
   background-color: lightgrey;
 
+}
+
+#dialog {
+  max-height: 70vh;
+}
+
+#notifications-wrapper{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding:8px;
+
+}
+#notifications {
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 60vh;
+  background-color: blue;
+  width: 100%;
+  border-radius: 8px;
+  padding: 16px;
 }

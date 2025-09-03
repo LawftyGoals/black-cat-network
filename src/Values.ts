@@ -2,6 +2,7 @@
 
 // Species
 export const species: string[] = ["Human", "Feline", "Other"];
+export const species: string[] = ["Human", "Feline", "Other"];
 
 // Cat Variants
 export const catVariants: string[] = [
@@ -19,7 +20,7 @@ export const catVariants: string[] = [
 ];
 
 // Cat Traits
-export const catTraits: string[] = [
+export const catTraits = [
   "playful",
   "curious",
   "affectionate",
@@ -31,6 +32,16 @@ export const catTraits: string[] = [
   "aggressive",
   "intelligent",
 ];
+
+// Cat Traits Reworked    (Are we missing Playful or Mischievous?)
+// export const catTraitsNew: string[] = [
+//   ["Active", "Lazy"],
+//   ["Curious", "Shy"],
+//   ["Cunning", "Derpy"],
+//   ["Impulsive", "Anxious"],
+//   ["Sweet", "Mischievous"],
+//   ["Vocal", "Quiet"],
+// ];
 
 // Cat Traits Reworked    (Are we missing Playful or Mischievous?)
 // export const catTraitsNew: string[] = [
@@ -56,19 +67,6 @@ export const witchTraits: string[] = [
   "cunning",
 ];
 
-// Witch Variants
-// export const witchVariants: string[] = [
-//   "Healer",
-//   "Necromancer",
-//   "Elementalist",
-//   "Diviner",
-//   "Alchemist",
-//   "Herbalist",
-//   "Satanic",
-//   "Celestial",
-//   "Green Witch",
-// ];
-
 // Names for Cats
 export const catNames: string[] = [
   "Mittens",
@@ -83,12 +81,21 @@ export const catNames: string[] = [
   "Alioth",
   "Djinni",
   "Artemis",
+  "Artemis",
 ];
 
 export const witchFirstNames = [
   "Fillippa",
+  "Fillippa",
   "Brione",
   "Constance",
+  "Nebula",
+  "Fleur",
+  "Adeline",
+  "Olive",
+  "Odette",
+  "Aurora",
+  "Alondra",
   "Nebula",
   "Fleur",
   "Adeline",
@@ -106,8 +113,19 @@ export const witchFirstNames = [
   "Xanthe",
   "Billie",
   "Aurelia",
+  "Xanthe",
+  "Billie",
+  "Aurelia",
   "Ursula",
   "Vashti",
+  "Juniper",
+  "Moxie",
+  "Halimeda",
+  "Stacy",
+  "Agatha",
+  "Freya",
+  "Scarlet",
+  "Isobel",
   "Juniper",
   "Moxie",
   "Halimeda",
@@ -126,7 +144,17 @@ export const witchSurNames = [
   "Diddle",
   "Strangewayes",
   "Finch",
+  "Pinncock",
+  "Diddle",
+  "Strangewayes",
+  "Finch",
   "Newdegate",
+  "Mauntell",
+  "Chauncey",
+  "Coggshall",
+  "Roper",
+  "Atherton",
+  "Gardner",
   "Mauntell",
   "Chauncey",
   "Coggshall",
@@ -136,7 +164,15 @@ export const witchSurNames = [
   "Oxenbrigg",
   "Norbury",
   "Cockayne",
+  "Norbury",
+  "Cockayne",
   "Petham",
+  "Brecknock",
+  "Bulkeley",
+  "Blount",
+  "Waldegrave",
+  "Higden",
+  "Tregonwell",
   "Brecknock",
   "Bulkeley",
   "Blount",
@@ -145,9 +181,13 @@ export const witchSurNames = [
   "Tregonwell",
   "Topsfield",
   "Chilton",
+  "Chilton",
   "Trump",
   "Blackwood",
+  "Blackwood",
   "Yornold",
+  "Basset",
+  "Amondsham",
   "Basset",
   "Amondsham",
 ];
@@ -157,18 +197,16 @@ export const witchVocations = [
   "Alchemist",
   "Diviner",
   "Enchantress",
-  "Goetic",
   "Herbalist",
   "Necromancer",
   "Satanist",
 ];
 
-// Witch Approaches (NEW)
+// Witchcraft Approaches (NEW)
 export const witchApproaches = [
   ["Animist", "Materialist"],
-  ["Authoritarian", "Egalitarian"], // #1
-  // ["Anarchical", "Hierarchical"],   // #2
-  ["Exploratory", "Scholastic"], // Agible, Applicative, Assumptive, Audacious, Intrepid, Practical
+  ["Authoritarian", "Egalitarian"],
+  ["Explorer", "Scholastic"],
   ["Extremist", "Moderate"],
   ["Purist", "Syncretic"],
 ];
@@ -197,7 +235,7 @@ export const defaultCatAbilities = {
   luck: 40,
 };
 
-// Default Abilities for Witches
+// Default Abilities for Witches        NEEDS REWORK
 export const defaultWitchAbilities = {
   reflex: 40,
   balance: 40,

@@ -5,12 +5,13 @@ export class CreatureCard extends HTMLElement {
   pictureElement: HTMLElement;
   descriptionElement: HTMLElement;
   cardElement: any;
+  bondingElement: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     const sr = this.shadowRoot!;
-    const template = cE("template");
-    template.innerHTML = this.shadowRoot!.innerHTML = /*html*/ `
+    const template = cE("template") as HTMLTemplateElement;
+    template.innerHTML = /*html*/ `
         <style>
           #card-slot {
             background-color: #1a122f;
@@ -53,18 +54,22 @@ export class CreatureCard extends HTMLElement {
           }
         </style>
         <div id="card-slot">
-          <h3 id="title-slot"></h3><div id="content">
-          <div id="profile-picture-slot"></div><div class="content">
-          <p id="description-slot"></p>
-          </div></div>
+          <h3 id="title-slot"></h3>
+          <div id="content">
+            <div id="profile-picture-slot"></div>
+            <p id="description-slot"></p>
+          </div>
+          <div id="bonding-slot" style="display:none"><button>Test</button></div>
         </div>
       `;
-    sr.appendChild(template);
+
+    sr.appendChild(template.content.cloneNode(true));
 
     this.cardElement = sgeid(sr, "card-slot");
     this.titleElement = sgeid(sr, "title-slot");
     this.pictureElement = sgeid(sr, "profile-picture-slot");
     this.descriptionElement = sgeid(sr, "description-slot");
+    this.bondingElement = sgeid(sr, "bonding-slot");
   }
 
   setDivClick(onClick?: () => any) {
@@ -72,7 +77,7 @@ export class CreatureCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["name", "type", "description", "traits", "image"];
+    return ["name", "type", "description", "traits", "image", "inbonding"];
   }
 
   attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
@@ -90,6 +95,12 @@ export class CreatureCard extends HTMLElement {
         break;
       case "description":
         this.descriptionElement.textContent = newValue;
+        break;
+      case "inbonding":
+        if (newValue === "true") {
+          this.titleElement.textContent += " - in bonding";
+          this.bondingElement.style = "display:block";
+        }
         break;
     }
   }

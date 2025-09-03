@@ -4,7 +4,11 @@ import { gameInitialState } from "./state/game-state";
 export const gameState = gameInitialState;
 
 export const cE = (
-  type: keyof HTMLElementTagNameMap | "happening-card" | "creature-card"
+  type:
+    | keyof HTMLElementTagNameMap
+    | "happening-card"
+    | "creature-card"
+    | "notification-card"
 ) => document.createElement(type);
 
 export function sgeid(sr: ShadowRoot, name: string) {
@@ -43,16 +47,17 @@ export function getRandomAmountOrNone<T>(
   maxReveal?: number,
   chanceOfNone?: number
 ) {
+  const workingList = [...list];
   let max = maxReveal ?? list.length;
   const revealed = [];
   if (chanceOfNone && getRandomInt(101) <= chanceOfNone) {
     return [];
   }
 
-  if (max >= list.length) return list;
+  if (max >= workingList.length) return list;
 
   for (let i = 0; i < getRandomInt(max) + 1; i++) {
-    revealed.push(...list.splice(getRandomInt(list.length), 1));
+    revealed.push(...workingList.splice(getRandomInt(workingList.length), 1));
   }
   return revealed;
 }
@@ -77,4 +82,16 @@ export function getKnownWitches() {
 export function getRandomExistingWitch() {
   const w = gameState.witches;
   return Array.from(w.values())[getRandomInt(w.size)];
+}
+
+export function getCurrentDayAndTime() {
+  const { day, remainingTime } = gameState;
+  return { day: day, time: remainingTime };
+}
+
+export function convertTicksToDaysAndTicks(ticks: number) {
+  return {
+    days: Math.floor(ticks / 16),
+    ticks: ticks % 16,
+  };
 }
