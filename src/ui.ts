@@ -98,6 +98,7 @@ function createNotificationComponent(notification: Happening) {
     dialogContentElement.appendChild(hapCom);
     dialogElement.showModal();
     notification.Active = false;
+    updateElementWithList("notifications", gameState.notifications);
   });
 
   return comp;
@@ -192,7 +193,7 @@ export function updateElementWithList(
           createNotificationComponent(notification as Happening)
         );
       });
-      inActive.forEach((notification) => {
+      inActive.reverse().forEach((notification) => {
         element.appendChild(
           createNotificationComponent(notification as Happening)
         );

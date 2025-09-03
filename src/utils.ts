@@ -72,15 +72,15 @@ export function clearSelecteds() {
 }
 
 export function getWitches() {
-  return gameInitialState.witches;
+  return gameState.witches;
 }
 
 export function getKnownWitches() {
-  return gameInitialState.knownWitches;
+  return gameState.knownWitches;
 }
 
 export function getRandomExistingWitch() {
-  const w = gameInitialState.witches;
+  const w = gameState.witches;
   return Array.from(w.values())[getRandomInt(w.size)];
 }
 
