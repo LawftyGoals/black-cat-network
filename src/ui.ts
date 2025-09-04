@@ -1,7 +1,7 @@
 import { getNewKnown, type Entity } from "./Entity";
 import type { Happening, TK } from "./Happening";
 import { gameInitialState, type TScreens } from "./state/game-state";
-import { cE, clearChildren, clearSelecteds, getRandomInt } from "./utils";
+import { cE, clearChildren, clearSelecteds } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import {
   closeDialogElement,
