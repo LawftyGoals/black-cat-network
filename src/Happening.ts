@@ -37,7 +37,7 @@ export class Happening {
   }[];
   // Actions
   agent: Entity | null;
-  patient?: Entity | null;
+  patient?: Entity | null = null;
   instrument?: Entity | string;
   cause?: Happening | string;
   valence?: string;
@@ -45,7 +45,7 @@ export class Happening {
   // Bonding
   nextEventDay?: number | null;
   nextEventTick?: number | null;
-  knowns?: string[] | TK[];
+  knowns: string[] | TK[];
   requestVariant?: Map<string, Entity | Happening> | null;
   bondRequirements?: string[] | null;
   bondCat?: Entity | null;
@@ -96,7 +96,7 @@ export class Happening {
     ongoing?: boolean;
     nextEventDay?: number | null;
     nextEventTick?: number | null;
-    knowns?: string[] | TK[];
+    knowns: string[] | TK[];
     requestVariant?: Map<string, Entity | Happening> | null;
     bondRequirements?: string[] | null;
     bondCat?: Entity | null;
@@ -144,3 +144,9 @@ export class Happening {
     this.curse = data.curse;
   }
 }
+
+// export class SkillCheck extends Happening {
+//   constructor() {
+//     super();
+//   }
+// }
