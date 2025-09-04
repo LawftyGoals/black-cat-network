@@ -206,7 +206,7 @@ export function updateElementWithList(
 
 export function updateGp(amount: number) {
   gameState.gp += amount;
-  gEiD("gp").textContent = gameState.gp.toString();
+  gEiD("gp").textContent = `Gold: ${gameState.gp}`;
 }
 
 function changeScreens(
