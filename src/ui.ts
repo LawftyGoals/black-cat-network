@@ -152,9 +152,10 @@ function createHappeningComponent(happening: Happening) {
     knowns,
     bondCat,
     bondRequirements,
-    From: happening.agent?.name,
+    agent: happening.agent?.name,
   };
   knowns.forEach((val) => {
+    console.log(val);
     comp.setAttribute(val.toLocaleLowerCase(), end[val as TK] as string);
   });
 

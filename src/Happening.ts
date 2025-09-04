@@ -71,6 +71,7 @@ export class Happening {
     id: string;
     variant: THappeningVariants;
     triggerKeyword: string[];
+    knowns: string[] | TK[];
     eventResolution: {
       timerType:
         | "permanent"
@@ -96,7 +97,6 @@ export class Happening {
     ongoing?: boolean;
     nextEventDay?: number | null;
     nextEventTick?: number | null;
-    knowns: string[] | TK[];
     requestVariant?: Map<string, Entity | Happening> | null;
     bondRequirements?: string[] | null;
     bondCat?: Entity | null;

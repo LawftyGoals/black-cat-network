@@ -73,7 +73,7 @@ export class HappeningCard extends HTMLElement {
       "title",
       "variant",
       "content",
-      "from",
+      "agent",
       "offer",
       "cat",
       "clear",
@@ -101,7 +101,7 @@ export class HappeningCard extends HTMLElement {
       case "content":
         this.contentElement.textContent += newValue;
         break;
-      case "from":
+      case "agent":
         this.fromElement.textContent = newValue;
         break;
       case "offer":

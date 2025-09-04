@@ -1,4 +1,5 @@
 // hap-manager.ts
+import { createRandomizedWitch } from "../Entity";
 import { Happening } from "../Happening";
 import { hapWitchySmalltalk } from "../HapVariants";
 import { gameState, getRandomizedId } from "../utils";
@@ -17,7 +18,8 @@ export function createNewsHap(): Happening {
       timerCount: 0,
     },
     eventPrerequisites: [],
-    agent: null,
+    agent: createRandomizedWitch(),
+    knowns: ["agent", "patient", "title", "content"],
   });
   gameState.happenings.set(id, newsHap);
   gameState.news.set(id, newsHap);
