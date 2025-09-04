@@ -204,7 +204,7 @@ export function updateElementWithList(
       const inActive = (Array.from(target.values()) as Happening[]).filter(
         (noti) => !noti.Active
       );
-      active.forEach((notification) => {
+      active.reverse().forEach((notification) => {
         element.appendChild(
           createNotificationComponent(notification as Happening)
         );
