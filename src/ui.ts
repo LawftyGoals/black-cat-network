@@ -1,4 +1,4 @@
-import type { Entity } from "./Entity";
+import { getNewKnown, type Entity } from "./Entity";
 import type { Happening, TK } from "./Happening";
 import { gameInitialState, type TScreens } from "./state/game-state";
 import { cE, clearChildren, clearSelecteds, getRandomInt } from "./utils";
@@ -12,6 +12,8 @@ import {
 import type { CreatureCard } from "./components/creature-card";
 import { acceptbonding } from "./systems/bonding-system";
 import type { NotificationCard } from "./components/notification-card";
+import { changeRemainingTime } from "./systems/time-system";
+import { createNotification } from "./systems/notifications-system";
 
 const gameState = gameInitialState;
 
@@ -50,13 +52,15 @@ export function updateTimeUI() {
 
 function createCreatureComponent(entity: Entity, onClick?: () => void) {
   const comp = cE("creature-card") as CreatureCard;
-  const { name, age, knowns, coreKnowns, knownTraits } = { ...entity };
-  coreKnowns.forEach((value) => {
+  const { name, age, knowns, knownTraits } = { ...entity };
+  knowns.forEach((value) => {
     comp.setAttribute(value, { ...entity }[value] as string);
   });
 
   const allKnowns = [
-    ...knowns.map((k) => ({ ...entity, age: `${age} years` }[k])),
+    ...knowns.map(
+      (k) => ({ ...entity, name: undefined, age: `${age} years` }[k])
+    ),
     ...knownTraits,
   ].filter((tk) => tk);
   comp.setAttribute(
@@ -65,6 +69,32 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
   );
 
   const isCat = entity.type === "cat";
+  if (isCat && !onClick) {
+    comp.setAttribute("showcatslot", "true");
+    comp.setInteractClick(() => {
+      changeRemainingTime();
+
+      const newKnown = getNewKnown(entity);
+
+      newKnown
+        ? createNotification(
+            "You learnt something new!",
+            `You managed to learn that ${entity.name} is ${newKnown}`,
+            [],
+            entity,
+            0
+          )
+        : createNotification(
+            "You learnt nothing new...",
+            `There doesn't seem to be anything left to learn about ${entity.name}.`,
+            [],
+            entity,
+            0
+          );
+
+      updateElementWithList("screen");
+    });
+  }
   comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
 
   comp.setDivClick(onClick);

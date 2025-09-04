@@ -1,11 +1,13 @@
 import { cE, sgeid } from "../utils";
 
 export class CreatureCard extends HTMLElement {
-  titleElement: HTMLElement;
-  pictureElement: HTMLElement;
-  descriptionElement: HTMLElement;
-  cardElement: any;
-  bondingElement: HTMLElement;
+  titleSlot: HTMLElement;
+  pictureSlot: HTMLElement;
+  descriptionSlot: HTMLElement;
+  cardSlot: any;
+  bondingSlot: HTMLElement;
+  catSlot: HTMLElement;
+  interactButton: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -60,47 +62,57 @@ export class CreatureCard extends HTMLElement {
             <p id="description-slot"></p>
           </div>
           <div id="bonding-slot" style="display:none"><button>Test</button></div>
+          <div id="cat-slot" style="display:none"><button id="interact-button">Interact With Cat</button></div>
         </div>
       `;
 
     sr.appendChild(template.content.cloneNode(true));
 
-    this.cardElement = sgeid(sr, "card-slot");
-    this.titleElement = sgeid(sr, "title-slot");
-    this.pictureElement = sgeid(sr, "profile-picture-slot");
-    this.descriptionElement = sgeid(sr, "description-slot");
-    this.bondingElement = sgeid(sr, "bonding-slot");
+    this.cardSlot = sgeid(sr, "card-slot");
+    this.titleSlot = sgeid(sr, "title-slot");
+    this.pictureSlot = sgeid(sr, "profile-picture-slot");
+    this.descriptionSlot = sgeid(sr, "description-slot");
+    this.bondingSlot = sgeid(sr, "bonding-slot");
+    this.catSlot = sgeid(sr, "cat-slot");
+    this.interactButton = sgeid(sr, "interact-button");
   }
 
-  setDivClick(onClick?: () => any) {
-    this.cardElement.onclick = onClick;
+  setDivClick(onClick?: () => void) {
+    this.cardSlot.onclick = onClick;
+  }
+
+  setInteractClick(onClick: null | (() => void) = null) {
+    this.interactButton.onclick = onClick;
   }
 
   static get observedAttributes() {
-    return ["name", "type", "description", "traits", "image", "inbonding"];
+    return ["name", "type", "description", "image", "inbonding", "showcatslot"];
   }
 
   attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
     switch (name) {
       case "name":
-        this.titleElement.textContent = newValue;
+        this.titleSlot.textContent = newValue;
         break;
       case "type":
-        this.titleElement.textContent = `${this.titleElement.textContent} (${newValue})`;
+        this.titleSlot.textContent = `${this.titleSlot.textContent} (${newValue})`;
         break;
       case "image":
-        this.pictureElement.style = `background-image: ${
+        this.pictureSlot.style = `background-image: ${
           newValue ? `url("${newValue}")` : "none"
         }`;
         break;
       case "description":
-        this.descriptionElement.textContent = newValue;
+        this.descriptionSlot.textContent = newValue;
         break;
       case "inbonding":
         if (newValue === "true") {
-          this.titleElement.textContent += " - in bonding";
-          this.bondingElement.style = "display:block";
+          this.titleSlot.textContent += " - in bonding";
+          this.bondingSlot.style = "display:block";
         }
+        break;
+      case "showcatslot":
+        this.catSlot.style = "display:block";
         break;
     }
   }

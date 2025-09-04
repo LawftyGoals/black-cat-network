@@ -25,15 +25,49 @@ import {
 const gameState = gameInitialState;
 
 export const coreGivens = ["name", "type", "deceased", "inBonding"];
-export const witchGivens = ["approach"];
-export const catGivens = ["age", "sex"];
+export const witchGivens = ["approach", ...coreGivens];
+export const witchBaseUnknowns = ["age", "sex", "variant", "species"];
+export const catGivens = ["sex", ...coreGivens];
+export const catBaseUnknowns = ["age", "species"];
+
+export function getNewKnown(entity: Entity) {
+  const mutable = { ...entity };
+  const { type, knowns, traits, knownTraits } = mutable;
+
+  const unknowns = [];
+
+  if (knownTraits.length !== traits.length) {
+    unknowns.push("traits");
+  }
+
+  (type === "cat" ? catBaseUnknowns : witchBaseUnknowns).forEach((unknown) => {
+    if (!knowns.includes(unknown)) {
+      unknowns.push(unknown);
+    }
+  });
+
+  if (unknowns.length < 1) return false;
+
+  const targetUnknown = unknowns[getRandomInt(unknowns.length)];
+
+  if (targetUnknown === "traits") {
+    const unknownTraits = traits.filter(
+      (known) => !knownTraits.includes(known)
+    );
+    const unknownTrait = unknownTraits[getRandomInt(unknownTraits.length)];
+    entity.knownTraits.push(unknownTrait);
+    return unknownTrait;
+  } else {
+    entity.knowns.push(targetUnknown);
+  }
+  return mutable[targetUnknown as keyof typeof mutable];
+}
 
 export class Entity {
   id: string;
   type: "cat" | "spell" | "witch";
   inBonding: boolean;
   name: string;
-  coreKnowns: string[];
   knowns: string[];
   // All Creatures
   age: number;
@@ -79,7 +113,6 @@ export class Entity {
     type: "cat" | "spell" | "witch",
     inBonding: boolean = false,
     name: string,
-    coreKnowns: string[] = [],
     knowns: string[] = [],
     // All Creatures
     age: number,
@@ -123,7 +156,6 @@ export class Entity {
     this.type = type;
     this.inBonding = inBonding;
     this.name = name;
-    this.coreKnowns = [...coreGivens, ...coreKnowns];
     this.knowns = [...(type === "cat" ? catGivens : witchGivens), ...knowns];
     // All Creatures
     this.age = age;
@@ -181,7 +213,6 @@ export function createRandomizedCat(): Entity {
     "cat",
     false,
     randomName,
-    undefined,
     undefined,
     getRandomInt(27, 1), // age
     false, // deceased
@@ -254,7 +285,6 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     false,
     randomName,
     [],
-    undefined,
     getRandomInt(154, 16), // age
     false, // deceased
     "female",
