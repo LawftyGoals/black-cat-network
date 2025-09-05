@@ -73,7 +73,7 @@ export function updateTimeUI() {
     time?.appendChild(timePip);
   }
 }
-
+/* 
 function createCreatureComponent(entity: Entity, onClick?: () => void) {
   const comp = cE("creature-card") as CreatureCard;
   const { name, age, knowns, knownTraits } = { ...entity };
@@ -124,7 +124,7 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
   comp.setDivClick(onClick);
 
   return comp;
-}
+} */
 /* 
 function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
