@@ -1,7 +1,7 @@
 import "./style.css";
 
 import { initDaySystem } from "./systems/day-system";
-import { initMenu, updateElementWithList } from "./ui";
+import { initMenu, updateScreenElement } from "./ui";
 import { HappeningCard } from "./components/happening-card";
 import { createRandomizedBonding } from "./systems/bonding-system";
 import { CreatureCard } from "./components/creature-card";
@@ -10,12 +10,13 @@ import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
 import { NotificationCard } from "./components/notification-card";
 import { gameInitialState } from "./state/game-state";
+import { CatAcquisition } from "./components/cat-acquisition";
 
 function initGameStates() {
   initCustomComponents();
   initMenu();
   generateData();
-  updateElementWithList("screen");
+  updateScreenElement();
   initDaySystem();
   initTimeSystem();
 }
@@ -26,6 +27,7 @@ function initCustomComponents() {
   customElements.define("happening-card", HappeningCard);
   customElements.define("creature-card", CreatureCard);
   customElements.define("notification-card", NotificationCard);
+  customElements.define("cat-acquisition", CatAcquisition);
 }
 
 function forit(cre: () => void) {

@@ -1,7 +1,17 @@
-import { getNewKnown, type Entity } from "./Entity";
+import { coreGivens, getNewKnown, type Entity } from "./Entity";
 import type { Happening, TK } from "./Happening";
-import { gameInitialState, type TScreens } from "./state/game-state";
-import { cE, clearChildren, clearSelecteds } from "./utils";
+import {
+  gameInitialState,
+  type IGameState,
+  type TScreens,
+} from "./state/game-state";
+import {
+  appendChildren,
+  cE,
+  clearChildren,
+  clearSelecteds,
+  replaceChildren,
+} from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import {
   closeDialogElement,
@@ -27,14 +37,28 @@ const menuChildren = menu.children;
 //const [cats, orders, witches, spells, news] = menuChildren;
 
 export function initMenu() {
-  (Array.from(menuChildren) as HTMLButtonElement[]).forEach((element) => {
-    element.onclick = () => {
-      const screenName = element.id.replace("m-", "") as TScreens;
-      gameState.currentScreen = screenName;
-      updateElementWithList("screen");
-      clearSelecteds();
-    };
-  });
+  //(Array.from(menuChildren) as HTMLButtonElement[]).forEach((element) => {
+  //  element.onclick = () => {
+  //    gameState.currentScreen = element.id.replace("m-", "") as TScreens;
+  //    updateElementWithList("screen");
+  //    clearSelecteds();
+  //  };
+  //});
+
+  const [catInventory, bondings, knownWitches, spells, news, catAcquisition] =
+    Array.from(menuChildren) as HTMLButtonElement[];
+
+  const screen = gEiD("screen");
+
+  catInventory.onclick = () => {
+    gameState.currentScreen = "catInventory";
+    updateScreenElement();
+  };
+
+  knownWitches.onclick = () => {
+    gameState.currentScreen = "knownWitches";
+    updateScreenElement();
+  };
 }
 
 const time = gEiD("time")!;
@@ -92,7 +116,7 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
             0
           );
 
-      updateElementWithList("screen");
+      updateScreenElement();
     });
   }
   comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
@@ -101,7 +125,7 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
 
   return comp;
 }
-
+/* 
 function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
   comp.setAttribute("title", notification.Title);
@@ -184,8 +208,8 @@ function createHappeningComponent(happening: Happening) {
   });
 
   return comp;
-}
-
+} */
+/* 
 export function updateElementWithList(
   name: "screen" | "dialog-content" | "notifications",
   map?: Map<string, Entity | Happening>
@@ -195,6 +219,7 @@ export function updateElementWithList(
   clearChildren(element);
   switch (name) {
     case "screen":
+      console.log("sc");
       changeScreens(element, target);
       break;
     case "notifications":
@@ -217,32 +242,33 @@ export function updateElementWithList(
       break;
     case "dialog-content":
       target.forEach((entity) => {
-        !(entity as Entity).inBonding &&
+        !(entity as Entity).inbonding &&
           element.appendChild(
             createCreatureComponent(entity as Entity, () => {
               const selectedBonding = gameState.selectedBonding!;
               dialogElement.close();
               const catField = selectedBonding.Cat;
-              catField && (catField.inBonding = false);
+              catField && (catField.inbonding = false);
               selectedBonding.Cat = entity as Entity;
-              (entity as Entity).inBonding = true;
+              (entity as Entity).inbonding = true;
               updateElementWithList("screen");
             })
           );
       });
       break;
   }
-}
+} */
 
 export function updateGp(amount: number) {
   gameState.gp += amount;
   gEiD("gp").textContent = `Gold: ${gameState.gp}`;
 }
-
+/* 
 function changeScreens(
   element: HTMLElement,
   target: Map<string, Entity | Happening>
 ) {
+  console.log(element, gameState.currentScreen);
   target.forEach((entityOrHappening, _id) => {
     switch (gameState.currentScreen) {
       case "catInventory":
@@ -258,7 +284,93 @@ function changeScreens(
         );
         break;
       case "catAcquisition":
+        console.log("ca");
+        element.appendChild(cE("cat-acquisition"));
         break;
     }
   });
+} */
+
+export function updateScreenElement() {
+  const cS = gameState.currentScreen;
+  switch (cS) {
+    case "catInventory":
+      createCreatureCards(cS, catInteract);
+      break;
+    case "knownWitches":
+      createCreatureCards(cS);
+  }
+}
+
+function createCreatureCards(
+  currentScreen: string,
+  interaction?: (entity: Entity) => void
+) {
+  const screen = gEiD("screen");
+  const creatures = Array.from(
+    (
+      gameState[currentScreen as keyof IGameState] as Map<string, Entity>
+    ).values()
+  );
+
+  const cards = creatures.map((entity) => {
+    const { name, type } = { ...entity };
+
+    return createCreatureCardTest(name, type, entity, interaction);
+  });
+  replaceChildren(screen, cards);
+}
+
+function createCreatureCardTest(
+  name: string,
+  type: string,
+  entity: Entity,
+  interactClick?: (entity: Entity) => void
+) {
+  const comp = cE("creature-card") as CreatureCard;
+
+  const e = { ...entity };
+
+  coreGivens.forEach((given) =>
+    comp.setAttribute(given, e[given as keyof typeof e] as string)
+  );
+
+  const knowns = [
+    ...entity.knownTraits,
+    ...entity.knowns.map((known) => e[known as keyof typeof e]),
+  ];
+
+  comp.setAttribute(
+    "description",
+    `What you know about ${name}: ${knowns.join(", ")}`
+  );
+
+  comp.setAttribute("image", `src/img/${type}.jpg`);
+  type === "cat" && comp.setAttribute("showcatslot", "true");
+  if (interactClick) comp.setInteractClick(() => interactClick(entity));
+  return comp;
+}
+
+function catInteract(entity: Entity) {
+  changeRemainingTime();
+
+  const newKnown = getNewKnown(entity);
+
+  newKnown
+    ? createNotification(
+        "You learnt something new!",
+        `You managed to learn that ${entity.name} is ${newKnown}`,
+        [],
+        entity,
+        0
+      )
+    : createNotification(
+        "You learnt nothing new...",
+        `There doesn't seem to be anything left to learn about ${entity.name}.`,
+        [],
+        entity,
+        0
+      );
+
+  updateScreenElement();
 }

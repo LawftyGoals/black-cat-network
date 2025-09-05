@@ -25,10 +25,10 @@ import {
 const gameState = gameInitialState;
 
 export const coreGivens = ["name", "type", "deceased", "inBonding"];
-export const witchGivens = ["approach", ...coreGivens];
+export const witchGivens = ["approach"];
 export const witchBaseUnknowns = ["age", "sex", "variant", "species"];
-export const catGivens = ["sex", ...coreGivens];
-export const catBaseUnknowns = ["age", "species"];
+export const catGivens = ["sex"];
+export const catBaseUnknowns = ["age", "variant"];
 
 export function getNewKnown(entity: Entity) {
   const mutable = { ...entity };
@@ -66,7 +66,7 @@ export function getNewKnown(entity: Entity) {
 export class Entity {
   id: string;
   type: "cat" | "spell" | "witch";
-  inBonding: boolean;
+  inbonding: boolean;
   name: string;
   knowns: string[];
   // All Creatures
@@ -154,7 +154,7 @@ export class Entity {
   ) {
     this.id = id;
     this.type = type;
-    this.inBonding = inBonding;
+    this.inbonding = inBonding;
     this.name = name;
     this.knowns = [...(type === "cat" ? catGivens : witchGivens), ...knowns];
     // All Creatures

@@ -9,6 +9,7 @@ export const cE = (
     | "happening-card"
     | "creature-card"
     | "notification-card"
+    | "cat-acquisition"
 ) => document.createElement(type);
 
 export function sgeid(sr: ShadowRoot, name: string) {
@@ -22,6 +23,11 @@ export function clearChildren(element: HTMLElement) {
 }
 
 export function appendChildren(element: HTMLElement, children: HTMLElement[]) {
+  children.forEach((child) => element.appendChild(child));
+}
+
+export function replaceChildren(element: HTMLElement, children: HTMLElement[]) {
+  clearChildren(element);
   children.forEach((child) => element.appendChild(child));
 }
 

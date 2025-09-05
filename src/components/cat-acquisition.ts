@@ -1,6 +1,7 @@
 import { cE, sgeid } from "../utils";
 
-export class HappeningCard extends HTMLElement {
+export class CatAcquisition extends HTMLElement {
+  cardSlot: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -18,12 +19,17 @@ export class HappeningCard extends HTMLElement {
       </style>
       <div id="card">
       <h2>Get Your Cats here!</h2>
+
+      <button>Cat Catcher</button>
+      <button>Cages</button>
         
 
       </div>
     `;
 
     sr.appendChild(template.content.cloneNode(true));
+
+    this.cardSlot = sgeid(sr, "card");
   }
 
   static get observedAttributes() {
@@ -33,7 +39,7 @@ export class HappeningCard extends HTMLElement {
   attributeChangedCallback(name: string, _oldvalue: string, newValue: string) {
     switch (name) {
       case "title":
-        this.titleElement.textContent = newValue;
+        this.cardSlot.textContent = newValue;
         break;
     }
   }
