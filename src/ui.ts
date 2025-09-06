@@ -291,15 +291,25 @@ function changeScreens(
 } */
 
 export function updateNotifications() {
-  const notifications = gEiD("notifications");
+  const notificationsElement = gEiD("notifications");
+  const notifications = Array.from(gameState.notifications.values());
 
-  const cards = Array.from(gameState.notifications.values()).map(
-    (notification) => {
-      return createNotificationComponent(notification);
+  const act: Happening[] = [];
+  const inact: Happening[] = [];
+
+  notifications.reverse().forEach((notification) => {
+    if (notification.Active) {
+      act.push(notification);
+    } else {
+      inact.push(notification);
     }
-  );
+  });
 
-  replaceChildren(notifications, cards);
+  const cards = [...act, ...inact].map((notification) => {
+    return createNotificationComponent(notification);
+  });
+
+  replaceChildren(notificationsElement, cards);
 }
 
 export function updateScreenElement() {
