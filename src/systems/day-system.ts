@@ -2,7 +2,7 @@ import { createRandomizedBonding } from "./bonding-system";
 import { gameInitialState } from "../state/game-state";
 import { resetRemainingTime } from "./time-system";
 import { dayElement, gEiD } from "../get-elements";
-import { updateElementWithList } from "../ui";
+import { updateScreenElement } from "../ui";
 
 const gameState = gameInitialState;
 
@@ -14,7 +14,7 @@ export function updateDay() {
   createRandomizedBonding();
 
   resetRemainingTime();
-  updateElementWithList("screen");
+  updateScreenElement();
 }
 
 export function initDaySystem() {

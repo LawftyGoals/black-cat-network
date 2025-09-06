@@ -48,8 +48,6 @@ export function initMenu() {
   const [catInventory, bondings, knownWitches, spells, news, catAcquisition] =
     Array.from(menuChildren) as HTMLButtonElement[];
 
-  const screen = gEiD("screen");
-
   catInventory.onclick = () => {
     gameState.currentScreen = "catInventory";
     updateScreenElement();
@@ -125,7 +123,7 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
 
   return comp;
 } */
-/* 
+
 function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
   comp.setAttribute("title", notification.Title);
@@ -152,12 +150,13 @@ function createNotificationComponent(notification: Happening) {
     dialogContentElement.appendChild(hapCom);
     dialogElement.showModal();
     notification.Active = false;
-    updateElementWithList("notifications", gameState.notifications);
+    updateNotifications();
   });
 
   return comp;
 }
 
+/*
 function createHappeningComponent(happening: Happening) {
   const { Knowns, Request_Variant, Cat, Requirements } = { ...happening };
   let Variant = happening.Variant;
@@ -290,6 +289,18 @@ function changeScreens(
     }
   });
 } */
+
+export function updateNotifications() {
+  const notifications = gEiD("notifications");
+
+  const cards = Array.from(gameState.notifications.values()).map(
+    (notification) => {
+      return createNotificationComponent(notification);
+    }
+  );
+
+  replaceChildren(notifications, cards);
+}
 
 export function updateScreenElement() {
   const cS = gameState.currentScreen;

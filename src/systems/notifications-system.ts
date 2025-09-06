@@ -1,7 +1,7 @@
 import type { Entity } from "../Entity";
 import { Happening, type TK } from "../Happening";
 import { gameInitialState } from "../state/game-state";
-import {} from "../ui";
+import { updateNotifications } from "../ui";
 import { getRandomExistingWitch, getRandomizedId } from "../utils";
 const gameState = gameInitialState;
 
@@ -55,5 +55,5 @@ export function createNotification(
   gameState.happenings.set(id, notification);
   gameState.notifications.set(id, notification);
 
-  updateElementWithList("notifications", gameState.notifications);
+  updateNotifications();
 }
