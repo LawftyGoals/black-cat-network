@@ -1,5 +1,5 @@
 import { coreGivens, getNewKnown, type Entity } from "./Entity";
-import type { Happening, TK } from "./Happening";
+import { happeningKnowns, type Happening, type TK } from "./Happening";
 import {
   gameInitialState,
   type IGameState,
@@ -7,6 +7,7 @@ import {
 } from "./state/game-state";
 import {
   appendChildren,
+  arrayFromMap,
   cE,
   clearChildren,
   clearSelecteds,
@@ -18,6 +19,7 @@ import {
   dialogContentElement,
   dialogElement,
   gEiD,
+  screen,
 } from "./get-elements";
 import type { CreatureCard } from "./components/creature-card";
 import { acceptbonding } from "./systems/bonding-system";
@@ -55,6 +57,16 @@ export function initMenu() {
 
   knownWitches.onclick = () => {
     gameState.currentScreen = "knownWitches";
+    updateScreenElement();
+  };
+
+  bondings.onclick = () => {
+    gameState.currentScreen = "bondings";
+    updateScreenElement();
+  };
+
+  news.onclick = () => {
+    gameState.currentScreen = "news";
     updateScreenElement();
   };
 }
@@ -126,16 +138,18 @@ function createCreatureComponent(entity: Entity, onClick?: () => void) {
 
 function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
-  comp.setAttribute("title", notification.Title);
-  comp.setAttribute("active", notification.Active.toString());
-  comp.setAttribute("from", `From: ${notification.From!.name}`);
+  comp.setAttribute("title", notification.title);
+  comp.setAttribute("active", notification.active.toString());
+  comp.setAttribute("from", `From: ${notification.from!.name}`);
   comp.setClickable(() => {
     const hapCom = cE("happening-card");
-    const restKnowns = notification.Knowns.filter(
-      (known) =>
+    const restKnowns = happeningKnowns.filter((known) => {
+      console.log(typeof notification[known as TK]);
+      return (
         typeof notification[known as TK] === "string" ||
         typeof notification[known as TK] === "number"
-    );
+      );
+    });
 
     restKnowns.forEach((known) => {
       hapCom.setAttribute(
@@ -144,12 +158,12 @@ function createNotificationComponent(notification: Happening) {
       );
     });
 
-    hapCom.setAttribute("from", notification.From!.name);
+    hapCom.setAttribute("from", notification.from!.name);
 
     clearChildren(dialogContentElement);
     dialogContentElement.appendChild(hapCom);
     dialogElement.showModal();
-    notification.Active = false;
+    notification.active = false;
     updateNotifications();
   });
 
@@ -298,7 +312,7 @@ export function updateNotifications() {
   const inact: Happening[] = [];
 
   notifications.reverse().forEach((notification) => {
-    if (notification.Active) {
+    if (notification.active) {
       act.push(notification);
     } else {
       inact.push(notification);
@@ -316,37 +330,119 @@ export function updateScreenElement() {
   const cS = gameState.currentScreen;
   switch (cS) {
     case "catInventory":
-      createCreatureCards(cS, catInteract);
+      replaceChildren(
+        screen,
+        createCreatureCards(arrayFromMap(cS), catInteract)
+      );
       break;
     case "knownWitches":
-      createCreatureCards(cS);
+      replaceChildren(screen, createCreatureCards(arrayFromMap(cS)));
+      break;
+    case "bondings":
+      createHappeningCards(cS);
+      break;
+    case "news":
+      createHappeningCards(cS);
+      break;
+  }
+}
+
+function createHappeningCards(currentScreen: string) {
+  const happenings = Array.from(
+    (
+      gameState[currentScreen as keyof IGameState] as Map<string, Happening>
+    ).values()
+  );
+
+  const cards = happenings.map((happening) => {
+    return createHappeningCardTest(happening);
+  });
+
+  replaceChildren(screen, cards);
+}
+
+function createHappeningCardTest(happening: Happening) {
+  const comp = cE("happening-card") as HappeningCard;
+
+  const { knowns, from, variant } = { ...happening };
+
+  [...happeningKnowns, ...knowns].forEach((known) => {
+    happening[known as TK] &&
+      comp.setAttribute(known, happening[known as TK] as string);
+  });
+
+  from && comp.setAttribute("from", `${from.name}`);
+
+  variant === "bonding" && addBondingElements(happening, comp);
+
+  return comp;
+}
+
+function addBondingElements(happening: Happening, comp: HappeningCard) {
+  const { content, requirements, cat } = { ...happening };
+
+  content &&
+    comp.setAttribute("content", ` Needs to be: ${requirements!.join(", ")}`);
+
+  if (cat) comp.setAttribute("cat", cat.name);
+  if (!happening.active) {
+    comp.setAttribute("variant", "bonding");
+    comp.setDivClick(() => {
+      gameState.selectedBonding = happening;
+      replaceChildren(
+        gEiD("dialog-content"),
+        createCreatureCards(
+          arrayFromMap("catInventory").filter((cat) => !cat.inbonding),
+          undefined,
+          (entity: Entity) => {
+            const selectedBonding = gameState.selectedBonding!;
+            const catField = selectedBonding.cat;
+            catField && (catField.inbonding = false);
+            selectedBonding.cat = entity;
+            entity.inbonding = true;
+            dialogElement.close();
+            updateScreenElement();
+          }
+        )
+      );
+      dialogElement.showModal();
+    });
+
+    if (cat) {
+      comp.setAttribute("clear", "block");
+      comp.setClearCat(() => {
+        happening.cat &&
+          gameState.catInventory.set(happening.cat.id, happening.cat);
+        happening.cat = null;
+        updateScreenElement();
+      });
+      comp.setSendBonding(() => {
+        acceptbonding(happening);
+        updateScreenElement();
+      });
+    }
   }
 }
 
 function createCreatureCards(
-  currentScreen: string,
-  interaction?: (entity: Entity) => void
+  entities: Entity[],
+  interaction?: (entity: Entity) => void,
+  selectCard?: (entity: Entity) => void
 ) {
-  const screen = gEiD("screen");
-  const creatures = Array.from(
-    (
-      gameState[currentScreen as keyof IGameState] as Map<string, Entity>
-    ).values()
-  );
-
-  const cards = creatures.map((entity) => {
+  const cards = entities.map((entity) => {
     const { name, type } = { ...entity };
 
-    return createCreatureCardTest(name, type, entity, interaction);
+    return createCreatureCardTest(name, type, entity, interaction, selectCard);
   });
-  replaceChildren(screen, cards);
+  return cards;
 }
 
 function createCreatureCardTest(
   name: string,
   type: string,
   entity: Entity,
-  interactClick?: (entity: Entity) => void
+  interactClick?: (entity: Entity) => void,
+  selectCard?: (entity: Entity) => void
 ) {
   const comp = cE("creature-card") as CreatureCard;
 
@@ -367,8 +463,13 @@ function createCreatureCardTest(
   );
 
   comp.setAttribute("image", `src/img/${type}.jpg`);
-  type === "cat" && comp.setAttribute("showcatslot", "true");
-  if (interactClick) comp.setInteractClick(() => interactClick(entity));
+  if (type === "cat" && interactClick) {
+    comp.setAttribute("showcatslot", "true");
+    comp.setInteractClick(() => interactClick(entity));
+  }
+  if (selectCard) {
+    comp.setDivClick(() => selectCard(entity));
+  }
   return comp;
 }
 
@@ -383,14 +484,14 @@ function catInteract(entity: Entity) {
         `You managed to learn that ${entity.name} is ${newKnown}`,
         [],
         entity,
-        0
+        null
       )
     : createNotification(
         "You learnt nothing new...",
         `There doesn't seem to be anything left to learn about ${entity.name}.`,
         [],
         entity,
-        0
+        null
       );
 
   updateScreenElement();

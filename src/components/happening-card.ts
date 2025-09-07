@@ -1,16 +1,16 @@
 import { cE, sgeid } from "../utils";
 
 export class HappeningCard extends HTMLElement {
-  titleElement: HTMLElement;
-  contentElement: HTMLElement;
-  clickableElement: HTMLElement;
-  fromElement: HTMLElement;
-  offerElement: HTMLElement;
-  clearElement: HTMLElement;
-  catElement: HTMLElement;
-  bondingElement: HTMLElement;
-  sendBondingElement: HTMLElement;
-  cardElement: HTMLElement;
+  titleSlot: HTMLElement;
+  contentSlot: HTMLElement;
+  clickableSlot: HTMLElement;
+  fromSlot: HTMLElement;
+  offerSlot: HTMLElement;
+  clearSlot: HTMLElement;
+  catSlot: HTMLElement;
+  bondingSlot: HTMLElement;
+  sendBondingSlot: HTMLElement;
+  cardSlot: HTMLElement;
 
   constructor() {
     super();
@@ -50,22 +50,24 @@ export class HappeningCard extends HTMLElement {
         <p id="content-slot"></p>
         <p id="offer-slot"></p>
         <p id="cat-slot"></p>
-        <span id="bonding-slot" style="display:none"><button id="clickable">Pick Cat</button><button style="display:none" id="clear-cat">Clear Cat</button><button id="send-bonding-slot" style="display:none">Send for bonding</button></span>
+        <span id="bonding-slot" style="display:none"><button id="clickable">Pick Cat</button>
+        <button style="display:none" id="clear-cat">Clear Cat</button>
+        <button id="send-bonding-slot" style="display:none">Send for bonding</button></span>
       </div>
     `;
 
     sr.appendChild(template.content.cloneNode(true));
 
-    this.cardElement = sgeid(sr, "card");
-    this.titleElement = sgeid(sr, "title-slot");
-    this.contentElement = sgeid(sr, "content-slot");
-    this.clickableElement = sgeid(sr, "clickable");
-    this.fromElement = sgeid(sr, "from-slot");
-    this.offerElement = sgeid(sr, "offer-slot");
-    this.catElement = sgeid(sr, "cat-slot");
-    this.clearElement = sgeid(sr, "clear-cat");
-    this.bondingElement = sgeid(sr, "bonding-slot");
-    this.sendBondingElement = sgeid(sr, "send-bonding-slot");
+    this.cardSlot = sgeid(sr, "card");
+    this.titleSlot = sgeid(sr, "title-slot");
+    this.contentSlot = sgeid(sr, "content-slot");
+    this.clickableSlot = sgeid(sr, "clickable");
+    this.fromSlot = sgeid(sr, "from-slot");
+    this.offerSlot = sgeid(sr, "offer-slot");
+    this.catSlot = sgeid(sr, "cat-slot");
+    this.clearSlot = sgeid(sr, "clear-cat");
+    this.bondingSlot = sgeid(sr, "bonding-slot");
+    this.sendBondingSlot = sgeid(sr, "send-bonding-slot");
   }
 
   static get observedAttributes() {
@@ -82,43 +84,43 @@ export class HappeningCard extends HTMLElement {
   }
 
   setDivClick(onClick: () => any) {
-    this.clickableElement.onclick = onClick;
+    this.clickableSlot.onclick = onClick;
   }
 
   setClearCat(onClick: () => void) {
-    this.clearElement.onclick = onClick;
+    this.clearSlot.onclick = onClick;
   }
 
   setSendBonding(onClick: () => void) {
-    this.sendBondingElement.onclick = onClick;
+    this.sendBondingSlot.onclick = onClick;
   }
 
   attributeChangedCallback(name: string, _oldvalue: string, newValue: string) {
     switch (name) {
       case "title":
-        this.titleElement.textContent = newValue;
+        this.titleSlot.textContent = newValue;
         break;
       case "content":
-        this.contentElement.textContent += newValue;
+        this.contentSlot.textContent += newValue;
         break;
       case "from":
-        this.fromElement.textContent = newValue;
+        this.fromSlot.textContent = newValue;
         break;
       case "offer":
-        this.offerElement.textContent = `${newValue} gp`;
+        this.offerSlot.textContent = `${newValue} gp`;
         break;
       case "cat":
-        this.catElement.textContent = `Selected Cat: ${newValue}`;
-        this.sendBondingElement.style = "display:block";
+        this.catSlot.textContent = `Selected Cat: ${newValue}`;
+        this.sendBondingSlot.style = "display:block";
         break;
       case "variant":
-        newValue === "bonding" && (this.bondingElement.style = "display:block");
+        newValue === "bonding" && (this.bondingSlot.style = "display:block");
         break;
       case "clear":
-        this.clearElement.style = `display:${newValue}`;
+        this.clearSlot.style = `display:${newValue}`;
         break;
       case "active":
-        this.cardElement.className = newValue === "true" ? "active" : "";
+        this.cardSlot.className += newValue === "true" ? "active" : "";
         break;
     }
   }

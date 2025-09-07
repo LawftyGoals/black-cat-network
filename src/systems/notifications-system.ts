@@ -34,7 +34,7 @@ export function createNotification(
   content: string,
   knowns: string[],
   from: Entity,
-  reward: number
+  reward: number | null
 ) {
   const id = getRandomizedId();
   const notification = new Happening(

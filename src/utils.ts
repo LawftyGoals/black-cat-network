@@ -1,5 +1,6 @@
+import type { Entity } from "./Entity";
 import { closeDialogElement, gEiD } from "./get-elements";
-import { gameInitialState } from "./state/game-state";
+import { gameInitialState, type IScreens } from "./state/game-state";
 
 const gameState = gameInitialState;
 
@@ -100,4 +101,8 @@ export function convertTicksToDaysAndTicks(ticks: number) {
     days: Math.floor(ticks / 16),
     ticks: ticks % 16,
   };
+}
+
+export function arrayFromMap(mapName: keyof IScreens) {
+  return Array.from((gameState[mapName] as Map<string, Entity>).values());
 }

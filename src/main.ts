@@ -9,7 +9,6 @@ import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
 import { NotificationCard } from "./components/notification-card";
-import { gameInitialState } from "./state/game-state";
 import { CatAcquisition } from "./components/cat-acquisition";
 
 function initGameStates() {
@@ -39,7 +38,6 @@ function forit(cre: () => void) {
 function generateData() {
   forit(() => createRandomizedWitch());
   forit(createRandomizedCat);
-  console.log(gameInitialState.catInventory);
   forit(createRandomizedBonding);
   forit(createRandomizedNews);
 }

@@ -6,20 +6,22 @@ type THappeningVariants =
   | "active-bonding"
   | "notification";
 
+export const happeningKnowns = ["title", "content", "active", "offer"];
+
 export class Happening {
   id: string;
-  Active: boolean;
-  NextEventDay: number | null;
-  NextEventTick: number | null;
-  Knowns: string[] | TK[];
-  Variant: THappeningVariants;
-  From: Entity | null;
-  Title: string;
-  Content: string;
-  Offer: number | null;
-  Request_Variant: Map<string, Entity | Happening> | null;
-  Requirements: string[] | null;
-  Cat: Entity | null;
+  active: boolean;
+  nextEventDay: number | null;
+  nextEventTick: number | null;
+  knowns: string[] | TK[];
+  variant: THappeningVariants;
+  from: Entity | null;
+  title: string;
+  content: string;
+  offer: number | null;
+  request_Variant: Map<string, Entity | Happening> | null;
+  requirements: string[] | null;
+  cat: Entity | null;
   constructor(
     id: string,
     active: boolean,
@@ -35,18 +37,18 @@ export class Happening {
     requirements: string[] | null
   ) {
     this.id = id;
-    this.Active = active;
-    this.NextEventDay = nextEventDay;
-    this.NextEventTick = nextEventTick;
-    this.Knowns = ["From", "Title", "Content", "Variant", "Active", ...knowns];
-    this.Variant = variant;
-    this.From = from;
-    this.Title = title;
-    this.Content = content;
-    this.Offer = offer;
-    this.Request_Variant = requestVariant;
-    this.Requirements = requirements;
-    this.Cat = null;
+    this.active = active;
+    this.nextEventDay = nextEventDay;
+    this.nextEventTick = nextEventTick;
+    this.knowns = [...knowns];
+    this.variant = variant;
+    this.from = from;
+    this.title = title;
+    this.content = content;
+    this.offer = offer;
+    this.request_Variant = requestVariant;
+    this.requirements = requirements;
+    this.cat = null;
   }
 }
 

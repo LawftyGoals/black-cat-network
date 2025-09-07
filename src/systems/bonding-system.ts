@@ -24,7 +24,7 @@ export function createRandomizedBonding() {
     false,
     gameState.day + days,
     ticks,
-    ["Offer"],
+    ["offer"],
     "bonding",
     randomWitch,
     "I would like to acquire a BLACK CAT",
@@ -42,17 +42,17 @@ export function createRandomizedBonding() {
 
 export function updateBondings() {
   gameState.bondings.forEach((bonding) => {
-    const active = bonding.Active;
+    const active = bonding.active;
 
-    if (!active && bonding.NextEventDay! < gameState.day) {
+    if (!active && bonding.nextEventDay! < gameState.day) {
       gameState.expiredBondings.set(bonding.id, bonding);
       gameState.bondings.delete(bonding.id);
     }
 
-    const cat = bonding.Cat!;
-    const requirements = bonding.Requirements!;
+    const cat = bonding.cat!;
+    const requirements = bonding.requirements!;
 
-    if (active && bonding.NextEventDay === gameState.day) {
+    if (active && bonding.nextEventDay === gameState.day) {
       const reqsFullfilled = requirements?.reduce((accu, curr) => {
         if (cat.traits.includes(curr)) return accu + 1;
         return accu;
@@ -61,31 +61,32 @@ export function updateBondings() {
       gameState.completedBondings.set(bonding.id, bonding);
       gameState.bondings.delete(bonding.id);
 
-      const percent = reqsFullfilled / requirements.length;
+      const received = Math.ceil(
+        bonding.offer! * (reqsFullfilled / requirements.length)
+      );
+      updateGp(received);
 
-      updateGp(Math.ceil(bonding.Offer! * percent));
-
-      if (percent === 0) {
+      if (received === 0) {
         gameState.catInventory.set(cat.id, cat);
         createNotification(
           "Bonding Failed!",
-          `Unfortuantely ${cat.name} and ${bonding.From!
+          `Unfortuantely ${cat.name} and ${bonding.from!
             .name!} did not get along. ${
             cat.name
           } returned to you slightly miffed.`,
           [],
           cat,
-          0
+          received
         );
       } else {
         createNotification(
           "Bonding Succeeded!",
-          `${cat.name} and ${bonding.From!.name!} bonded successfully. ${
+          `${cat.name} and ${bonding.from!.name!} bonded successfully. ${
             cat.name
           } will now be a beloved familiar.`,
           [],
           cat,
-          0
+          received
         );
       }
     }
@@ -93,12 +94,12 @@ export function updateBondings() {
 }
 
 export function acceptbonding(bonding: Happening) {
-  bonding.Active = true;
+  bonding.active = true;
 
   const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
 
-  bonding.NextEventDay! += days;
-  bonding.NextEventTick! += ticks;
+  bonding.nextEventDay! += days;
+  bonding.nextEventTick! += ticks;
 }
 
 export const reasonForPuchase = [
