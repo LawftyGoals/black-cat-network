@@ -27,7 +27,8 @@ export interface IGameState extends IScreens {
   happenings: Map<string, Happening>;
   gp: number;
   notifications: Map<string, Happening>;
-  traps: number;
+  traps: Map<string, Entity>;
+  catCatcher: Map<string, Entity>;
 }
 
 export const gameInitialState: IGameState = {
@@ -51,5 +52,6 @@ export const gameInitialState: IGameState = {
   maxTime: 16,
   gp: 0,
   notifications: new Map<string, Happening>(),
-  traps: 1,
+  traps: new Map<string, Entity>(),
+  catCatcher: new Map<string, Entity>(),
 };
