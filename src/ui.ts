@@ -1,18 +1,7 @@
 import { coreGivens, getNewKnown, type Entity } from "./Entity";
 import { happeningKnowns, type Happening, type TK } from "./Happening";
-import {
-  gameInitialState,
-  type IGameState,
-  type TScreens,
-} from "./state/game-state";
-import {
-  appendChildren,
-  arrayFromMap,
-  cE,
-  clearChildren,
-  clearSelecteds,
-  replaceChildren,
-} from "./utils";
+import { gameInitialState, type IGameState } from "./state/game-state";
+import { arrayFromMap, cE, clearChildren, replaceChildren } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import {
   closeDialogElement,
@@ -36,17 +25,8 @@ closeDialogElement.onclick = () => {
 };
 
 const menuChildren = menu.children;
-//const [cats, orders, witches, spells, news] = menuChildren;
 
 export function initMenu() {
-  //(Array.from(menuChildren) as HTMLButtonElement[]).forEach((element) => {
-  //  element.onclick = () => {
-  //    gameState.currentScreen = element.id.replace("m-", "") as TScreens;
-  //    updateElementWithList("screen");
-  //    clearSelecteds();
-  //  };
-  //});
-
   const [catInventory, bondings, knownWitches, spells, news, catAcquisition] =
     Array.from(menuChildren) as HTMLButtonElement[];
 
@@ -83,58 +63,6 @@ export function updateTimeUI() {
     time?.appendChild(timePip);
   }
 }
-/* 
-function createCreatureComponent(entity: Entity, onClick?: () => void) {
-  const comp = cE("creature-card") as CreatureCard;
-  const { name, age, knowns, knownTraits } = { ...entity };
-  knowns.forEach((value) => {
-    comp.setAttribute(value, { ...entity }[value] as string);
-  });
-
-  const allKnowns = [
-    ...knowns.map(
-      (k) => ({ ...entity, name: undefined, age: `${age} years` }[k])
-    ),
-    ...knownTraits,
-  ].filter((tk) => tk);
-  comp.setAttribute(
-    "description",
-    `What you know about ${name}: ${allKnowns.join(", ")}`
-  );
-
-  const isCat = entity.type === "cat";
-  if (isCat && !onClick) {
-    comp.setAttribute("showcatslot", "true");
-    comp.setInteractClick(() => {
-      changeRemainingTime();
-
-      const newKnown = getNewKnown(entity);
-
-      newKnown
-        ? createNotification(
-            "You learnt something new!",
-            `You managed to learn that ${entity.name} is ${newKnown}`,
-            [],
-            entity,
-            0
-          )
-        : createNotification(
-            "You learnt nothing new...",
-            `There doesn't seem to be anything left to learn about ${entity.name}.`,
-            [],
-            entity,
-            0
-          );
-
-      updateScreenElement();
-    });
-  }
-  comp.setAttribute("image", `./src/img/${isCat ? "cat" : "witch"}.jpg`);
-
-  comp.setDivClick(onClick);
-
-  return comp;
-} */
 
 function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
@@ -170,139 +98,10 @@ function createNotificationComponent(notification: Happening) {
   return comp;
 }
 
-/*
-function createHappeningComponent(happening: Happening) {
-  const { Knowns, Request_Variant, Cat, Requirements } = { ...happening };
-  let Variant = happening.Variant;
-  const comp = cE("happening-card") as HappeningCard;
-
-  if (happening.Variant === "bonding") {
-    if (!happening.Active) {
-      comp.setDivClick(() => {
-        updateElementWithList("dialog-content", gameState.catInventory);
-        dialogElement.showModal();
-
-        gameState.selectedBonding = happening;
-      });
-
-      if (Cat) {
-        comp.setAttribute("cat", Cat.name);
-        comp.setAttribute("clear", "block");
-        comp.setClearCat(() => {
-          happening.Cat &&
-            gameState.catInventory.set(happening.Cat.id, happening.Cat);
-          happening.Cat = null;
-          updateElementWithList("screen");
-        });
-        comp.setSendBonding(() => {
-          acceptbonding(happening);
-          updateElementWithList("screen");
-        });
-      }
-    } else {
-      Variant = "active-bonding";
-
-      Cat && comp.setAttribute("cat", Cat.name);
-    }
-    comp.setAttribute("content", `Needs to be: ${Requirements!.join(", ")}. `);
-  }
-
-  const end = {
-    ...happening,
-    Variant,
-    Request_Variant,
-    Knowns,
-    Cat,
-    Requirements,
-    From: happening.From?.name,
-  };
-  Knowns.forEach((val) => {
-    comp.setAttribute(val.toLocaleLowerCase(), end[val as TK] as string);
-  });
-
-  return comp;
-} */
-/* 
-export function updateElementWithList(
-  name: "screen" | "dialog-content" | "notifications",
-  map?: Map<string, Entity | Happening>
-) {
-  const element = gEiD(name);
-  const target = map ?? gameState[gameState.currentScreen];
-  clearChildren(element);
-  switch (name) {
-    case "screen":
-      console.log("sc");
-      changeScreens(element, target);
-      break;
-    case "notifications":
-      const active = (Array.from(target.values()) as Happening[]).filter(
-        (noti) => noti.Active
-      );
-      const inActive = (Array.from(target.values()) as Happening[]).filter(
-        (noti) => !noti.Active
-      );
-      active.reverse().forEach((notification) => {
-        element.appendChild(
-          createNotificationComponent(notification as Happening)
-        );
-      });
-      inActive.reverse().forEach((notification) => {
-        element.appendChild(
-          createNotificationComponent(notification as Happening)
-        );
-      });
-      break;
-    case "dialog-content":
-      target.forEach((entity) => {
-        !(entity as Entity).inbonding &&
-          element.appendChild(
-            createCreatureComponent(entity as Entity, () => {
-              const selectedBonding = gameState.selectedBonding!;
-              dialogElement.close();
-              const catField = selectedBonding.Cat;
-              catField && (catField.inbonding = false);
-              selectedBonding.Cat = entity as Entity;
-              (entity as Entity).inbonding = true;
-              updateElementWithList("screen");
-            })
-          );
-      });
-      break;
-  }
-} */
-
 export function updateGp(amount: number) {
   gameState.gp += amount;
   gEiD("gp").textContent = `Gold: ${gameState.gp}`;
 }
-/* 
-function changeScreens(
-  element: HTMLElement,
-  target: Map<string, Entity | Happening>
-) {
-  console.log(element, gameState.currentScreen);
-  target.forEach((entityOrHappening, _id) => {
-    switch (gameState.currentScreen) {
-      case "catInventory":
-      case "knownWitches":
-        element.appendChild(
-          createCreatureComponent(entityOrHappening as Entity)
-        );
-        break;
-      case "news":
-      case "bondings":
-        element.appendChild(
-          createHappeningComponent(entityOrHappening as Happening)
-        );
-        break;
-      case "catAcquisition":
-        console.log("ca");
-        element.appendChild(cE("cat-acquisition"));
-        break;
-    }
-  });
-} */
 
 export function updateNotifications() {
   const notificationsElement = gEiD("notifications");
