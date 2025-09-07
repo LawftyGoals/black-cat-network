@@ -20,17 +20,20 @@ import {
   defaultCatAbilities,
   defaultWitchAbilities,
   witchVocations,
+  catVariantValues,
+  type TCatVariants,
 } from "./Values.js";
 
 const gameState = gameInitialState;
 
-export const coreGivens = ["name", "type", "deceased", "inBonding"];
+export const coreEntityGivens = ["name", "type", "deceased", "inBonding"];
 export const witchGivens = ["approach"];
 export const witchBaseUnknowns = ["age", "sex", "variant", "species"];
-export const catGivens = ["sex"];
+export const catGivens = ["sex", "color"];
 export const catBaseUnknowns = ["age", "variant"];
 
-export const coreAcquisitionGivens = ["variant", "value"];
+export const coreTrapGivens = ["value", "color"];
+export const coreCatcherGivens = ["variant", "age", "value", "color"];
 
 export function getNewKnown(entity: Entity) {
   const mutable = { ...entity };
@@ -76,6 +79,7 @@ export class Entity {
   deceased: boolean;
   sex: string;
   value: number | null;
+  color: string | null;
   species: string | null;
   traits: string[];
   knownTraits: string[];
@@ -122,6 +126,7 @@ export class Entity {
     deceased: boolean,
     sex: string,
     value: number | null,
+    color: string | null,
     species: string | null = null,
     traits: string[],
     knownTraits: string[],
@@ -166,6 +171,7 @@ export class Entity {
     this.deceased = deceased;
     this.sex = sex;
     this.value = value;
+    this.color = color;
     this.species = species;
     this.traits = traits;
     this.knownTraits = knownTraits;
@@ -223,6 +229,7 @@ export function createRandomizedCat(): Entity {
     false, // deceased
     "Male", // sex
     getRandomInt(50),
+    "black",
     "Feline", // species
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 10),
@@ -295,6 +302,7 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     false, // deceased
     "female",
     null,
+    null,
     "Human",
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 50),
@@ -328,4 +336,54 @@ export function createRandomizedWitch(known: boolean = false): Entity {
   gameState.entities.set(id, witch);
 
   return witch;
+}
+
+export function createRandomCatForSale(
+  targetMap: Map<string, Entity>,
+  mapId?: string,
+  trap?: boolean
+) {
+  const id = getRandomizedId();
+  const randomTraits = getRandomCatTraits(getRandomInt(5, 3));
+  const variant = getRandomCatVariant();
+  const { color, value } = catVariantValues[variant];
+
+  const cat = new Entity(
+    id,
+    "cat",
+    false,
+    "",
+    undefined,
+    getRandomInt(27, 1),
+    false,
+    getSex(),
+    value,
+    color[getRandomInt(color.length)],
+    "Feline",
+    randomTraits,
+    trap ? [] : getRandomAmountOrNone(randomTraits, 2, 10),
+    variant
+  );
+
+  gameState.entities.set(id, cat);
+  targetMap.set(mapId ?? id, cat);
+
+  return cat;
+}
+
+function getSex() {
+  return Math.random() < 0.5 ? "Male" : "Female";
+}
+
+function getRandomCatTraits(quantity: number) {
+  const traits = [];
+  const reducedTraits = [...catTraits];
+  for (let i = 0; i < quantity; i++) {
+    traits.push(...reducedTraits.splice(getRandomInt(reducedTraits.length), 1));
+  }
+  return traits;
+}
+
+function getRandomCatVariant() {
+  return catVariants[getRandomInt(catVariants.length)] as TCatVariants;
 }

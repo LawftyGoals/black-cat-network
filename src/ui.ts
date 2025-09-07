@@ -1,4 +1,10 @@
-import { coreGivens, getNewKnown, type Entity } from "./Entity";
+import {
+  coreCatcherGivens,
+  coreEntityGivens,
+  coreTrapGivens,
+  getNewKnown,
+  type Entity,
+} from "./Entity";
 import { happeningKnowns, type Happening, type TK } from "./Happening";
 import { gameInitialState } from "./state/game-state";
 import { arrayFromMap, cE, clearChildren, replaceChildren } from "./utils";
@@ -16,6 +22,7 @@ import type { NotificationCard } from "./components/notification-card";
 import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
 import type { CatAcquisition } from "./components/cat-acquisition";
+import { getCatFromTrap } from "./systems/acquisition-system";
 
 const gameState = gameInitialState;
 
@@ -30,8 +37,6 @@ const menuChildren = menu.children;
 export function initMenu() {
   const [catInventory, bondings, knownWitches, _spells, news, catAcquisition] =
     Array.from(menuChildren) as HTMLButtonElement[];
-
-  console.log(news, catAcquisition);
 
   catInventory.onclick = () => {
     gameState.currentScreen = "catInventory";
@@ -140,6 +145,7 @@ export function updateScreenElement() {
         screen,
         createCreatureCards(
           arrayFromMap(cS),
+          coreEntityGivens,
           catInteract,
           undefined,
           catRelease
@@ -147,7 +153,10 @@ export function updateScreenElement() {
       );
       break;
     case "knownWitches":
-      replaceChildren(screen, createCreatureCards(arrayFromMap(cS)));
+      replaceChildren(
+        screen,
+        createCreatureCards(arrayFromMap(cS), coreEntityGivens)
+      );
       break;
     case "bondings":
       replaceChildren(screen, createHappeningCards(arrayFromMap(cS)));
@@ -163,7 +172,13 @@ export function updateScreenElement() {
 
 function createCatAcquisitionScreen() {
   const comp = cE("cat-acquisition") as CatAcquisition;
-  comp.setCCBtn(createCreatureCards(arrayFromMap("catInventory")));
+  console.log(arrayFromMap("catCatcher"));
+  comp.setCCBtn(
+    createCreatureCards(arrayFromMap("catCatcher"), coreCatcherGivens)
+  );
+  comp.setCGBtn(
+    createCreatureCards(arrayFromMap("catCatcher"), coreTrapGivens)
+  );
 
   return [comp];
 }
@@ -210,6 +225,7 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
           (arrayFromMap("catInventory") as Entity[]).filter(
             (cat) => !cat.inbonding
           ),
+          coreEntityGivens,
           undefined,
           (entity: Entity) => {
             const selectedBonding = gameState.selectedBonding!;
@@ -243,6 +259,7 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
 
 function createCreatureCards(
   entities: Entity[],
+  givens: string[],
   interaction?: (entity: Entity) => void,
   selectCard?: (entity: Entity) => void,
   release?: (entity: Entity) => void
@@ -250,9 +267,10 @@ function createCreatureCards(
   const cards = entities.map((entity) => {
     const { name, type } = { ...entity };
 
-    return createCreatureCardTest(
+    return createCreatureCard(
       name,
       type,
+      givens,
       entity,
       interaction,
       selectCard,
@@ -262,9 +280,10 @@ function createCreatureCards(
   return cards;
 }
 
-function createCreatureCardTest(
+function createCreatureCard(
   name: string,
   type: string,
+  givens: string[],
   entity: Entity,
   interactClick?: (entity: Entity) => void,
   selectCard?: (entity: Entity) => void,
@@ -274,7 +293,7 @@ function createCreatureCardTest(
 
   const e = { ...entity };
 
-  coreGivens.forEach((given) =>
+  givens.forEach((given) =>
     comp.setAttribute(given, e[given as keyof typeof e] as string)
   );
 

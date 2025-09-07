@@ -83,7 +83,8 @@ export class CreatureCard extends HTMLElement {
     this.cardSlot.onclick = onClick;
   }
 
-  setInteractClick(onClick: null | (() => void) = null) {
+  setInteractClick(onClick: null | (() => void) = null, title?: string) {
+    title && (this.interactButton.textContent = title);
     this.interactButton.onclick = onClick;
   }
 
@@ -92,7 +93,14 @@ export class CreatureCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["name", "type", "description", "image", "inbonding", "showcatslot"];
+    return [
+      "name",
+      "variant",
+      "description",
+      "image",
+      "inbonding",
+      "showcatslot",
+    ];
   }
 
   attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
@@ -100,7 +108,7 @@ export class CreatureCard extends HTMLElement {
       case "name":
         this.titleSlot.textContent = newValue;
         break;
-      case "type":
+      case "variant":
         this.titleSlot.textContent = `${this.titleSlot.textContent} (${newValue})`;
         break;
       case "image":

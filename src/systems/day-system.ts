@@ -3,6 +3,7 @@ import { gameInitialState } from "../state/game-state";
 import { resetRemainingTime } from "./time-system";
 import { dayElement, gEiD } from "../get-elements";
 import { updateScreenElement } from "../ui";
+import { generateCatsForCatcher } from "./acquisition-system";
 
 const gameState = gameInitialState;
 
@@ -12,6 +13,9 @@ export function updateDay() {
 
   /* TEMPORARY TEST STATE */
   createRandomizedBonding();
+
+  /*PERMANENT CHANGES*/
+  generateCatsForCatcher(true);
 
   resetRemainingTime();
   updateScreenElement();

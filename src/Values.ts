@@ -3,8 +3,20 @@
 // Species
 export const species: string[] = ["Human", "Feline", "Other"];
 
+export type TCatVariants =
+  | "Black"
+  | "Tabby"
+  | "Siamese"
+  | "Persian"
+  | "Maine Coon"
+  | "Bengal"
+  | "Sphynx"
+  | "Ragdoll"
+  | "British Shorthair"
+  | "Abyssinian"
+  | "Scottish Fold";
 // Cat Variants
-export const catVariants: string[] = [
+export const catVariants = [
   "Black",
   "Tabby",
   "Siamese",
@@ -17,6 +29,26 @@ export const catVariants: string[] = [
   "Abyssinian",
   "Scottish Fold",
 ];
+
+export const catVariantValues = {
+  Black: { value: 10, color: ["black"] },
+  Tabby: { value: 7, color: ["orange", "greytone"] },
+  Siamese: { value: 25, color: ["white"] },
+  Persian: { value: 30, color: ["white", "grey", "black", "orange"] },
+  "Maine Coon": { value: 15, color: ["white", "ginger", "greytone", "black"] },
+  Bengal: { value: 45, color: ["orange", "greytone"] },
+  Sphynx: { value: 20, color: ["pink", "grey", "black", "white"] },
+  Ragdoll: { value: 35, color: ["white"] },
+  "British Shorthair": {
+    value: 15,
+    color: ["black", "grey", "white", "orange"],
+  },
+  Abyssinian: { value: 40, color: ["orange"] },
+  "Scottish Fold": {
+    value: 25,
+    color: ["grey", "white", "greystone", "black", "orange"],
+  },
+};
 
 // Cat Traits
 export const catTraits = [

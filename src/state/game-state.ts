@@ -11,7 +11,12 @@ export interface IScreens {
   catAcquisition: Map<string, Entity>;
 }
 
-export interface IGameState extends IScreens {
+export interface IAcquisition {
+  traps: Map<string, Entity | null>;
+  catCatcher: Map<string, Entity>;
+}
+
+export interface IGameState extends IScreens, IAcquisition {
   day: number;
   witches: Map<string, Entity>;
   creations: number;
@@ -27,8 +32,6 @@ export interface IGameState extends IScreens {
   happenings: Map<string, Happening>;
   gp: number;
   notifications: Map<string, Happening>;
-  traps: Map<string, Entity>;
-  catCatcher: Map<string, Entity>;
 }
 
 export const gameInitialState: IGameState = {
@@ -52,6 +55,6 @@ export const gameInitialState: IGameState = {
   maxTime: 16,
   gp: 0,
   notifications: new Map<string, Happening>(),
-  traps: new Map<string, Entity>(),
+  traps: new Map<string, Entity | null>(),
   catCatcher: new Map<string, Entity>(),
 };

@@ -10,9 +10,11 @@ import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
 import { NotificationCard } from "./components/notification-card";
 import { CatAcquisition } from "./components/cat-acquisition";
+import { initAcquisition } from "./systems/acquisition-system";
 
 function initGameStates() {
   initCustomComponents();
+  initAcquisition();
   initMenu();
   generateData();
   updateScreenElement();

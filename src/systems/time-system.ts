@@ -1,6 +1,7 @@
 import { gEiD } from "../get-elements";
 import { gameInitialState } from "../state/game-state";
 import { updateTimeUI } from "../ui";
+import { generateCatsForTraps } from "./acquisition-system";
 import { updateBondings } from "./bonding-system";
 const gameState = gameInitialState;
 export const advTimeButton = gEiD("advance-time") as HTMLButtonElement;
@@ -17,6 +18,8 @@ export function changeRemainingTime(change: number = -1) {
   if (gameState.remainingTime < 1) {
     advTimeButton.disabled = true;
   }
+
+  generateCatsForTraps();
 
   updateBondings();
   updateTimeUI();

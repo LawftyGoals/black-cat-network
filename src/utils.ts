@@ -1,5 +1,9 @@
 import { closeDialogElement, gEiD } from "./get-elements";
-import { gameInitialState, type IScreens } from "./state/game-state";
+import {
+  gameInitialState,
+  type IAcquisition,
+  type IScreens,
+} from "./state/game-state";
 
 const gameState = gameInitialState;
 
@@ -102,6 +106,6 @@ export function convertTicksToDaysAndTicks(ticks: number) {
   };
 }
 
-export function arrayFromMap<T>(mapName: keyof IScreens) {
+export function arrayFromMap<T>(mapName: keyof IScreens | keyof IAcquisition) {
   return Array.from((gameState[mapName] as Map<string, T>).values());
 }
