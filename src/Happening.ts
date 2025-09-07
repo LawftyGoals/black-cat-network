@@ -18,17 +18,17 @@ export class Happening {
   // Basic
   agent: Entity | null;
   patient: Entity | null = null;
-  ongoing?: boolean;
-  nextEventDay?: number | null;
-  nextEventTick?: number | null;
-  outcome?: Happening;
+  ongoing: boolean;
+  nextEventDay: number | null;
+  nextEventTick: number | null;
+  outcome: Happening;
   // Bonding
-  requestVariant?: Map<string, Entity | Happening> | null;
-  bondRequirements?: string[] | null;
-  bondCat?: Entity | null;
+  requestVariant: Map<string, Entity | Happening> | null;
+  bondRequirements: string[] | null;
+  cat: Entity | null;
   // Description
-  title?: string | null;
-  content?: string | null;
+  title: string | null;
+  content: string | null;
 
   constructor(data: {
     id: string;
@@ -36,16 +36,16 @@ export class Happening {
     triggerKeyword: string[];
     knowns: string[] | TK[];
     agent: Entity | null;
-    patient?: Entity | null;
-    ongoing?: boolean;
-    nextEventDay?: number | null;
-    nextEventTick?: number | null;
-    outcome?: Happening;
-    requestVariant?: Map<string, Entity | Happening> | null;
-    bondRequirements?: string[] | null;
-    bondCat?: Entity | null;
-    title?: string | null;
-    content?: string | null;
+    patient: Entity | null;
+    ongoing: boolean;
+    nextEventDay: number | null;
+    nextEventTick: number | null;
+    outcome: Happening;
+    requestVariant: Map<string, Entity | Happening> | null;
+    bondRequirements: string[] | null;
+    cat: Entity | null;
+    title: string | null;
+    content: string | null;
   }) {
     this.id = data.id;
     this.variant = data.variant;
@@ -59,7 +59,7 @@ export class Happening {
     this.outcome = data.outcome;
     this.requestVariant = data.requestVariant;
     this.bondRequirements = data.bondRequirements;
-    this.bondCat = data.bondCat;
+    this.cat = data.cat;
     this.title = data.title;
     this.content = data.content;
   }
