@@ -8,6 +8,7 @@ export class CreatureCard extends HTMLElement {
   bondingSlot: HTMLElement;
   catSlot: HTMLElement;
   interactButton: HTMLElement;
+  releaseButton: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -62,7 +63,7 @@ export class CreatureCard extends HTMLElement {
             <p id="description-slot"></p>
           </div>
           <div id="bonding-slot" style="display:none"><button>Test</button></div>
-          <div id="cat-slot" style="display:none"><button id="interact-button">Interact With Cat</button></div>
+          <div id="cat-slot" style="display:none"><button id="interact-button">Interact With Cat</button><button id="release-button">Release</button></div>
         </div>
       `;
 
@@ -75,6 +76,7 @@ export class CreatureCard extends HTMLElement {
     this.bondingSlot = sgeid(sr, "bonding-slot");
     this.catSlot = sgeid(sr, "cat-slot");
     this.interactButton = sgeid(sr, "interact-button");
+    this.releaseButton = sgeid(sr, "release-button");
   }
 
   setDivClick(onClick?: () => void) {
@@ -83,6 +85,10 @@ export class CreatureCard extends HTMLElement {
 
   setInteractClick(onClick: null | (() => void) = null) {
     this.interactButton.onclick = onClick;
+  }
+
+  setReleaseButton(onClick: null | (() => void)) {
+    this.releaseButton.onclick = onClick;
   }
 
   static get observedAttributes() {

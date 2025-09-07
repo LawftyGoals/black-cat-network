@@ -49,6 +49,11 @@ export function initMenu() {
     gameState.currentScreen = "news";
     updateScreenElement();
   };
+
+  catAcquisition.click = () => {
+    gameState.currentScreen = "catAcquisition";
+    updateScreenElement();
+  };
 }
 
 const time = gEiD("time")!;
@@ -130,33 +135,36 @@ export function updateScreenElement() {
     case "catInventory":
       replaceChildren(
         screen,
-        createCreatureCards(arrayFromMap(cS), catInteract)
+        createCreatureCards(arrayFromMap(cS), catInteract, catRelease)
       );
       break;
     case "knownWitches":
       replaceChildren(screen, createCreatureCards(arrayFromMap(cS)));
       break;
     case "bondings":
-      createHappeningCards(cS);
+      replaceChildren(screen, createHappeningCards(arrayFromMap(cS)));
       break;
     case "news":
-      createHappeningCards(cS);
+      replaceChildren(screen, createHappeningCards(arrayFromMap(cS)));
+      break;
+    case "catAcquisition":
+      replaceChildren(screen, createCatAcquisitionScreen());
       break;
   }
 }
 
-function createHappeningCards(currentScreen: string) {
-  const happenings = Array.from(
-    (
-      gameState[currentScreen as keyof IGameState] as Map<string, Happening>
-    ).values()
-  );
+function createCatAcquisitionScreen() {
+  const comp = cE("cat-acquisition");
 
+  return [comp];
+}
+
+function createHappeningCards(happenings: Happening[]) {
   const cards = happenings.map((happening) => {
     return createHappeningCardTest(happening);
   });
 
-  replaceChildren(screen, cards);
+  return cards;
 }
 
 function createHappeningCardTest(happening: Happening) {
@@ -190,7 +198,9 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
       replaceChildren(
         gEiD("dialog-content"),
         createCreatureCards(
-          arrayFromMap("catInventory").filter((cat) => !cat.inbonding),
+          (arrayFromMap("catInventory") as Entity[]).filter(
+            (cat) => !cat.inbonding
+          ),
           undefined,
           (entity: Entity) => {
             const selectedBonding = gameState.selectedBonding!;
@@ -225,12 +235,20 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
 function createCreatureCards(
   entities: Entity[],
   interaction?: (entity: Entity) => void,
-  selectCard?: (entity: Entity) => void
+  selectCard?: (entity: Entity) => void,
+  release?: (entity: Entity) => void
 ) {
   const cards = entities.map((entity) => {
     const { name, type } = { ...entity };
 
-    return createCreatureCardTest(name, type, entity, interaction, selectCard);
+    return createCreatureCardTest(
+      name,
+      type,
+      entity,
+      interaction,
+      selectCard,
+      release
+    );
   });
   return cards;
 }
@@ -240,7 +258,8 @@ function createCreatureCardTest(
   type: string,
   entity: Entity,
   interactClick?: (entity: Entity) => void,
-  selectCard?: (entity: Entity) => void
+  selectCard?: (entity: Entity) => void,
+  release?: (entity: Entity) => void
 ) {
   const comp = cE("creature-card") as CreatureCard;
 
@@ -268,6 +287,9 @@ function createCreatureCardTest(
   if (selectCard) {
     comp.setDivClick(() => selectCard(entity));
   }
+
+  if (release) comp.setReleaseButton(() => release(entity));
+
   return comp;
 }
 
@@ -292,5 +314,10 @@ function catInteract(entity: Entity) {
         null
       );
 
+  updateScreenElement();
+}
+
+function catRelease(entity: Entity) {
+  gameState.catInventory.delete(entity.id);
   updateScreenElement();
 }

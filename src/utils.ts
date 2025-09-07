@@ -103,6 +103,6 @@ export function convertTicksToDaysAndTicks(ticks: number) {
   };
 }
 
-export function arrayFromMap(mapName: keyof IScreens) {
-  return Array.from((gameState[mapName] as Map<string, Entity>).values());
+export function arrayFromMap<T>(mapName: keyof IScreens) {
+  return Array.from((gameState[mapName] as Map<string, T>).values());
 }
