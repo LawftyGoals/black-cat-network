@@ -184,7 +184,7 @@ export const witchSurNames = [
   "Trump",
   "Blackwood",
   "Blackwood",
-  "Yornold",
+  "Slattery",
   "Basset",
   "Amondsham",
   "Basset",
