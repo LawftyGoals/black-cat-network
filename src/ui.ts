@@ -1,6 +1,6 @@
 import { coreGivens, getNewKnown, type Entity } from "./Entity";
 import { happeningKnowns, type Happening, type TK } from "./Happening";
-import { gameInitialState, type IGameState } from "./state/game-state";
+import { gameInitialState } from "./state/game-state";
 import { arrayFromMap, cE, clearChildren, replaceChildren } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import {
@@ -15,6 +15,7 @@ import { acceptbonding } from "./systems/bonding-system";
 import type { NotificationCard } from "./components/notification-card";
 import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
+import type { CatAcquisition } from "./components/cat-acquisition";
 
 const gameState = gameInitialState;
 
@@ -27,8 +28,10 @@ closeDialogElement.onclick = () => {
 const menuChildren = menu.children;
 
 export function initMenu() {
-  const [catInventory, bondings, knownWitches, spells, news, catAcquisition] =
+  const [catInventory, bondings, knownWitches, _spells, news, catAcquisition] =
     Array.from(menuChildren) as HTMLButtonElement[];
+
+  console.log(news, catAcquisition);
 
   catInventory.onclick = () => {
     gameState.currentScreen = "catInventory";
@@ -50,7 +53,7 @@ export function initMenu() {
     updateScreenElement();
   };
 
-  catAcquisition.click = () => {
+  catAcquisition.onclick = () => {
     gameState.currentScreen = "catAcquisition";
     updateScreenElement();
   };
@@ -135,7 +138,12 @@ export function updateScreenElement() {
     case "catInventory":
       replaceChildren(
         screen,
-        createCreatureCards(arrayFromMap(cS), catInteract, catRelease)
+        createCreatureCards(
+          arrayFromMap(cS),
+          catInteract,
+          undefined,
+          catRelease
+        )
       );
       break;
     case "knownWitches":
@@ -154,7 +162,8 @@ export function updateScreenElement() {
 }
 
 function createCatAcquisitionScreen() {
-  const comp = cE("cat-acquisition");
+  const comp = cE("cat-acquisition") as CatAcquisition;
+  comp.setCCBtn(createCreatureCards(arrayFromMap("catInventory")));
 
   return [comp];
 }

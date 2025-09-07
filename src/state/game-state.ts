@@ -46,7 +46,7 @@ export const gameInitialState: IGameState = {
   cats: new Map<string, Entity>(),
   selectedBonding: null,
   selectedCat: null,
-  currentScreen: "bondings",
+  currentScreen: "catAcquisition",
   remainingTime: 16,
   maxTime: 16,
   gp: 0,

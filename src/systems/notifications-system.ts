@@ -1,5 +1,5 @@
 import type { Entity } from "../Entity";
-import { Happening, type TK } from "../Happening";
+import { Happening } from "../Happening";
 import { gameInitialState } from "../state/game-state";
 import { updateNotifications } from "../ui";
 import { getRandomExistingWitch, getRandomizedId } from "../utils";

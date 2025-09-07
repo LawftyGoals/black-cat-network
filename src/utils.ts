@@ -1,4 +1,3 @@
-import type { Entity } from "./Entity";
 import { closeDialogElement, gEiD } from "./get-elements";
 import { gameInitialState, type IScreens } from "./state/game-state";
 

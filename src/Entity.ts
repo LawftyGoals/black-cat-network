@@ -30,6 +30,8 @@ export const witchBaseUnknowns = ["age", "sex", "variant", "species"];
 export const catGivens = ["sex"];
 export const catBaseUnknowns = ["age", "variant"];
 
+export const coreAcquisitionGivens = ["variant", "value"];
+
 export function getNewKnown(entity: Entity) {
   const mutable = { ...entity };
   const { type, knowns, traits, knownTraits } = mutable;
@@ -73,6 +75,7 @@ export class Entity {
   age: number;
   deceased: boolean;
   sex: string;
+  value: number | null;
   species: string | null;
   traits: string[];
   knownTraits: string[];
@@ -118,6 +121,7 @@ export class Entity {
     age: number,
     deceased: boolean,
     sex: string,
+    value: number | null,
     species: string | null = null,
     traits: string[],
     knownTraits: string[],
@@ -161,6 +165,7 @@ export class Entity {
     this.age = age;
     this.deceased = deceased;
     this.sex = sex;
+    this.value = value;
     this.species = species;
     this.traits = traits;
     this.knownTraits = knownTraits;
@@ -217,6 +222,7 @@ export function createRandomizedCat(): Entity {
     getRandomInt(27, 1), // age
     false, // deceased
     "Male", // sex
+    getRandomInt(50),
     "Feline", // species
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 10),
@@ -288,6 +294,7 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     getRandomInt(154, 16), // age
     false, // deceased
     "female",
+    null,
     "Human",
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 50),
