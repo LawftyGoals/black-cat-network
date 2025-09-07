@@ -72,7 +72,6 @@ function createNotificationComponent(notification: Happening) {
   comp.setClickable(() => {
     const hapCom = cE("happening-card");
     const restKnowns = happeningKnowns.filter((known) => {
-      console.log(typeof notification[known as TK]);
       return (
         typeof notification[known as TK] === "string" ||
         typeof notification[known as TK] === "number"
