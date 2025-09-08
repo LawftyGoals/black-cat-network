@@ -1,5 +1,9 @@
 // Values.ts
 
+export const itemValues = {
+  trap: { value: 10 },
+};
+
 // Species
 export const species: string[] = ["Human", "Feline", "Other"];
 

@@ -25,6 +25,7 @@ export class CatAcquisition extends HTMLElement {
           flex-direction:column;
           height:70vh;
           overflow: auto;
+          gap: 4px;
           margin-top:8px;
         }
         .btn-container{

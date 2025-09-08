@@ -2,6 +2,7 @@
 html, body {
   margin:0;
   padding: 0;
+  background: radial-gradient(circle,#000 0%, #0B0038 100%);;
 }
 
 :root{
@@ -22,6 +23,7 @@ html, body {
   justify-content: space-between;
   max-height: var(--bar-height);
   border: solid 2px black;
+  color: white;
 
 }
 
@@ -38,7 +40,7 @@ html, body {
   display:flex;
   flex-direction: column;
   padding: 8px 2px;
-  gap: 8px;
+  gap: 4px;
 }
 
 #screen {
@@ -96,4 +98,10 @@ html, body {
   border-radius: 8px;
   padding: 16px;
   overflow:auto;
+}
+
+button {
+  border: 4px solid Indigo; 
+  background-color: slateblue;
+  color: white;
 }

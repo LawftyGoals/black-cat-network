@@ -56,7 +56,7 @@ export const gameInitialState: IGameState = {
   currentScreen: "catAcquisition",
   remainingTime: 16,
   maxTime: 16,
-  gp: 0,
+  gp: 100,
   notifications: new Map<string, Happening>(),
   traps: new Map<string, Entity | null>(),
   catCatcher: new Map<string, Entity>(),

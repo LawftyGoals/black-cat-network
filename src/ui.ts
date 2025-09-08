@@ -22,7 +22,9 @@ import type { NotificationCard } from "./components/notification-card";
 import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
 import type { CatAcquisition } from "./components/cat-acquisition";
-import { getCatFromTrap } from "./systems/acquisition-system";
+import { generateTraps, getCatFromTrap } from "./systems/acquisition-system";
+import { itemValues } from "./Values";
+import { textResource } from "./text/textResource";
 
 const gameState = gameInitialState;
 
@@ -176,6 +178,7 @@ export function updateScreenElement() {
 
   //UPDATES
   updateCatSpace();
+  updateGp(0);
 }
 
 function createCatAcquisitionScreen() {
@@ -201,11 +204,11 @@ function createCatAcquisitionScreen() {
           (cat: Entity) => {
             //PURCHASE
             if (cat.value && gameState.gp < cat.value) {
-              displayModalMessage("Moew No! Not enough shinies...");
+              displayModalMessage(textResource.purchase.noGp);
             } else if (
               gameState.catInventory.size >= gameState.maxCatInventorySize
             ) {
-              displayModalMessage("Not enough boxes, for cats to fits intos.");
+              displayModalMessage(textResource.purchase.noSpace);
             } else {
               gameState.catCatcher.delete(cat.id);
               gameState.catInventory.set(cat.id, cat);
@@ -326,7 +329,7 @@ function createCreatureCards(
 }
 
 function createTrapCards(traps: Map<string, Entity | null>) {
-  const cards: CreatureCard[] = [];
+  const cards: HTMLElement[] = [];
   traps.forEach((cat, key) => {
     if (cat) {
       cards.push(
@@ -337,7 +340,7 @@ function createTrapCards(traps: Map<string, Entity | null>) {
           cat,
           (_cat) => {
             if (gameState.catInventory.size >= gameState.maxCatInventorySize) {
-              displayModalMessage("Not enough boxes, for cats to fits intos.");
+              displayModalMessage(textResource.purchase.noSpace);
             } else {
               getCatFromTrap(key);
               updateScreenElement();
@@ -351,9 +354,26 @@ function createTrapCards(traps: Map<string, Entity | null>) {
           }
         )
       );
+    } else {
+      const emptyTrap = cE("pre");
+      emptyTrap.textContent = textResource.traps.empty;
+      emptyTrap.style =
+        "border:2px solid grey;background:AliceBlue;padding:8px;margin:0;";
+      cards.push(emptyTrap);
     }
   });
-  return cards;
+  const purchaseTrap = cE("button");
+  purchaseTrap.innerText = textResource.traps.purchaseTrap;
+  purchaseTrap.onclick = () => {
+    if (gameState.gp < itemValues.trap.value) {
+      displayModalMessage(textResource.purchase.noGp);
+    } else {
+      generateTraps();
+      updateGp(-itemValues.trap.value);
+      updateScreenElement();
+    }
+  };
+  return [...cards, purchaseTrap];
 }
 
 function createCreatureCard(
@@ -405,14 +425,14 @@ function catInteract(entity: Entity) {
 
   newKnown
     ? createNotification(
-        "You learnt something new!",
+        textResource.catInteraction.learn,
         `You managed to learn that ${entity.name} is ${newKnown}`,
         [],
         entity,
         null
       )
     : createNotification(
-        "You learnt nothing new...",
+        textResource.catInteraction.noLearn,
         `There doesn't seem to be anything left to learn about ${entity.name}.`,
         [],
         entity,
