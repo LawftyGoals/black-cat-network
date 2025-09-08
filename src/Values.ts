@@ -74,6 +74,16 @@ export const catTraits = [
 //   ["Vocal", "Quiet"],
 // ];
 
+// Cat Traits Reworked    (Are we missing Playful or Mischievous?)
+// export const catTraitsNew: string[] = [
+//   ["Active", "Lazy"],
+//   ["Curious", "Shy"],
+//   ["Cunning", "Derpy"],
+//   ["Impulsive", "Anxious"],
+//   ["Sweet", "Mischievous"],
+//   ["Vocal", "Quiet"],
+// ];
+
 // Witch Traits
 export const witchTraits: string[] = [
   "vindictive",
@@ -102,12 +112,21 @@ export const catNames: string[] = [
   "Alioth",
   "Djinni",
   "Artemis",
+  "Artemis",
 ];
 
 export const witchFirstNames = [
   "Fillippa",
+  "Fillippa",
   "Brione",
   "Constance",
+  "Nebula",
+  "Fleur",
+  "Adeline",
+  "Olive",
+  "Odette",
+  "Aurora",
+  "Alondra",
   "Nebula",
   "Fleur",
   "Adeline",
@@ -125,8 +144,19 @@ export const witchFirstNames = [
   "Xanthe",
   "Billie",
   "Aurelia",
+  "Xanthe",
+  "Billie",
+  "Aurelia",
   "Ursula",
   "Vashti",
+  "Juniper",
+  "Moxie",
+  "Halimeda",
+  "Stacy",
+  "Agatha",
+  "Freya",
+  "Scarlet",
+  "Isobel",
   "Juniper",
   "Moxie",
   "Halimeda",
@@ -145,7 +175,17 @@ export const witchSurNames = [
   "Diddle",
   "Strangewayes",
   "Finch",
+  "Pinncock",
+  "Diddle",
+  "Strangewayes",
+  "Finch",
   "Newdegate",
+  "Mauntell",
+  "Chauncey",
+  "Coggshall",
+  "Roper",
+  "Atherton",
+  "Gardner",
   "Mauntell",
   "Chauncey",
   "Coggshall",
@@ -155,7 +195,15 @@ export const witchSurNames = [
   "Oxenbrigg",
   "Norbury",
   "Cockayne",
+  "Norbury",
+  "Cockayne",
   "Petham",
+  "Brecknock",
+  "Bulkeley",
+  "Blount",
+  "Waldegrave",
+  "Higden",
+  "Tregonwell",
   "Brecknock",
   "Bulkeley",
   "Blount",
@@ -164,9 +212,13 @@ export const witchSurNames = [
   "Tregonwell",
   "Topsfield",
   "Chilton",
+  "Chilton",
   "Trump",
   "Blackwood",
-  "Yornold",
+  "Blackwood",
+  "Slattery",
+  "Basset",
+  "Amondsham",
   "Basset",
   "Amondsham",
 ];
@@ -185,7 +237,7 @@ export const witchVocations = [
 export const witchApproaches = [
   ["Animist", "Materialist"],
   ["Authoritarian", "Egalitarian"],
-  ["Explorer", "Scholastic"],
+  ["Exploratory", "Scholastic"],
   ["Extremist", "Moderate"],
   ["Purist", "Syncretic"],
 ];
@@ -237,3 +289,5 @@ export const defaultWitchAbilities = {
   magicresistance: 40,
   luck: 40,
 };
+
+export const defaultGuardianAbilities = {};

@@ -16,10 +16,10 @@ import {
   catNames,
   witchFirstNames,
   witchSurNames,
+  witchVocations,
   witchApproaches,
   defaultCatAbilities,
   defaultWitchAbilities,
-  witchVocations,
   catVariantValues,
   type TCatVariants,
 } from "./Values.js";
@@ -85,6 +85,7 @@ export class Entity {
   knownTraits: string[];
   variant: string | null;
   // Witch-specific
+  vocation: string | null;
   approach: string | null;
   // CAT ABILITIES & TRAITS
   // Agility
@@ -132,6 +133,7 @@ export class Entity {
     knownTraits: string[],
     variant: string | null = null,
     // Witch-specific
+    vocation: string | null = null,
     approach: string | null = null,
     // Agility
     balance: number | null = null,
@@ -177,6 +179,7 @@ export class Entity {
     this.knownTraits = knownTraits;
     this.variant = variant;
     // Witch-specific
+    this.vocation = vocation;
     this.approach = approach;
     // Agility
     this.balance = balance;
@@ -235,8 +238,9 @@ export function createRandomizedCat(): Entity {
     getRandomAmountOrNone(randomTraits, 2, 10),
     randomVariant,
     null,
-    defaultCatAbilities.reflex,
+    null,
     defaultCatAbilities.balance,
+    defaultCatAbilities.reflex,
     defaultCatAbilities.speed,
     defaultCatAbilities.vision,
     defaultCatAbilities.hearing,
@@ -279,14 +283,14 @@ export function createRandomizedWitch(known: boolean = false): Entity {
   const randomSurName =
     witchSurNames[Math.floor(Math.random() * witchSurNames.length)];
   const randomName = `${randomFirstName} ${randomSurName}`;
-  const randomVariant =
-    witchVocations[Math.floor(Math.random() * witchVocations.length)];
   const randomTraits = [
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
     witchTraits[Math.floor(Math.random() * witchTraits.length)],
   ];
 
+  const randomVocation =
+    witchVocations[Math.floor(Math.random() * witchVocations.length)];
   const randomApproach =
     witchApproaches[Math.floor(Math.random() * witchApproaches.length)][
       Math.floor(Math.random() * 2)
@@ -306,10 +310,11 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     "Human",
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 50),
-    randomVariant,
+    null,
+    randomVocation,
     randomApproach,
-    defaultWitchAbilities.reflex,
     defaultWitchAbilities.balance,
+    defaultWitchAbilities.reflex,
     defaultWitchAbilities.speed,
     defaultWitchAbilities.vision,
     defaultWitchAbilities.hearing,

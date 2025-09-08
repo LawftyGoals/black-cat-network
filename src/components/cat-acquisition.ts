@@ -1,4 +1,3 @@
-import type { IGameState } from "../state/game-state";
 import { cE, replaceChildren, sgeid } from "../utils";
 
 export class CatAcquisition extends HTMLElement {

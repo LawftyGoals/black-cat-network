@@ -5,7 +5,7 @@ import {
   type IScreens,
 } from "./state/game-state";
 
-const gameState = gameInitialState;
+export const gameState = gameInitialState;
 
 export const cE = (
   type:

@@ -42,7 +42,7 @@ export function createRandomizedBonding() {
 
 export function updateBondings() {
   gameState.bondings.forEach((bonding) => {
-    const active = bonding.active;
+    const active = bonding.ongoing;
 
     if (!active && bonding.nextEventDay! < gameState.day) {
       gameState.expiredBondings.set(bonding.id, bonding);
@@ -50,7 +50,7 @@ export function updateBondings() {
     }
 
     const cat = bonding.cat!;
-    const requirements = bonding.requirements!;
+    const requirements = bonding.bondrequirements!;
 
     if (active && bonding.nextEventDay === gameState.day) {
       const reqsFullfilled = requirements?.reduce((accu, curr) => {
@@ -70,7 +70,7 @@ export function updateBondings() {
         gameState.catInventory.set(cat.id, cat);
         createNotification(
           "Bonding Failed!",
-          `Unfortuantely ${cat.name} and ${bonding.from!
+          `Unfortuantely ${cat.name} and ${bonding.agent!
             .name!} did not get along. ${
             cat.name
           } returned to you slightly miffed.`,
@@ -81,7 +81,7 @@ export function updateBondings() {
       } else {
         createNotification(
           "Bonding Succeeded!",
-          `${cat.name} and ${bonding.from!.name!} bonded successfully. ${
+          `${cat.name} and ${bonding.agent!.name!} bonded successfully. ${
             cat.name
           } will now be a beloved familiar.`,
           [],
@@ -94,7 +94,7 @@ export function updateBondings() {
 }
 
 export function acceptbonding(bonding: Happening) {
-  bonding.active = true;
+  bonding.ongoing = true;
 
   const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
 

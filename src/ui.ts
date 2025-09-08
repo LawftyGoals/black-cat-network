@@ -80,8 +80,11 @@ export function updateTimeUI() {
 function createNotificationComponent(notification: Happening) {
   const comp = cE("notification-card") as NotificationCard;
   comp.setAttribute("title", notification.title);
-  comp.setAttribute("active", notification.active.toString());
-  comp.setAttribute("from", `From: ${notification.from!.name}`);
+  comp.setAttribute("ongoing", notification.ongoing.toString());
+  comp.setAttribute("agent", `From: ${notification.agent!.name}`);
+  comp.setAttribute("title", notification.title);
+  comp.setAttribute("active", notification.ongoing.toString());
+  comp.setAttribute("agent", `From: ${notification.agent!.name}`);
   comp.setClickable(() => {
     const hapCom = cE("happening-card");
     const restKnowns = happeningKnowns.filter((known) => {
@@ -98,12 +101,12 @@ function createNotificationComponent(notification: Happening) {
       );
     });
 
-    hapCom.setAttribute("from", notification.from!.name);
+    hapCom.setAttribute("agent", notification.agent!.name);
 
     clearChildren(dialogContentElement);
     dialogContentElement.appendChild(hapCom);
     dialogElement.showModal();
-    notification.active = false;
+    notification.ongoing = false;
     updateNotifications();
   });
 
@@ -123,7 +126,7 @@ export function updateNotifications() {
   const inact: Happening[] = [];
 
   notifications.reverse().forEach((notification) => {
-    if (notification.active) {
+    if (notification.ongoing) {
       act.push(notification);
     } else {
       inact.push(notification);
@@ -230,14 +233,14 @@ function createHappeningCards(happenings: Happening[]) {
 function createHappeningCard(happening: Happening) {
   const comp = cE("happening-card") as HappeningCard;
 
-  const { knowns, from, variant } = { ...happening };
+  const { knowns, agent, variant } = { ...happening };
 
   [...happeningKnowns, ...knowns].forEach((known) => {
     happening[known as TK] &&
       comp.setAttribute(known, happening[known as TK] as string);
   });
 
-  from && comp.setAttribute("from", `${from.name}`);
+  agent && comp.setAttribute("agent", `${agent.name}`);
 
   variant === "bonding" && addBondingElements(happening, comp);
 
@@ -245,13 +248,16 @@ function createHappeningCard(happening: Happening) {
 }
 
 function addBondingElements(happening: Happening, comp: HappeningCard) {
-  const { content, requirements, cat } = { ...happening };
+  const { content, bondrequirements, cat } = { ...happening };
 
   content &&
-    comp.setAttribute("content", ` Needs to be: ${requirements!.join(", ")}`);
+    comp.setAttribute(
+      "content",
+      ` Needs to be: ${bondrequirements!.join(", ")}`
+    );
 
   if (cat) comp.setAttribute("cat", cat.name);
-  if (!happening.active) {
+  if (!happening.ongoing) {
     comp.setAttribute("variant", "bonding");
     comp.setDivClick(() => {
       gameState.selectedBonding = happening;
@@ -430,6 +436,5 @@ function displayModalMessage(message: string) {
 
 function updateCatSpace() {
   const space = gEiD("cat-space");
-  console.log(space);
   space.textContent = `${gameState.catInventory.size}/${gameState.maxCatInventorySize}`;
 }

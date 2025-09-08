@@ -38,7 +38,7 @@ export class NotificationCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["title", "active", "from"];
+    return ["title", "active", "agent"];
   }
 
   setClickable(onClick: () => void) {
@@ -53,7 +53,7 @@ export class NotificationCard extends HTMLElement {
       case "active":
         this.clickable.className = newValue === "false" ? "inactive" : "active";
         break;
-      case "from":
+      case "agent":
         this.fromSlot.textContent = newValue;
         break;
     }
