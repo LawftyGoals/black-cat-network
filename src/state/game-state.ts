@@ -14,6 +14,7 @@ export interface IScreens {
 export interface IAcquisition {
   traps: Map<string, Entity | null>;
   catCatcher: Map<string, Entity>;
+  selectedAcqusition: "traps" | "catCatcher";
 }
 
 export interface IGameState extends IScreens, IAcquisition {
@@ -25,6 +26,7 @@ export interface IGameState extends IScreens, IAcquisition {
   selectedBonding: Happening | null;
   cats: Map<string, Entity>;
   selectedCat: Entity | null;
+  maxCatInventorySize: number;
   currentScreen: TScreens;
   entities: Map<string, Entity>;
   remainingTime: number;
@@ -47,6 +49,7 @@ export const gameInitialState: IGameState = {
   day: 1,
   creations: 1,
   catInventory: new Map<string, Entity>(),
+  maxCatInventorySize: 10,
   cats: new Map<string, Entity>(),
   selectedBonding: null,
   selectedCat: null,
@@ -57,4 +60,5 @@ export const gameInitialState: IGameState = {
   notifications: new Map<string, Happening>(),
   traps: new Map<string, Entity | null>(),
   catCatcher: new Map<string, Entity>(),
+  selectedAcqusition: "traps",
 };

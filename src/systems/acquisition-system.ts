@@ -42,7 +42,6 @@ export function generateCatsForCatcher(reset: boolean, quantity?: number) {
   for (let i = 0; i < Quantity; i++) {
     createRandomCatForSale(gameState.catCatcher);
   }
-  console.log(gameState.catCatcher);
 }
 
 export function initAcquisition() {

@@ -3,7 +3,10 @@ import { gameInitialState } from "../state/game-state";
 import { resetRemainingTime } from "./time-system";
 import { dayElement, gEiD } from "../get-elements";
 import { updateScreenElement } from "../ui";
-import { generateCatsForCatcher } from "./acquisition-system";
+import {
+  generateCatsForCatcher,
+  generateCatsForTraps,
+} from "./acquisition-system";
 
 const gameState = gameInitialState;
 
@@ -16,6 +19,7 @@ export function updateDay() {
 
   /*PERMANENT CHANGES*/
   generateCatsForCatcher(true);
+  generateCatsForTraps(0.25);
 
   resetRemainingTime();
   updateScreenElement();

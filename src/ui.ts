@@ -139,6 +139,7 @@ export function updateNotifications() {
 
 export function updateScreenElement() {
   const cS = gameState.currentScreen;
+
   switch (cS) {
     case "catInventory":
       replaceChildren(
@@ -147,6 +148,7 @@ export function updateScreenElement() {
           arrayFromMap(cS),
           coreEntityGivens,
           catInteract,
+          undefined,
           undefined,
           catRelease
         )
@@ -168,28 +170,64 @@ export function updateScreenElement() {
       replaceChildren(screen, createCatAcquisitionScreen());
       break;
   }
+
+  //UPDATES
+  updateCatSpace();
 }
 
 function createCatAcquisitionScreen() {
   const comp = cE("cat-acquisition") as CatAcquisition;
-  console.log(arrayFromMap("catCatcher"));
-  comp.setCCBtn(
-    createCreatureCards(arrayFromMap("catCatcher"), coreCatcherGivens)
-  );
-  comp.setCGBtn(createTrapCards(gameState.traps));
+  comp.setCatcherBtn(() => {
+    gameState.selectedAcqusition = "catCatcher";
+    updateScreenElement();
+  });
+  comp.setTrapsBtn(() => {
+    gameState.selectedAcqusition = "traps";
+    updateScreenElement();
+  });
+
+  switch (gameState.selectedAcqusition) {
+    case "traps":
+      comp.setAcquisitionType(createTrapCards(gameState.traps));
+      break;
+    case "catCatcher":
+      comp.setAcquisitionType(
+        createCreatureCards(
+          arrayFromMap("catCatcher"),
+          coreCatcherGivens,
+          (cat: Entity) => {
+            //PURCHASE
+            if (cat.value && gameState.gp < cat.value) {
+              displayModalMessage("Moew No! Not enough shinies...");
+            } else if (
+              gameState.catInventory.size >= gameState.maxCatInventorySize
+            ) {
+              displayModalMessage("Not enough boxes, for cats to fits intos.");
+            } else {
+              gameState.catCatcher.delete(cat.id);
+              gameState.catInventory.set(cat.id, cat);
+              cat.value && updateGp(-cat.value);
+              updateScreenElement();
+            }
+          },
+          "Purchase"
+        )
+      );
+      break;
+  }
 
   return [comp];
 }
 
 function createHappeningCards(happenings: Happening[]) {
   const cards = happenings.map((happening) => {
-    return createHappeningCardTest(happening);
+    return createHappeningCard(happening);
   });
 
   return cards;
 }
 
-function createHappeningCardTest(happening: Happening) {
+function createHappeningCard(happening: Happening) {
   const comp = cE("happening-card") as HappeningCard;
 
   const { knowns, from, variant } = { ...happening };
@@ -225,6 +263,7 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
           ),
           coreEntityGivens,
           undefined,
+          undefined,
           (entity: Entity) => {
             const selectedBonding = gameState.selectedBonding!;
             const catField = selectedBonding.cat;
@@ -259,6 +298,7 @@ function createCreatureCards(
   entities: Entity[],
   givens: string[],
   interaction?: (entity: Entity) => void,
+  interactionLabel?: string,
   selectCard?: (entity: Entity) => void,
   release?: (entity: Entity) => void
 ) {
@@ -271,6 +311,7 @@ function createCreatureCards(
       givens,
       entity,
       interaction,
+      interactionLabel,
       selectCard,
       release
     );
@@ -283,10 +324,26 @@ function createTrapCards(traps: Map<string, Entity | null>) {
   traps.forEach((cat, key) => {
     if (cat) {
       cards.push(
-        createCreatureCard(cat.name, cat.type, coreTrapGivens, cat, (_cat) => {
-          getCatFromTrap(key);
-          updateScreenElement();
-        })
+        createCreatureCard(
+          cat.name,
+          cat.type,
+          coreTrapGivens,
+          cat,
+          (_cat) => {
+            if (gameState.catInventory.size >= gameState.maxCatInventorySize) {
+              displayModalMessage("Not enough boxes, for cats to fits intos.");
+            } else {
+              getCatFromTrap(key);
+              updateScreenElement();
+            }
+          },
+          "Acquire",
+          undefined,
+          () => {
+            traps.delete(key);
+            updateScreenElement();
+          }
+        )
       );
     }
   });
@@ -299,8 +356,9 @@ function createCreatureCard(
   givens: string[],
   entity: Entity,
   interactClick?: (entity: Entity) => void,
+  interactLabel?: string,
   selectCard?: (entity: Entity) => void,
-  release?: (entity: Entity) => void
+  release?: (entity: Entity) => void | (() => void)
 ) {
   const comp = cE("creature-card") as CreatureCard;
 
@@ -323,7 +381,7 @@ function createCreatureCard(
   comp.setAttribute("image", `src/img/${type}.jpg`);
   if (type === "cat" && interactClick) {
     comp.setAttribute("showcatslot", "true");
-    comp.setInteractClick(() => interactClick(entity));
+    comp.setInteractClick(() => interactClick(entity), interactLabel);
   }
   if (selectCard) {
     comp.setDivClick(() => selectCard(entity));
@@ -361,4 +419,17 @@ function catInteract(entity: Entity) {
 function catRelease(entity: Entity) {
   gameState.catInventory.delete(entity.id);
   updateScreenElement();
+}
+
+function displayModalMessage(message: string) {
+  dialogElement.showModal();
+  const messageP = cE("p");
+  messageP.textContent = message;
+  replaceChildren(dialogContentElement, [messageP]);
+}
+
+function updateCatSpace() {
+  const space = gEiD("cat-space");
+  console.log(space);
+  space.textContent = `${gameState.catInventory.size}/${gameState.maxCatInventorySize}`;
 }

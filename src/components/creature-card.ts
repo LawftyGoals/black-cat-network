@@ -63,7 +63,7 @@ export class CreatureCard extends HTMLElement {
             <p id="description-slot"></p>
           </div>
           <div id="bonding-slot" style="display:none"><button>Test</button></div>
-          <div id="cat-slot" style="display:none"><button id="interact-button">Interact With Cat</button><button id="release-button">Release</button></div>
+          <div id="cat-slot" style="display:none"><button id="interact-button">Interact With Cat</button><button id="release-button" style="display:none;">Release</button></div>
         </div>
       `;
 
@@ -83,12 +83,13 @@ export class CreatureCard extends HTMLElement {
     this.cardSlot.onclick = onClick;
   }
 
-  setInteractClick(onClick: null | (() => void) = null, title?: string) {
-    title && (this.interactButton.textContent = title);
+  setInteractClick(onClick: null | (() => void) = null, label?: string) {
+    label && (this.interactButton.textContent = label);
     this.interactButton.onclick = onClick;
   }
 
   setReleaseButton(onClick: null | (() => void)) {
+    onClick && (this.releaseButton.style.display = "block");
     this.releaseButton.onclick = onClick;
   }
 

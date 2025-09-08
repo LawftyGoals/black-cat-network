@@ -14,6 +14,7 @@ export const cE = (
     | "creature-card"
     | "notification-card"
     | "cat-acquisition"
+    | "cat-space"
 ) => document.createElement(type);
 
 export function sgeid(sr: ShadowRoot, name: string) {

@@ -1,6 +1,6 @@
 import { gEiD } from "../get-elements";
 import { gameInitialState } from "../state/game-state";
-import { updateTimeUI } from "../ui";
+import { updateScreenElement, updateTimeUI } from "../ui";
 import { generateCatsForTraps } from "./acquisition-system";
 import { updateBondings } from "./bonding-system";
 const gameState = gameInitialState;
@@ -23,6 +23,8 @@ export function changeRemainingTime(change: number = -1) {
 
   updateBondings();
   updateTimeUI();
+
+  updateScreenElement();
 
   return gameState.remainingTime;
 }

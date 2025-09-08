@@ -1,3 +1,4 @@
+import type { IGameState } from "../state/game-state";
 import { cE, replaceChildren, sgeid } from "../utils";
 
 export class CatAcquisition extends HTMLElement {
@@ -36,7 +37,7 @@ export class CatAcquisition extends HTMLElement {
       <h2>Get Your Cats here!</h2>
       <div class=btn-container>
       <button id= "cc">Cat Catcher</button>
-      <button id="cg">Cages</button></div>
+      <button id="cg">Traps</button></div>
       <div id="aqc-slot"></div>
       </div>
     `;
@@ -49,16 +50,16 @@ export class CatAcquisition extends HTMLElement {
     this.aqcSlot = sgeid(sr, "aqc-slot");
   }
 
-  setCCBtn(entities: HTMLElement[]) {
-    this.ccbtn.onclick = () => {
-      replaceChildren(this.aqcSlot, entities);
-    };
+  setCatcherBtn(onClick: () => void) {
+    this.ccbtn.onclick = onClick;
   }
 
-  setCGBtn(entities: HTMLElement[]) {
-    this.cgbtn.onclick = () => {
-      replaceChildren(this.aqcSlot, entities);
-    };
+  setTrapsBtn(onClick: () => void) {
+    this.cgbtn.onclick = onClick;
+  }
+
+  setAcquisitionType(entities: HTMLElement[]) {
+    replaceChildren(this.aqcSlot, entities);
   }
 
   static get observedAttributes() {
