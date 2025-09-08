@@ -176,9 +176,7 @@ function createCatAcquisitionScreen() {
   comp.setCCBtn(
     createCreatureCards(arrayFromMap("catCatcher"), coreCatcherGivens)
   );
-  comp.setCGBtn(
-    createCreatureCards(arrayFromMap("catCatcher"), coreTrapGivens)
-  );
+  comp.setCGBtn(createTrapCards(gameState.traps));
 
   return [comp];
 }
@@ -276,6 +274,21 @@ function createCreatureCards(
       selectCard,
       release
     );
+  });
+  return cards;
+}
+
+function createTrapCards(traps: Map<string, Entity | null>) {
+  const cards: CreatureCard[] = [];
+  traps.forEach((cat, key) => {
+    if (cat) {
+      cards.push(
+        createCreatureCard(cat.name, cat.type, coreTrapGivens, cat, (_cat) => {
+          getCatFromTrap(key);
+          updateScreenElement();
+        })
+      );
+    }
   });
   return cards;
 }
