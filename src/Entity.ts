@@ -75,6 +75,7 @@ export class Entity {
   name: string;
   knowns: string[];
   // All Creatures
+  relationship: Entity | null;
   age: number;
   deceased: boolean;
   sex: string;
@@ -89,32 +90,6 @@ export class Entity {
   approach: string | null;
   // CAT ABILITIES & TRAITS
   // Agility
-  balance: number | null;
-  reflex: number | null;
-  speed: number | null;
-  // Intelligence
-  intuition: number | null;
-  magicinsight: number | null;
-  memory: number | null;
-  // Perception and senses
-  hearing: number | null;
-  smell: number | null;
-  taste: number | null;
-  vision: number | null;
-  // Power
-  endurance: number | null;
-  grip: number | null;
-  magicresistance: number | null;
-  strength: number | null;
-  // Stealth
-  hiding: number | null;
-  sneaking: number | null;
-  // Temperament
-  boldness: number | null;
-  mischief: number | null;
-  patience: number | null;
-  // Luck
-  luck: number | null;
 
   constructor(
     id: string,
@@ -123,6 +98,7 @@ export class Entity {
     name: string,
     knowns: string[] = [],
     // All Creatures
+    relationship: Entity | null,
     age: number,
     deceased: boolean,
     sex: string,
@@ -134,34 +110,8 @@ export class Entity {
     variant: string | null = null,
     // Witch-specific
     vocation: string | null = null,
-    approach: string | null = null,
+    approach: string | null = null
     // Agility
-    balance: number | null = null,
-    reflex: number | null = null,
-    speed: number | null = null,
-    // Intelligence
-    intuition: number | null = null,
-    magicinsight: number | null = null,
-    memory: number | null = null,
-    // Perception and senses
-    hearing: number | null = null,
-    smell: number | null = null,
-    taste: number | null = null,
-    vision: number | null = null,
-    // Power
-    endurance: number | null = null,
-    grip: number | null = null,
-    magicresistance: number | null = null,
-    strength: number | null = null,
-    // Stealth
-    hiding: number | null = null,
-    sneaking: number | null = null,
-    // Temperament
-    boldness: number | null = null,
-    mischief: number | null = null,
-    patience: number | null = null,
-    // Luck
-    luck: number | null = null
   ) {
     this.id = id;
     this.type = type;
@@ -169,6 +119,7 @@ export class Entity {
     this.name = name;
     this.knowns = [...(type === "cat" ? catGivens : witchGivens), ...knowns];
     // All Creatures
+    this.relationship = relationship;
     this.age = age;
     this.deceased = deceased;
     this.sex = sex;
@@ -181,37 +132,10 @@ export class Entity {
     // Witch-specific
     this.vocation = vocation;
     this.approach = approach;
-    // Agility
-    this.balance = balance;
-    this.reflex = reflex;
-    this.speed = speed;
-    // Intelligence
-    this.intuition = intuition;
-    this.magicinsight = magicinsight;
-    this.memory = memory;
-    // Perception and senses
-    this.hearing = hearing;
-    this.smell = smell;
-    this.taste = taste;
-    this.vision = vision;
-    // Power
-    this.endurance = endurance;
-    this.grip = grip;
-    this.magicresistance = magicresistance;
-    this.strength = strength;
-    // Stealth
-    this.hiding = hiding;
-    this.sneaking = sneaking;
-    // Temperament
-    this.boldness = boldness;
-    this.mischief = mischief;
-    this.patience = patience;
-    // Luck
-    this.luck = luck;
   }
 }
 
-export function createRandomizedCat(): Entity {
+export function createRandomizedCat(freeCat?: boolean): Entity {
   const id = getRandomizedId();
   const randomName = catNames[Math.floor(Math.random() * catNames.length)];
   const randomVariant =
@@ -227,7 +151,8 @@ export function createRandomizedCat(): Entity {
     "cat",
     false,
     randomName,
-    undefined,
+    [],
+    null,
     getRandomInt(27, 1), // age
     false, // deceased
     "Male", // sex
@@ -238,30 +163,10 @@ export function createRandomizedCat(): Entity {
     getRandomAmountOrNone(randomTraits, 2, 10),
     randomVariant,
     null,
-    null,
-    defaultCatAbilities.balance,
-    defaultCatAbilities.reflex,
-    defaultCatAbilities.speed,
-    defaultCatAbilities.vision,
-    defaultCatAbilities.hearing,
-    defaultCatAbilities.smell,
-    defaultCatAbilities.taste,
-    defaultCatAbilities.memory,
-    defaultCatAbilities.intuition,
-    defaultCatAbilities.magicinsight,
-    defaultCatAbilities.patience,
-    defaultCatAbilities.boldness,
-    defaultCatAbilities.mischief,
-    defaultCatAbilities.sneaking,
-    defaultCatAbilities.hiding,
-    defaultCatAbilities.strength,
-    defaultCatAbilities.grip,
-    defaultCatAbilities.endurance,
-    defaultCatAbilities.magicresistance,
-    defaultCatAbilities.luck
+    null
   );
 
-  gameState.catInventory.set(id, cat);
+  freeCat ?? gameState.catInventory.set(id, cat);
   gameState.entities.set(id, cat);
   gameState.cats.set(id, cat);
 
@@ -276,25 +181,19 @@ export function getRandomizedCatCharacteristics(
     .map(() => catTraits[getRandomInt(catTraits.length)]);
 }
 
-export function createRandomizedWitch(known: boolean = false): Entity {
+export function createRandomizedWitch(
+  known: boolean = false,
+  ownsCat?: boolean
+): Entity {
   const id = getRandomizedId();
-  const randomFirstName =
-    witchFirstNames[Math.floor(Math.random() * witchFirstNames.length)];
-  const randomSurName =
-    witchSurNames[Math.floor(Math.random() * witchSurNames.length)];
+  const randomFirstName = witchFirstNames[getRandomInt(witchFirstNames.length)];
+  const randomSurName = witchSurNames[getRandomInt(witchSurNames.length)];
   const randomName = `${randomFirstName} ${randomSurName}`;
-  const randomTraits = [
-    witchTraits[Math.floor(Math.random() * witchTraits.length)],
-    witchTraits[Math.floor(Math.random() * witchTraits.length)],
-    witchTraits[Math.floor(Math.random() * witchTraits.length)],
-  ];
+  const randomTraits = getRandomWitchTraits(3);
 
-  const randomVocation =
-    witchVocations[Math.floor(Math.random() * witchVocations.length)];
+  const randomVocation = witchVocations[getRandomInt(witchVocations.length)];
   const randomApproach =
-    witchApproaches[Math.floor(Math.random() * witchApproaches.length)][
-      Math.floor(Math.random() * 2)
-    ];
+    witchApproaches[getRandomInt(witchApproaches.length)][getRandomInt(2)];
 
   const witch = new Entity(
     id, //ID
@@ -302,6 +201,7 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     false,
     randomName,
     [],
+    ownsCat ? createRandomizedCat() : null,
     getRandomInt(154, 16), // age
     false, // deceased
     "female",
@@ -312,27 +212,7 @@ export function createRandomizedWitch(known: boolean = false): Entity {
     getRandomAmountOrNone(randomTraits, 2, 50),
     null,
     randomVocation,
-    randomApproach,
-    defaultWitchAbilities.balance,
-    defaultWitchAbilities.reflex,
-    defaultWitchAbilities.speed,
-    defaultWitchAbilities.vision,
-    defaultWitchAbilities.hearing,
-    defaultWitchAbilities.smell,
-    defaultWitchAbilities.taste,
-    defaultWitchAbilities.memory,
-    defaultWitchAbilities.intuition,
-    defaultWitchAbilities.magicinsight,
-    defaultWitchAbilities.patience,
-    defaultWitchAbilities.boldness,
-    defaultWitchAbilities.mischief,
-    defaultWitchAbilities.sneaking,
-    defaultWitchAbilities.hiding,
-    defaultWitchAbilities.strength,
-    defaultWitchAbilities.grip,
-    defaultWitchAbilities.endurance,
-    defaultWitchAbilities.magicresistance,
-    defaultWitchAbilities.luck
+    randomApproach
   );
 
   known && gameState.knownWitches.set(id, witch);
@@ -358,7 +238,8 @@ export function createRandomCatForSale(
     "cat",
     false,
     "",
-    undefined,
+    [],
+    null,
     getRandomInt(27, 1),
     false,
     getSex(),
@@ -391,4 +272,13 @@ function getRandomCatTraits(quantity: number) {
 
 function getRandomCatVariant() {
   return catVariants[getRandomInt(catVariants.length)] as TCatVariants;
+}
+
+function getRandomWitchTraits(quantity: number) {
+  const traits = [];
+  const reducedTraits = [...witchTraits];
+  for (let i = 0; i < quantity; i++) {
+    traits.push(...reducedTraits.splice(getRandomInt(reducedTraits.length), 1));
+  }
+  return traits;
 }

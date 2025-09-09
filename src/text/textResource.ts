@@ -13,4 +13,7 @@ export const textResource = {
     learn: "You learnt something new!",
     noLearn: "You learnt nothing new...",
   },
+  spells: {
+    scrying: {},
+  },
 };
