@@ -1,19 +1,21 @@
+import type { Entity } from "./Entity";
+
 type TSpellVariant = "scrying";
 
-export class Spells {
-  variant: TSpellVariant;
-  description: string;
+export const SpellCardValues: (keyof Spell)[] = ["variant", "description"];
 
-  constructor(props: { variant: TSpellVariant; description: string }) {
-    this.variant = props.variant;
-    this.description = props.description;
-  }
+export class Spell {
+    variant: TSpellVariant;
+    description: string;
+    target: null | Entity;
+
+    constructor(props: {
+        variant: TSpellVariant;
+        description: string;
+        target: Entity | null;
+    }) {
+        this.variant = props.variant;
+        this.description = props.description;
+        this.target = props.target;
+    }
 }
-
-const spells = {
-  scrying: new Spells({
-    variant: "scrying",
-    description:
-      "If you apply the marking to anything... even a cat, you can then view it and its surroundings through the ether.",
-  }),
-};

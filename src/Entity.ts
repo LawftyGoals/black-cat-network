@@ -83,6 +83,7 @@ export class Entity {
   traits: string[];
   knownTraits: string[];
   variant: string | null;
+  effectedspells: string[];
   // Witch-specific
   vocation: string | null;
   approach: string | null;
@@ -106,6 +107,7 @@ export class Entity {
     traits: string[],
     knownTraits: string[],
     variant: string | null = null,
+    effectedSpells: string[] = [],
     // Witch-specific
     vocation: string | null = null,
     approach: string | null = null
@@ -127,6 +129,7 @@ export class Entity {
     this.traits = traits;
     this.knownTraits = knownTraits;
     this.variant = variant;
+    this.effectedspells = effectedSpells;
     // Witch-specific
     this.vocation = vocation;
     this.approach = approach;
@@ -160,6 +163,7 @@ export function createRandomizedCat(freeCat?: boolean): Entity {
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 10),
     randomVariant,
+    [],
     null,
     null
   );
@@ -209,6 +213,7 @@ export function createRandomizedWitch(
     randomTraits,
     getRandomAmountOrNone(randomTraits, 2, 50),
     null,
+    [],
     randomVocation,
     randomApproach
   );

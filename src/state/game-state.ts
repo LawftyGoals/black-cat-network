@@ -1,64 +1,67 @@
 import type { Entity } from "../Entity";
 import type { Happening } from "../Happening";
+import type { Spell } from "../Spell";
 
 export type TScreens = keyof IScreens;
 
 export interface IScreens {
-  catInventory: Map<string, Entity>;
-  bondings: Map<string, Happening>;
-  knownWitches: Map<string, Entity>;
-  news: Map<string, Happening>;
-  catAcquisition: Map<string, Entity>;
+    catInventory: Map<string, Entity>;
+    bondings: Map<string, Happening>;
+    knownWitches: Map<string, Entity>;
+    spells: Map<string, Spell>;
+    news: Map<string, Happening>;
+    catAcquisition: Map<string, Entity>;
 }
 
 export interface IAcquisition {
-  traps: Map<string, Entity | null>;
-  catCatcher: Map<string, Entity>;
-  selectedAcqusition: "traps" | "catCatcher";
+    traps: Map<string, Entity | null>;
+    catCatcher: Map<string, Entity>;
+    selectedAcqusition: "traps" | "catCatcher";
 }
 
 export interface IGameState extends IScreens, IAcquisition {
-  day: number;
-  witches: Map<string, Entity>;
-  creations: number;
-  completedBondings: Map<string, Happening>;
-  expiredBondings: Map<string, Happening>;
-  selectedBonding: Happening | null;
-  cats: Map<string, Entity>;
-  selectedCat: Entity | null;
-  maxCatInventorySize: number;
-  currentScreen: TScreens;
-  entities: Map<string, Entity>;
-  remainingTime: number;
-  maxTime: number;
-  happenings: Map<string, Happening>;
-  gp: number;
-  notifications: Map<string, Happening>;
+    day: number;
+    witches: Map<string, Entity>;
+    creations: number;
+    completedBondings: Map<string, Happening>;
+    expiredBondings: Map<string, Happening>;
+    selectedBonding: Happening | null;
+    cats: Map<string, Entity>;
+    selectedCat: Entity | null;
+    maxCatInventorySize: number;
+    currentScreen: TScreens;
+    entities: Map<string, Entity>;
+    remainingTime: number;
+    maxTime: number;
+    happenings: Map<string, Happening>;
+    gp: number;
+    notifications: Map<string, Happening>;
 }
 
 export const gameInitialState: IGameState = {
-  knownWitches: new Map<string, Entity>(),
-  witches: new Map<string, Entity>(),
-  entities: new Map<string, Entity>(),
-  bondings: new Map<string, Happening>(),
-  completedBondings: new Map<string, Happening>(),
-  expiredBondings: new Map<string, Happening>(),
-  news: new Map<string, Happening>(),
-  catAcquisition: new Map<string, Entity>(),
-  happenings: new Map<string, Happening>(),
-  day: 1,
-  creations: 1,
-  catInventory: new Map<string, Entity>(),
-  maxCatInventorySize: 10,
-  cats: new Map<string, Entity>(),
-  selectedBonding: null,
-  selectedCat: null,
-  currentScreen: "catAcquisition",
-  remainingTime: 16,
-  maxTime: 16,
-  gp: 100,
-  notifications: new Map<string, Happening>(),
-  traps: new Map<string, Entity | null>(),
-  catCatcher: new Map<string, Entity>(),
-  selectedAcqusition: "traps",
+    knownWitches: new Map<string, Entity>(),
+    spells: new Map<string, Spell>(),
+    witches: new Map<string, Entity>(),
+    entities: new Map<string, Entity>(),
+    bondings: new Map<string, Happening>(),
+    completedBondings: new Map<string, Happening>(),
+    expiredBondings: new Map<string, Happening>(),
+    news: new Map<string, Happening>(),
+    catAcquisition: new Map<string, Entity>(),
+    happenings: new Map<string, Happening>(),
+    day: 1,
+    creations: 1,
+    catInventory: new Map<string, Entity>(),
+    maxCatInventorySize: 10,
+    cats: new Map<string, Entity>(),
+    selectedBonding: null,
+    selectedCat: null,
+    currentScreen: "spells",
+    remainingTime: 16,
+    maxTime: 16,
+    gp: 100,
+    notifications: new Map<string, Happening>(),
+    traps: new Map<string, Entity | null>(),
+    catCatcher: new Map<string, Entity>(),
+    selectedAcqusition: "traps",
 };
