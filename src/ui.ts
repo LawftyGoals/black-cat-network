@@ -414,6 +414,7 @@ function createCreatureCard(
   }
 
   if (release) comp.setReleaseButton(() => release(entity));
+  if (entity.relationship) comp.setRelationship(entity);
 
   return comp;
 }

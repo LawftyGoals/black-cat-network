@@ -18,8 +18,6 @@ import {
   witchSurNames,
   witchVocations,
   witchApproaches,
-  defaultCatAbilities,
-  defaultWitchAbilities,
   catVariantValues,
   type TCatVariants,
 } from "./Values.js";

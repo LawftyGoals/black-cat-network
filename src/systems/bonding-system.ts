@@ -79,6 +79,8 @@ export function updateBondings() {
           received
         );
       } else {
+        cat.relationship = bonding.agent;
+        bonding.agent!.relationship = cat;
         createNotification(
           "Bonding Succeeded!",
           `${cat.name} and ${bonding.agent!.name!} bonded successfully. ${

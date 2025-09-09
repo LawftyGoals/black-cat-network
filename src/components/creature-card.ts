@@ -1,3 +1,4 @@
+import type { Entity } from "../Entity";
 import { cE, sgeid } from "../utils";
 
 export class CreatureCard extends HTMLElement {
@@ -9,6 +10,7 @@ export class CreatureCard extends HTMLElement {
   catSlot: HTMLElement;
   interactButton: HTMLElement;
   releaseButton: HTMLElement;
+  relationshipSlot: HTMLElement;
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -62,6 +64,7 @@ export class CreatureCard extends HTMLElement {
             <div id="profile-picture-slot"></div>
             <p id="description-slot"></p>
           </div>
+          <div id="relationship-slot" style="display:none"></div>
           <div id="bonding-slot" style="display:none"><button>Test</button></div>
           <div id="cat-slot" style="display:none"><button id="interact-button">Interact With Cat</button><button id="release-button" style="display:none;">Release</button></div>
         </div>
@@ -77,6 +80,7 @@ export class CreatureCard extends HTMLElement {
     this.catSlot = sgeid(sr, "cat-slot");
     this.interactButton = sgeid(sr, "interact-button");
     this.releaseButton = sgeid(sr, "release-button");
+    this.relationshipSlot = sgeid(sr, "relationship-slot");
   }
 
   setDivClick(onClick?: () => void) {
@@ -91,6 +95,13 @@ export class CreatureCard extends HTMLElement {
   setReleaseButton(onClick: null | (() => void)) {
     onClick && (this.releaseButton.style.display = "block");
     this.releaseButton.onclick = onClick;
+  }
+
+  setRelationship(entity: Entity) {
+    this.relationshipSlot.style = "display:block;";
+    this.relationshipSlot.textContent = `${
+      entity.type === "cat" ? "Familiar of" : "Companion of"
+    } ${entity.relationship!.name}`;
   }
 
   static get observedAttributes() {
