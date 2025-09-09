@@ -2,7 +2,7 @@ import { gameInitialState } from "../state/game-state";
 import { Happening } from "../Happening";
 import {
   convertTicksToDaysAndTicks,
-  getRandomExistingWitch,
+  getRandomExistingWitchWithoutBonding,
   getRandomInt,
   getRandomizedId,
 } from "../utils";
@@ -15,7 +15,8 @@ const gameState = gameInitialState;
 export function createRandomizedBonding() {
   const id = getRandomizedId();
 
-  const randomWitch = getRandomExistingWitch();
+  const randomWitch = getRandomExistingWitchWithoutBonding();
+  randomWitch.inbonding = true;
 
   const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
 
@@ -47,12 +48,13 @@ export function updateBondings() {
     if (!active && bonding.nextEventDay! < gameState.day) {
       gameState.expiredBondings.set(bonding.id, bonding);
       gameState.bondings.delete(bonding.id);
+      bonding.agent!.inbonding = false;
     }
 
-    const cat = bonding.cat!;
-    const requirements = bonding.bondrequirements!;
-
     if (active && bonding.nextEventDay === gameState.day) {
+      const cat = bonding.cat!;
+      const requirements = bonding.bondrequirements!;
+
       const reqsFullfilled = requirements?.reduce((accu, curr) => {
         if (cat.traits.includes(curr)) return accu + 1;
         return accu;
@@ -68,6 +70,8 @@ export function updateBondings() {
 
       if (received === 0) {
         gameState.catInventory.set(cat.id, cat);
+        cat.inbonding = false;
+        bonding.agent!.inbonding = false;
         createNotification(
           "Bonding Failed!",
           `Unfortuantely ${cat.name} and ${bonding.agent!
@@ -79,6 +83,8 @@ export function updateBondings() {
           received
         );
       } else {
+        cat.inbonding = false;
+        bonding.agent!.inbonding = false;
         cat.relationship = bonding.agent;
         bonding.agent!.relationship = cat;
         createNotification(

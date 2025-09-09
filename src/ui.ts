@@ -420,26 +420,25 @@ function createCreatureCard(
 }
 
 function catInteract(entity: Entity) {
-  changeRemainingTime();
+  if (changeRemainingTime() > 0) {
+    const newKnown = getNewKnown(entity);
 
-  const newKnown = getNewKnown(entity);
-
-  newKnown
-    ? createNotification(
-        textResource.catInteraction.learn,
-        `You managed to learn that ${entity.name} is ${newKnown}`,
-        [],
-        entity,
-        null
-      )
-    : createNotification(
-        textResource.catInteraction.noLearn,
-        `There doesn't seem to be anything left to learn about ${entity.name}.`,
-        [],
-        entity,
-        null
-      );
-
+    newKnown
+      ? createNotification(
+          textResource.catInteraction.learn,
+          `You managed to learn that ${entity.name} is ${newKnown}`,
+          [],
+          entity,
+          null
+        )
+      : createNotification(
+          textResource.catInteraction.noLearn,
+          `There doesn't seem to be anything left to learn about ${entity.name}.`,
+          [],
+          entity,
+          null
+        );
+  }
   updateScreenElement();
 }
 
@@ -448,7 +447,7 @@ function catRelease(entity: Entity) {
   updateScreenElement();
 }
 
-function displayModalMessage(message: string) {
+export function displayModalMessage(message: string) {
   dialogElement.showModal();
   const messageP = cE("p");
   messageP.textContent = message;

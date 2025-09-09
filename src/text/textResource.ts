@@ -16,4 +16,8 @@ export const textResource = {
   spells: {
     scrying: {},
   },
+  time: {
+    noTime:
+      "You have run out of time. You are too tired to do anything demanding.",
+  },
 };

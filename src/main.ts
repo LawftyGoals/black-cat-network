@@ -31,15 +31,15 @@ function initCustomComponents() {
   customElements.define("cat-acquisition", CatAcquisition);
 }
 
-function forit(cre: () => void) {
-  for (let i = 0; i < 3; i++) {
+function forit(cre: () => void, quantity?: number) {
+  for (let i = 0; i < (quantity ?? 3); i++) {
     // for (let i = 0; i < 10; i++) {
     cre();
   }
 }
 
 function generateData() {
-  forit(() => createRandomizedWitch());
+  forit(() => createRandomizedWitch(), 100);
   forit(createRandomizedCat);
   forit(createRandomizedBonding);
   forit(createRandomizedNews);

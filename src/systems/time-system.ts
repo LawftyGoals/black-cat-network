@@ -1,6 +1,7 @@
 import { gEiD } from "../get-elements";
 import { gameInitialState } from "../state/game-state";
-import { updateScreenElement, updateTimeUI } from "../ui";
+import { textResource } from "../text/textResource";
+import { displayModalMessage, updateScreenElement, updateTimeUI } from "../ui";
 import { generateCatsForTraps } from "./acquisition-system";
 import { updateBondings } from "./bonding-system";
 const gameState = gameInitialState;
@@ -14,17 +15,16 @@ export function getTime() {
 }
 
 export function changeRemainingTime(change: number = -1) {
-  gameState.remainingTime += change;
   if (gameState.remainingTime < 1) {
     advTimeButton.disabled = true;
+    displayModalMessage(textResource.time.noTime);
+  } else {
+    generateCatsForTraps();
+    updateBondings();
+    updateScreenElement();
+    gameState.remainingTime > 0 && (gameState.remainingTime += change);
   }
-
-  generateCatsForTraps();
-
-  updateBondings();
   updateTimeUI();
-
-  updateScreenElement();
 
   return gameState.remainingTime;
 }

@@ -105,3 +105,8 @@ button {
   background-color: slateblue;
   color: white;
 }
+button:disabled {
+  background-color: grey;
+  color: black;
+  border-color: darkgrey;
+}

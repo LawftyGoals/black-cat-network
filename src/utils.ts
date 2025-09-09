@@ -95,6 +95,13 @@ export function getRandomExistingWitch() {
   return Array.from(w.values())[getRandomInt(w.size)];
 }
 
+export function getRandomExistingWitchWithoutBonding() {
+  const w = gameState.witches;
+  return Array.from(w.values()).filter(
+    (witch) => !witch.inbonding && !witch.relationship
+  )[getRandomInt(w.size)];
+}
+
 export function getCurrentDayAndTime() {
   const { day, remainingTime } = gameState;
   return { day: day, time: remainingTime };
