@@ -277,7 +277,7 @@ function getSex() {
     return Math.random() < 0.5 ? "Male" : "Female";
 }
 
-function getRandomCatTraits(quantity: number) {
+export function getRandomCatTraits(quantity: number) {
     const traits = [];
     const reducedTraits = [...catTraits];
     for (let i = 0; i < quantity; i++) {

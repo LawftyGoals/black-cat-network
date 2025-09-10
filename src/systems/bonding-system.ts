@@ -6,7 +6,7 @@ import {
     getRandomInt,
     getRandomizedId,
 } from "../utils";
-import { getRandomizedCatCharacteristics } from "../Entity";
+import { getRandomCatTraits } from "../Entity";
 import { updateGp } from "../ui";
 import { createNotification } from "./notifications-system";
 
@@ -32,7 +32,7 @@ export function createRandomizedBonding() {
         reasonForPuchase[getRandomInt(reasonForPuchase.length)],
         getRandomInt(200),
         gameState.catInventory,
-        getRandomizedCatCharacteristics(3)
+        getRandomCatTraits(getRandomInt(3, 5))
     );
 
     gameState.knownWitches.set(randomWitch.id, randomWitch);
