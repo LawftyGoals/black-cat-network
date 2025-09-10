@@ -4,6 +4,7 @@ export class SpellCard extends HTMLElement {
     descriptionSlot: HTMLElement;
     variantSlot: HTMLElement;
     cardSlot: HTMLElement;
+    applyBtn: HTMLElement;
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
@@ -23,6 +24,7 @@ export class SpellCard extends HTMLElement {
               <div id="card">
               <h2 id="variant-slot"></h2>
               <p id="description-slot"></p>
+              <button id="apply-btn">Apply to Cat</button>
               </div>
             `;
 
@@ -31,10 +33,15 @@ export class SpellCard extends HTMLElement {
         this.cardSlot = sgeid(sr, "card");
         this.variantSlot = sgeid(sr, "variant-slot");
         this.descriptionSlot = sgeid(sr, "description-slot");
+        this.applyBtn = sgeid(sr, "apply-btn");
     }
 
     static get observedAttributes() {
         return ["variant", "description"];
+    }
+
+    setApplyButton(onClick: () => void) {
+        this.applyBtn.onclick = onClick;
     }
 
     attributeChangedCallback(

@@ -8,43 +8,43 @@ const gameState = gameInitialState;
 export const advTimeButton = gEiD("advance-time") as HTMLButtonElement;
 
 export function getTime() {
-  return {
-    remainingTime: gameState.remainingTime,
-    maxTime: gameState.maxTime,
-  };
+    return {
+        remainingTime: gameState.remainingTime,
+        maxTime: gameState.maxTime,
+    };
 }
 
 export function changeRemainingTime(change: number = -1) {
-  if (gameState.remainingTime < 1) {
-    advTimeButton.disabled = true;
-    displayModalMessage(textResource.time.noTime);
-  } else {
-    generateCatsForTraps();
-    updateBondings();
-    updateScreenElement();
-    gameState.remainingTime > 0 && (gameState.remainingTime += change);
-  }
-  updateTimeUI();
+    if (gameState.remainingTime < 1 && change < 0) {
+        advTimeButton.disabled = true;
+        displayModalMessage(textResource.time.noTime);
+    } else {
+        generateCatsForTraps();
+        updateBondings();
+        updateScreenElement();
+        gameState.remainingTime += change;
+    }
+    updateTimeUI();
 
-  return gameState.remainingTime;
+    return gameState.remainingTime;
 }
 
 export function changeMaxTime(change: number = -1) {
-  gameState.maxTime += change;
-  updateTimeUI();
-  return gameState.maxTime;
+    gameState.maxTime += change;
+    updateTimeUI();
+    return gameState.maxTime;
 }
 
 export function resetRemainingTime() {
-  changeRemainingTime(gameState.maxTime - gameState.remainingTime);
-  if (advTimeButton.disabled) {
-    advTimeButton.disabled = false;
-  }
+    changeRemainingTime(gameState.maxTime - gameState.remainingTime);
+    if (advTimeButton.disabled) {
+        advTimeButton.disabled = false;
+    }
 }
 
 export function initTimeSystem() {
-  advTimeButton.onclick = () => {
-    changeRemainingTime();
-  };
-  updateTimeUI();
+    advTimeButton.onclick = () => {
+        changeRemainingTime();
+    };
+    updateTimeUI();
 }

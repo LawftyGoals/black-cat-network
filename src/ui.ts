@@ -26,6 +26,8 @@ import { generateTraps, getCatFromTrap } from "./systems/acquisition-system";
 import { itemValues } from "./Values";
 import { textResource } from "./text/textResource";
 import { SpellCardValues, type Spell } from "./Spell";
+import type { SpellCard } from "./components/spell-card";
+import { createSpellButton } from "./systems/spell-system";
 
 const gameState = gameInitialState;
 
@@ -197,10 +199,34 @@ function createSpellScreen() {
 }
 
 function createSpellCard(spell: Spell) {
-    const comp = cE("spell-card");
+    const comp = cE("spell-card") as SpellCard;
     const mSpell = { ...spell };
     SpellCardValues.forEach((key) => {
         comp.setAttribute(key, mSpell[key] as string);
+    });
+
+    comp.setApplyButton(() => {
+        dialogElement.showModal();
+        replaceChildren(
+            gEiD("dialog-content"),
+            createCreatureCards(
+                (arrayFromMap("catInventory") as Entity[]).filter(
+                    (cat) => !cat.inbonding || !cat.relationship
+                ),
+                coreEntityGivens,
+                undefined,
+                undefined,
+                (entity: Entity) => {
+                    if (changeRemainingTime() > 0) {
+                        entity.effectingspells.push(spell.variant);
+                        dialogElement.close();
+                        updateScreenElement();
+                    } else {
+                        displayModalMessage(textResource.time.noTime);
+                    }
+                }
+            )
+        );
     });
 
     return comp;
@@ -316,8 +342,10 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
         if (cat) {
             comp.setAttribute("clear", "block");
             comp.setClearCat(() => {
-                happening.cat &&
+                if (happening.cat) {
+                    happening.cat.inbonding = false;
                     gameState.catInventory.set(happening.cat.id, happening.cat);
+                }
                 happening.cat = null;
                 updateScreenElement();
             });
@@ -444,6 +472,16 @@ function createCreatureCard(
 
     if (release) comp.setReleaseButton(() => release(entity));
     if (entity.relationship) comp.setRelationship(entity);
+
+    const efsp = entity.effectingspells;
+
+    if (efsp && gameState.currentScreen === "catInventory") {
+        const spellButtons = efsp.map((spell) => {
+            return createSpellButton(entity, spell);
+        });
+
+        comp.setActivateSpells(spellButtons);
+    }
 
     return comp;
 }
