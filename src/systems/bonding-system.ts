@@ -7,7 +7,7 @@ import {
     getRandomInt,
     getRandomizedId,
 } from "../utils";
-import { getRandomCatTraits } from "../Entity";
+import { getRandomTraits } from "../Entity";
 import { updateGp } from "../ui";
 import { createNotification } from "./notifications-system";
 import { changeRenown, getRenownLevel } from "./renown-system";
@@ -47,7 +47,7 @@ export function createRandomizedBonding() {
                 getRandomDecimal(witchValues.max, witchValues.min)
         ),
         gameState.catInventory,
-        getRandomCatTraits(getRandomInt(3, 5))
+        getRandomTraits(getRandomInt(3, 5))
     );
 
     gameState.knownWitches.set(randomWitch.id, randomWitch);

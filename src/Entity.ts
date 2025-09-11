@@ -152,7 +152,7 @@ export function createRandomizedCat(freeCat?: boolean): Entity {
     const randomName = catNames[Math.floor(Math.random() * catNames.length)];
     const randomVariant =
         catVariants[Math.floor(Math.random() * catVariants.length)];
-    const randomTraits = getRandomCatTraits(getRandomInt(5, 3));
+    const randomTraits = getRandomTraits(getRandomInt(5, 3));
 
     const cat = new Entity(
         id,
@@ -201,7 +201,7 @@ export function createRandomizedWitch(
         witchFirstNames[getRandomInt(witchFirstNames.length)];
     const randomSurName = witchSurNames[getRandomInt(witchSurNames.length)];
     const randomName = `${randomFirstName} ${randomSurName}`;
-    const randomTraits = getRandomWitchTraits(3);
+    const randomTraits = getRandomTraits(3);
 
     const randomVocation = witchVocations[getRandomInt(witchVocations.length)];
     const randomApproach =
@@ -242,7 +242,7 @@ export function createRandomCatForSale(
     trap?: boolean
 ) {
     const id = getRandomizedId();
-    const randomTraits = getRandomCatTraits(getRandomInt(5, 3));
+    const randomTraits = getRandomTraits(getRandomInt(5, 3));
     const variant = getRandomCatVariant();
     const { color, value } = catVariantValues[variant];
 
@@ -274,7 +274,7 @@ function getSex() {
     return Math.random() < 0.5 ? "Male" : "Female";
 }
 
-export function getRandomCatTraits(quantity: number) {
+export function getRandomTraits(quantity: number) {
     const traits = [];
     const reducedTraits = [...allTraits];
     for (let i = 0; i < quantity; i++) {
@@ -287,17 +287,6 @@ export function getRandomCatTraits(quantity: number) {
 
 function getRandomCatVariant() {
     return catVariants[getRandomInt(catVariants.length)] as TCatVariants;
-}
-
-function getRandomWitchTraits(quantity: number) {
-    const traits = [];
-    const reducedTraits = [...allTraits];
-    for (let i = 0; i < quantity; i++) {
-        traits.push(
-            ...reducedTraits.splice(getRandomInt(reducedTraits.length), 1)
-        );
-    }
-    return traits;
 }
 
 function witchValueDistribution(chance: number) {
