@@ -95,65 +95,19 @@ export const catVariantValues = {
     },
 };
 
-// Cat Traits
-export const catTraits = [
-    "playful",
-    "curious",
-    "affectionate",
-    "independent",
-    "shy",
-    "vocal",
-    "lazy",
-    "friendly",
-    "aggressive",
-    "intelligent",
-];
-
-// Cat Traits Reworked    (Are we missing Playful or Mischievous?)
-// export const catTraitsNew: string[] = [
-//   ["Active", "Lazy"],
-//   ["Curious", "Shy"],
-//   ["Cunning", "Derpy"],
-//   ["Impulsive", "Anxious"],
-//   ["Sweet", "Mischievous"],
-//   ["Vocal", "Quiet"],
-// ];
-
-// Cat Traits Reworked    (Are we missing Playful or Mischievous?)
-// export const catTraitsNew: string[] = [
-//   ["Active", "Lazy"],
-//   ["Curious", "Shy"],
-//   ["Cunning", "Derpy"],
-//   ["Impulsive", "Anxious"],
-//   ["Sweet", "Mischievous"],
-//   ["Vocal", "Quiet"],
-// ];
-
 // Witch Traits
-export const witchTraits: string[] = [
-    "ambitious",
-    "charismatic",
-    "cruel",
-    "cunning",
-    "eccentric",
-    "generous",
-    "greedy",
-    "jealous",
-    "manic",
-    "manipulative",
-    "melancholic",
-    "mysterious",
-    "neglectful",
-    "nostalgic",
-    "nurturing",
-    "obsessive",
-    "paranoid",
+export const allTraits: string[] = [
+    "affectionate",
+    "calm",
+    "charming",
+    "clever",
+    "independent",
+    "mischievous",
+    "playful",
     "possessive",
     "reclusive",
-    "secretive",
-    "superstitious",
-    "vindictive",
-    "wise",
+    "stubborn",
+    "vocal",
 ];
 
 // Names for Cats

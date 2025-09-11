@@ -12,8 +12,7 @@ import {
 
 import {
     catVariants,
-    catTraits,
-    witchTraits,
+    allTraits,
     catNames,
     witchFirstNames,
     witchSurNames,
@@ -188,7 +187,7 @@ export function getRandomizedCatCharacteristics(
 ) {
     return new Array(characteristicsCount)
         .fill(null)
-        .map(() => catTraits[getRandomInt(catTraits.length)]);
+        .map(() => allTraits[getRandomInt(allTraits.length)]);
 }
 
 export function createRandomizedWitch(
@@ -277,7 +276,7 @@ function getSex() {
 
 export function getRandomCatTraits(quantity: number) {
     const traits = [];
-    const reducedTraits = [...catTraits];
+    const reducedTraits = [...allTraits];
     for (let i = 0; i < quantity; i++) {
         traits.push(
             ...reducedTraits.splice(getRandomInt(reducedTraits.length), 1)
@@ -292,7 +291,7 @@ function getRandomCatVariant() {
 
 function getRandomWitchTraits(quantity: number) {
     const traits = [];
-    const reducedTraits = [...witchTraits];
+    const reducedTraits = [...allTraits];
     for (let i = 0; i < quantity; i++) {
         traits.push(
             ...reducedTraits.splice(getRandomInt(reducedTraits.length), 1)
