@@ -2,6 +2,7 @@ import { gameInitialState } from "../state/game-state";
 import { Happening } from "../Happening";
 import {
     convertTicksToDaysAndTicks,
+    getRandomDecimal,
     getRandomExistingWitchWithoutBonding,
     getRandomInt,
     getRandomizedId,
@@ -10,7 +11,12 @@ import { getRandomCatTraits } from "../Entity";
 import { updateGp } from "../ui";
 import { createNotification } from "./notifications-system";
 import { changeRenown, getRenownLevel } from "./renown-system";
-import { renownToWitchModifiers, renownValues } from "../Values";
+import {
+    itemValues,
+    renownToGoldModifiers,
+    renownToWitchModifiers,
+    renownValues,
+} from "../Values";
 
 const gameState = gameInitialState;
 
@@ -23,6 +29,9 @@ export function createRandomizedBonding() {
 
     const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
 
+    const witchValues =
+        renownToGoldModifiers[getRenownLevel(randomWitch.value)];
+
     const order = new Happening(
         id,
         false,
@@ -33,7 +42,10 @@ export function createRandomizedBonding() {
         randomWitch,
         "I would like to acquire a BLACK CAT",
         reasonForPuchase[getRandomInt(reasonForPuchase.length)],
-        getRandomInt(200),
+        Math.floor(
+            itemValues.bonding.value *
+                getRandomDecimal(witchValues.max, witchValues.min)
+        ),
         gameState.catInventory,
         getRandomCatTraits(getRandomInt(3, 5))
     );

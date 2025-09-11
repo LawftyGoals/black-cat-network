@@ -2,6 +2,7 @@
 
 export const itemValues = {
     trap: { value: 100 },
+    bonding: { value: 500 },
 };
 export const renownValues = {
     bonding: { maxRenown: 100, maxFailedRenown: -100 },
@@ -15,6 +16,15 @@ export const renownToWitchModifiers: IRenownLevels = {
     100: { max: 1.0, min: 1.0 },
     250: { max: 1.5, min: 1.5 },
     500: { max: 2, min: 2 },
+};
+
+export const renownToGoldModifiers: IRenownLevels = {
+    0: { max: 0.05, min: 0.01 },
+    10: { max: 0.1, min: 0.05 },
+    50: { max: 0.25, min: 0.1 },
+    100: { max: 0.5, min: 0.25 },
+    250: { max: 0.75, min: 0.5 },
+    500: { max: 1, min: 0.75 },
 };
 
 interface IRenownLevels {

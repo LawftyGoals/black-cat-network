@@ -48,6 +48,9 @@ export function setupDialog() {
 export const getRandomInt = (max: number, min: number = 0) => {
     return Math.floor(Math.random() * (max - min)) + min;
 };
+export const getRandomDecimal = (max: number, min: number) => {
+    return Math.random() * (max - min) + min;
+};
 
 export const getRandomizedId = () =>
     (getRandomInt(100000) * performance.now()).toString();

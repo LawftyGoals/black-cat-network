@@ -57,7 +57,7 @@ export const gameInitialState: IGameState = {
     cats: new Map<string, Entity>(),
     selectedBonding: null,
     selectedCat: null,
-    currentScreen: "spells",
+    currentScreen: "bondings",
     remainingTime: 16,
     maxTime: 16,
     gp: 100,
@@ -65,5 +65,5 @@ export const gameInitialState: IGameState = {
     traps: new Map<string, Entity | null>(),
     catCatcher: new Map<string, Entity>(),
     selectedAcqusition: "traps",
-    renown: 5,
+    renown: 15,
 };
