@@ -1,6 +1,15 @@
 // Entity.ts
-
-//  import { defaultCatAbilities, defaultWitchAbilities } from "./Values";
+//
+//      CONTAINS:
+// getNewKnown()
+// getWitchInfoFromNews()
+// getRandomizedCatCharacteristics()
+// createRandomizedWitch()
+// createRandomCatForSale()
+// getSex()
+// getRandomCatTraits()
+// getRandomCatVariant()
+// getRandomWitchTraits()
 
 import { gameInitialState } from "./state/game-state.js";
 import type { TSpells } from "./systems/spell-system.js";
@@ -22,6 +31,7 @@ import {
     catVariantValues,
     type TCatVariants,
 } from "./Values.js";
+import { Happening } from "./Happening.js";
 
 const gameState = gameInitialState;
 
@@ -32,8 +42,14 @@ export const coreEntityGivens = [
     "inBonding",
     "effectingspells",
 ];
-export const witchGivens = ["approach"];
-export const witchBaseUnknowns = ["age", "sex", "variant", "species"];
+export const witchGivens = ["vocation"];
+export const witchBaseUnknowns = [
+    "age",
+    "sex",
+    "approach",
+    "species",
+    "traits",
+];
 export const catGivens = ["sex", "color"];
 export const catBaseUnknowns = ["age", "variant"];
 
@@ -77,6 +93,40 @@ export function getNewKnown(entity: Entity) {
         entity.knowns.push(targetUnknown);
     }
     return mutable[targetUnknown as keyof typeof mutable];
+}
+
+export function getWitchInfoFromNews(newsItem: Happening) {
+    const witchAttributes: (keyof Entity)[] = ["age", "vocation", "approach"];
+
+    const unknowns = [];
+    const agent = newsItem.agent!;
+
+    // if (!gameState.knownWitches.has(agent.id)) {
+    //     gameState.knownWitches.set(agent.id, agent);
+    // }
+
+    if (agent.knownTraits.length !== agent.traits.length) {
+        unknowns.push("traits");
+    }
+
+    unknowns.push(
+        ...witchAttributes.filter((unknown) => {
+            return !newsItem.agent!.knowns.includes(unknown);
+        })
+    );
+    // console.log(unknowns);
+
+    // const witchNews: Partial<Entity> = {
+    //     id: newsItem.agent!.id,
+    //     type: newsItem.agent!.type,
+    //     name: newsItem.agent!.name,
+
+    //     ...(newsItem.agent!.vocation && { vocation: newsItem.agent!.vocation }),
+    //     ...(newsItem.agent!.approach && { approach: newsItem.agent!.approach }),
+    //     ...(newsItem.agent!.traits && { traits: newsItem.agent!.traits }),
+    // };
+
+    return unknowns.length > 0 ? unknowns : false;
 }
 
 export class Entity {
