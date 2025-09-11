@@ -14,12 +14,13 @@ import { initAcquisition } from "./systems/acquisition-system";
 import { createScryingSpell } from "./systems/spell-system";
 import { gameState } from "./utils";
 import { SpellCard } from "./components/spell-card";
+import { renownLevelDivision } from "./Values";
 
 function initGameStates() {
+    generateData();
     initCustomComponents();
     initAcquisition();
     initMenu();
-    generateData();
     updateScreenElement();
     initDaySystem();
     initTimeSystem();
@@ -43,7 +44,66 @@ function forit(cre: () => void, quantity?: number) {
 }
 
 function generateData() {
-    forit(() => createRandomizedWitch(), 100);
+    forit(
+        () =>
+            createRandomizedWitch(
+                undefined,
+                undefined,
+                renownLevelDivision["0"].min,
+                renownLevelDivision["0"].max
+            ),
+        30
+    );
+    forit(
+        () =>
+            createRandomizedWitch(
+                undefined,
+                undefined,
+                renownLevelDivision["10"].min,
+                renownLevelDivision["10"].max
+            ),
+        20
+    );
+    forit(
+        () =>
+            createRandomizedWitch(
+                undefined,
+                undefined,
+                renownLevelDivision["50"].min,
+                renownLevelDivision["50"].max
+            ),
+        20
+    );
+    forit(
+        () =>
+            createRandomizedWitch(
+                undefined,
+                undefined,
+                renownLevelDivision["100"].min,
+                renownLevelDivision["100"].max
+            ),
+        10
+    );
+    forit(
+        () =>
+            createRandomizedWitch(
+                undefined,
+                undefined,
+                renownLevelDivision["250"].min,
+                renownLevelDivision["250"].max
+            ),
+        10
+    );
+    forit(
+        () =>
+            createRandomizedWitch(
+                undefined,
+                undefined,
+                renownLevelDivision["500"].min,
+                renownLevelDivision["500"].max
+            ),
+        10
+    );
     forit(createRandomizedCat);
     forit(createRandomizedBonding);
     forit(createRandomizedNews);

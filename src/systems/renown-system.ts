@@ -14,7 +14,7 @@ export function getRenownLevel(renown: number) {
     const pRenown = renown;
 
     const level = Object.entries(renownLevelDivision).find(([_key, values]) => {
-        return values.max > pRenown && pRenown > values.min;
+        return values.max >= pRenown && pRenown >= values.min;
     })!;
     return level[0];
 }

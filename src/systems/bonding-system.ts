@@ -18,6 +18,7 @@ export function createRandomizedBonding() {
     const id = getRandomizedId();
 
     const randomWitch = getRandomExistingWitchWithoutBonding();
+
     randomWitch.inbonding = true;
 
     const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
@@ -112,7 +113,6 @@ export function updateBondings() {
                     received
                 );
             }
-            console.log(gameState.renown);
         }
     });
 }

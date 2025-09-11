@@ -86,7 +86,7 @@ export class Entity {
     age: number;
     deceased: boolean;
     sex: string;
-    value: number | null;
+    value: number;
     color: string | null;
     species: string | null;
     traits: string[];
@@ -110,7 +110,7 @@ export class Entity {
         age: number,
         deceased: boolean,
         sex: string,
-        value: number | null,
+        value: number,
         color: string | null,
         species: string | null = null,
         traits: string[],
@@ -193,7 +193,9 @@ export function getRandomizedCatCharacteristics(
 
 export function createRandomizedWitch(
     known: boolean = false,
-    ownsCat?: boolean
+    ownsCat?: boolean,
+    minValue: number = 0,
+    maxValue: number = 9
 ): Entity {
     const id = getRandomizedId();
     const randomFirstName =
@@ -216,7 +218,7 @@ export function createRandomizedWitch(
         getRandomInt(154, 16), // age
         false, // deceased
         "Female",
-        witchValueDistribution(Math.random()),
+        applyDistributionToWitches(minValue, maxValue),
         null,
         "Human",
         randomTraits,
@@ -300,5 +302,12 @@ function getRandomWitchTraits(quantity: number) {
 }
 
 function witchValueDistribution(chance: number) {
-    return 1 / ((1 + Math.E) ^ (5 * (chance - 0.5)));
+    const bop = 1 - 1 / (1 + Math.pow(Math.E, 9 * (chance - 0.65)));
+    return bop;
+}
+
+function applyDistributionToWitches(min: number, max: number) {
+    const range = max - min;
+
+    return Math.floor(witchValueDistribution(Math.random()) * range + min);
 }

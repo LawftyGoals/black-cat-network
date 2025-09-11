@@ -1,9 +1,12 @@
+import { createRandomizedWitch, type Entity } from "./Entity";
 import { closeDialogElement, gEiD } from "./get-elements";
 import {
     gameInitialState,
     type IAcquisition,
     type IScreens,
 } from "./state/game-state";
+import { getRenownLevel } from "./systems/renown-system";
+import { renownLevelDivision } from "./Values";
 
 export const gameState = gameInitialState;
 
@@ -99,9 +102,34 @@ export function getRandomExistingWitch() {
 
 export function getRandomExistingWitchWithoutBonding() {
     const w = gameState.witches;
-    return Array.from(w.values()).filter(
+
+    const bondinglessW = Array.from(w.values()).filter(
         (witch) => !witch.inbonding && !witch.relationship
-    )[getRandomInt(w.size)];
+    );
+
+    const renownW = filterWitchesWithinRenounRange(bondinglessW);
+
+    if (renownW.length < 1)
+        renownW.push(
+            createRandomizedWitch(
+                undefined,
+                undefined,
+                renownLevelDivision[getRenownLevel(gameState.renown)].min,
+                renownLevelDivision[getRenownLevel(gameState.renown)].max
+            )
+        );
+    return renownW[getRandomInt(renownW.length)];
+}
+
+function filterWitchesWithinRenounRange(witches: Entity[]) {
+    return witches.filter((witch) => {
+        return (
+            gameState.renown <
+                renownLevelDivision[getRenownLevel(witch.value)].max &&
+            gameState.renown >
+                renownLevelDivision[getRenownLevel(witch.value)].min
+        );
+    });
 }
 
 export function getCurrentDayAndTime() {

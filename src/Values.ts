@@ -25,12 +25,12 @@ interface IRenownLevels {
 }
 
 export const renownLevelDivision: IRenownLevels = {
-    0: { max: 9, min: -500 },
+    0: { max: 9, min: 0 },
     10: { max: 49, min: 10 },
     50: { max: 99, min: 50 },
     100: { max: 249, min: 100 },
     250: { max: 499, min: 250 },
-    500: { max: Infinity, min: 500 },
+    500: { max: 750, min: 500 },
 };
 // Species
 export const species: string[] = ["Human", "Feline", "Other"];
