@@ -19,7 +19,8 @@ import {
     witchVocations,
     witchApproaches,
     catVariantValues,
-    type TCatVariants,
+    type TCatVariant,
+    getBlackCatVariants,
 } from "./Values.js";
 
 const gameState = gameInitialState;
@@ -152,7 +153,9 @@ export function createRandomizedCat(freeCat?: boolean): Entity {
     const randomName = catNames[Math.floor(Math.random() * catNames.length)];
     const randomVariant =
         catVariants[Math.floor(Math.random() * catVariants.length)];
-    const randomTraits = getRandomTraits(getRandomInt(5, 3));
+    const randomTraits = getRandomTraits(getRandomInt(6, 4));
+    const colors = catVariantValues[randomVariant].color;
+    const color = colors[getRandomInt(colors.length)];
 
     const cat = new Entity(
         id,
@@ -165,7 +168,7 @@ export function createRandomizedCat(freeCat?: boolean): Entity {
         false, // deceased
         "Male", // sex
         getRandomInt(50),
-        "black",
+        color,
         "Feline", // species
         randomTraits,
         getRandomAmountOrNone(randomTraits, 2, 10),
@@ -243,8 +246,9 @@ export function createRandomCatForSale(
 ) {
     const id = getRandomizedId();
     const randomTraits = getRandomTraits(getRandomInt(5, 3));
-    const variant = getRandomCatVariant();
-    const { color, value } = catVariantValues[variant];
+    const variant =
+        getBlackCatVariants()[getRandomInt(getBlackCatVariants().length)];
+    const { value } = catVariantValues[variant as TCatVariant];
 
     const cat = new Entity(
         id,
@@ -257,7 +261,7 @@ export function createRandomCatForSale(
         false,
         getSex(),
         value,
-        color[getRandomInt(color.length)],
+        "black",
         "Feline",
         randomTraits,
         trap ? [] : getRandomAmountOrNone(randomTraits, 2, 10),
@@ -286,7 +290,7 @@ export function getRandomTraits(quantity: number) {
 }
 
 function getRandomCatVariant() {
-    return catVariants[getRandomInt(catVariants.length)] as TCatVariants;
+    return catVariants[getRandomInt(catVariants.length)] as TCatVariant;
 }
 
 function witchValueDistribution(chance: number) {

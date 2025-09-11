@@ -1,5 +1,7 @@
 // Values.ts
 
+export const chanceToGetSpellFromBonding = 0.01;
+
 export const itemValues = {
     trap: { value: 100 },
     bonding: { value: 500 },
@@ -45,21 +47,8 @@ export const renownLevelDivision: IRenownLevels = {
 // Species
 export const species: string[] = ["Human", "Feline", "Other"];
 
-export type TCatVariants =
-    | "Black"
-    | "Tabby"
-    | "Siamese"
-    | "Persian"
-    | "Maine Coon"
-    | "Bengal"
-    | "Sphynx"
-    | "Ragdoll"
-    | "British Shorthair"
-    | "Abyssinian"
-    | "Scottish Fold";
 // Cat Variants
-export const catVariants = [
-    "Black",
+export const catVariants: TCatVariant[] = [
     "Tabby",
     "Siamese",
     "Persian",
@@ -72,14 +61,28 @@ export const catVariants = [
     "Scottish Fold",
 ];
 
-export const catVariantValues = {
-    Black: { value: 10, color: ["black"] },
+type TCatVariantValues = {
+    Tabby: { value: number; color: TCatColors[] };
+    Siamese: { value: number; color: TCatColors[] };
+    Persian: { value: number; color: TCatColors[] };
+    "Maine Coon": { value: number; color: TCatColors[] };
+    Bengal: { value: number; color: TCatColors[] };
+    Sphynx: { value: number; color: TCatColors[] };
+    Ragdoll: { value: number; color: TCatColors[] };
+    "British Shorthair": { value: number; color: TCatColors[] };
+    Abyssinian: { value: number; color: TCatColors[] };
+    "Scottish Fold": { value: number; color: TCatColors[] };
+};
+
+export type TCatVariant = keyof TCatVariantValues;
+
+export const catVariantValues: TCatVariantValues = {
     Tabby: { value: 7, color: ["orange", "greytone"] },
     Siamese: { value: 25, color: ["white"] },
     Persian: { value: 30, color: ["white", "grey", "black", "orange"] },
     "Maine Coon": {
         value: 15,
-        color: ["white", "ginger", "greytone", "black"],
+        color: ["white", "orange", "greytone", "black"],
     },
     Bengal: { value: 45, color: ["orange", "greytone"] },
     Sphynx: { value: 20, color: ["pink", "grey", "black", "white"] },
@@ -91,9 +94,21 @@ export const catVariantValues = {
     Abyssinian: { value: 40, color: ["orange"] },
     "Scottish Fold": {
         value: 25,
-        color: ["grey", "white", "greystone", "black", "orange"],
+        color: ["grey", "white", "greytone", "black", "orange"],
     },
 };
+
+type TCatColors = "black" | "orange" | "greytone" | "white" | "grey" | "pink";
+
+export const catVariantsByColor = (color: TCatColors) =>
+    Object.keys(catVariantValues).filter((cat) =>
+        catVariantValues[cat as TCatVariant].color.includes(color)
+    );
+
+export const getBlackCatVariants = () =>
+    Object.keys(catVariantValues).filter((cat) =>
+        catVariantValues[cat as TCatVariant].color.includes("black")
+    );
 
 // Witch Traits
 export const allTraits: string[] = [
@@ -108,6 +123,11 @@ export const allTraits: string[] = [
     "reclusive",
     "stubborn",
     "vocal",
+    "agressive",
+    "thoughtful",
+    "short fused",
+    "defiant",
+    "greedy",
 ];
 
 // Names for Cats

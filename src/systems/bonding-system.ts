@@ -7,16 +7,18 @@ import {
     getRandomInt,
     getRandomizedId,
 } from "../utils";
-import { getRandomTraits } from "../Entity";
 import { updateGp } from "../ui";
 import { createNotification } from "./notifications-system";
 import { changeRenown, getRenownLevel } from "./renown-system";
 import {
+    catVariantsByColor,
+    chanceToGetSpellFromBonding,
     itemValues,
     renownToGoldModifiers,
     renownToWitchModifiers,
     renownValues,
 } from "../Values";
+import { getNonlearntSpells, spellMapping } from "./spell-system";
 
 const gameState = gameInitialState;
 
@@ -32,6 +34,25 @@ export function createRandomizedBonding() {
     const witchValues =
         renownToGoldModifiers[getRenownLevel(randomWitch.value)];
 
+    const randomTrait =
+        randomWitch.traits[getRandomInt(randomWitch.traits.length)];
+
+    if (!randomWitch.knownTraits.includes(randomTrait)) {
+        randomWitch.knownTraits.push(randomTrait);
+    }
+
+    const spell =
+        Math.random() < chanceToGetSpellFromBonding
+            ? getNonlearntSpells()
+            : null;
+    const goldOffer = spell
+        ? null
+        : Math.floor(
+              itemValues.bonding.value *
+                  getRandomDecimal(witchValues.max, witchValues.min)
+          );
+    const catVariants = catVariantsByColor("black");
+
     const order = new Happening(
         id,
         false,
@@ -42,12 +63,13 @@ export function createRandomizedBonding() {
         randomWitch,
         "I would like to acquire a BLACK CAT",
         reasonForPuchase[getRandomInt(reasonForPuchase.length)],
-        Math.floor(
-            itemValues.bonding.value *
-                getRandomDecimal(witchValues.max, witchValues.min)
-        ),
+        goldOffer,
+        spell,
         gameState.catInventory,
-        getRandomTraits(getRandomInt(3, 5))
+        {
+            traits: [randomTrait],
+            variant: catVariants[getRandomInt(catVariants.length)],
+        }
     );
 
     gameState.knownWitches.set(randomWitch.id, randomWitch);
@@ -68,22 +90,38 @@ export function updateBondings() {
 
         if (active && bonding.nextEventDay === gameState.day) {
             const cat = bonding.cat!;
-            const requirements = bonding.bondrequirements!;
+            const witch = bonding.agent!;
 
-            const reqsFullfilled = requirements?.reduce((accu, curr) => {
-                if (cat.traits.includes(curr)) return accu + 1;
-                return accu;
-            }, 0);
+            let missTraits = 0;
+            let hitTraits = 0;
+
+            cat.traits.forEach((trait) => {
+                console.log({ catTrait: trait, witchTrait: witch.traits });
+                if (witch.traits.includes(trait)) {
+                    console.log("included");
+                    hitTraits++;
+                } else missTraits++;
+            });
 
             gameState.completedBondings.set(bonding.id, bonding);
             gameState.bondings.delete(bonding.id);
 
-            const received = Math.ceil(
-                bonding.offer! * (reqsFullfilled / requirements.length)
-            );
-            updateGp(received);
+            const offer = bonding.offer ?? 0;
 
-            if (received === 0) {
+            const offerMultiplyer =
+                hitTraits === cat.traits.length
+                    ? Math.ceil(
+                          offer +
+                              (offer * hitTraits) / witch.traits.length +
+                              (cat.variant === bonding.bondrequirements?.variant
+                                  ? offer * 0.25
+                                  : 0)
+                      )
+                    : offer;
+
+            const spell = bonding.spell;
+
+            if (hitTraits < 1) {
                 gameState.catInventory.set(cat.id, cat);
                 cat.inbonding = false;
                 bonding.agent!.inbonding = false;
@@ -101,9 +139,11 @@ export function updateBondings() {
                     } returned to you slightly miffed.`,
                     [],
                     cat,
-                    received
+                    0,
+                    null
                 );
             } else {
+                updateGp(offerMultiplyer);
                 cat.inbonding = false;
                 bonding.agent!.inbonding = false;
                 cat.relationship = bonding.agent;
@@ -114,6 +154,7 @@ export function updateBondings() {
                         getRenownLevel(bonding.agent!.value!)
                     ].max
                 );
+                spell && gameState.spells.set(spell, spellMapping[spell]);
                 createNotification(
                     "Bonding Succeeded!",
                     `${cat.name} and ${bonding.agent!
@@ -122,7 +163,8 @@ export function updateBondings() {
                     } will now be a beloved familiar.`,
                     [],
                     cat,
-                    received
+                    offer,
+                    spell
                 );
             }
         }

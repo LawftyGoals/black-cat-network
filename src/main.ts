@@ -11,7 +11,7 @@ import { initTimeSystem } from "./systems/time-system";
 import { NotificationCard } from "./components/notification-card";
 import { CatAcquisition } from "./components/cat-acquisition";
 import { initAcquisition } from "./systems/acquisition-system";
-import { createScryingSpell } from "./systems/spell-system";
+import { spellMapping } from "./systems/spell-system";
 import { gameState } from "./utils";
 import { SpellCard } from "./components/spell-card";
 import { renownLevelDivision } from "./Values";
@@ -107,7 +107,7 @@ function generateData() {
     forit(createRandomizedCat);
     forit(createRandomizedBonding);
     forit(createRandomizedNews);
-    forit(() => {
-        gameState.spells.set("scrying", createScryingSpell(null));
-    });
+    //forit(() => {
+    //    gameState.spells.set("scrying", spellMapping["scrying"]);
+    //});
 }

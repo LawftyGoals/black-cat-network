@@ -2,20 +2,9 @@ import { getNewKnown, type Entity } from "../Entity";
 import { Spell } from "../Spell";
 import { textResource } from "../text/textResource";
 import { displayModalMessage, updateScreenElement } from "../ui";
-import { cE } from "../utils";
+import { cE, gameState, getRandomInt } from "../utils";
 import { createNotification } from "./notifications-system";
 import { changeRemainingTime } from "./time-system";
-
-export function createScryingSpell(target: Entity | null) {
-    const spell = new Spell({
-        variant: "scrying",
-        description:
-            "If you apply the marking to anything... even a cat, you can then view it and its surroundings through the ether. Simply speaking, you might not learn something interesting. Costs 1 hour.",
-        target: target,
-    });
-
-    return spell;
-}
 
 export function createScryingButton(target: Entity) {
     const button = cE("button");
@@ -31,7 +20,7 @@ export function createScryingButton(target: Entity) {
 
 export function createSpellButton(target: Entity, spelltype: TSpells) {
     const button = cE("button");
-    button.textContent = spellMapping[spelltype].text;
+    button.textContent = spellMapping[spelltype].label;
     button.onclick = () => {
         spellMapping[spelltype].action(target);
         updateScreenElement();
@@ -42,8 +31,12 @@ export function createSpellButton(target: Entity, spelltype: TSpells) {
 export type TSpells = keyof typeof spellMapping;
 
 export const spellMapping = {
-    scrying: {
-        text: "Scry",
+    scrying: new Spell({
+        variant: "scrying",
+        description:
+            "If you apply the marking to anything... even a cat, you can then view it and its surroundings through the ether. Simply speaking, you might not learn something interesting. Costs 1 hour.",
+        value: 0,
+        label: "Scry",
         action: (target: Entity) => {
             if (changeRemainingTime() > 0) {
                 scryingEffect(target);
@@ -51,7 +44,8 @@ export const spellMapping = {
                 displayModalMessage(textResource.time.noTime);
             }
         },
-    },
+        target: undefined,
+    }),
 };
 
 function scryingEffect(target: Entity) {
@@ -62,6 +56,7 @@ function scryingEffect(target: Entity) {
             textResource.spells.scrying.noLearn,
             [],
             target,
+            null,
             null
         );
     } else if (target.relationship) {
@@ -72,6 +67,7 @@ function scryingEffect(target: Entity) {
                   `You managed to learn that ${target.relationship.name} is ${newKnown}`,
                   [],
                   target,
+                  null,
                   null
               )
             : createNotification(
@@ -79,6 +75,7 @@ function scryingEffect(target: Entity) {
                   textResource.spells.scrying.noLearn,
                   [],
                   target,
+                  null,
                   null
               );
     } else {
@@ -89,6 +86,7 @@ function scryingEffect(target: Entity) {
                   `You managed to learn that ${target.name} is ${newKnown}`,
                   [],
                   target,
+                  null,
                   null
               )
             : createNotification(
@@ -96,7 +94,22 @@ function scryingEffect(target: Entity) {
                   textResource.spells.scrying.noLearn,
                   [],
                   target,
+                  null,
                   null
               );
     }
+}
+
+export function getNonlearntSpells() {
+    const notFoundSpells = Object.keys(spellMapping)
+        .filter((spell) => !gameState.spells.has(spell))
+        .filter(
+            (spell) => spellMapping[spell as TSpells].value <= gameState.renown
+        );
+
+    if (notFoundSpells.length < 1) {
+        return null;
+    }
+
+    return notFoundSpells[getRandomInt(notFoundSpells.length)] as TSpells;
 }

@@ -28,6 +28,7 @@ import { textResource } from "./text/textResource";
 import { SpellCardValues, type Spell } from "./Spell";
 import type { SpellCard } from "./components/spell-card";
 import { createSpellButton } from "./systems/spell-system";
+import { getRenownLevel } from "./systems/renown-system";
 
 const gameState = gameInitialState;
 
@@ -160,7 +161,7 @@ export function updateScreenElement() {
                 createCreatureCards(
                     arrayFromMap(cS),
                     coreEntityGivens,
-                    catInteract,
+                    entityInteract,
                     undefined,
                     undefined,
                     catRelease
@@ -170,7 +171,12 @@ export function updateScreenElement() {
         case "knownWitches":
             replaceChildren(
                 screen,
-                createCreatureCards(arrayFromMap(cS), coreEntityGivens)
+                createCreatureCards(
+                    arrayFromMap(cS),
+                    coreEntityGivens,
+                    entityInteract,
+                    "Interact with witch"
+                )
             );
             break;
         case "bondings":
@@ -306,7 +312,9 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
     content &&
         comp.setAttribute(
             "content",
-            ` Needs to be: ${bondrequirements!.join(", ")}`
+            ` Needs to be: ${bondrequirements!.traits.join(
+                ", "
+            )} and it would be wicked if it was a ${bondrequirements!.variant}`
         );
 
     if (cat) comp.setAttribute("cat", cat.name);
@@ -353,31 +361,6 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
             });
         }
     }
-}
-
-function createCreatureCards(
-    entities: Entity[],
-    givens: string[],
-    interaction?: (entity: Entity) => void,
-    interactionLabel?: string,
-    selectCard?: (entity: Entity) => void,
-    release?: (entity: Entity) => void
-) {
-    const cards = entities.map((entity) => {
-        const { name, type } = { ...entity };
-
-        return createCreatureCard(
-            name,
-            type,
-            givens,
-            entity,
-            interaction,
-            interactionLabel,
-            selectCard,
-            release
-        );
-    });
-    return cards;
 }
 
 function createTrapCards(traps: Map<string, Entity | null>) {
@@ -431,6 +414,31 @@ function createTrapCards(traps: Map<string, Entity | null>) {
     return [...cards, purchaseTrap];
 }
 
+function createCreatureCards(
+    entities: Entity[],
+    givens: string[],
+    interaction?: (entity: Entity) => void,
+    interactionLabel?: string,
+    selectCard?: (entity: Entity) => void,
+    release?: (entity: Entity) => void
+) {
+    const cards = entities.map((entity) => {
+        const { name, type } = { ...entity };
+
+        return createCreatureCard(
+            name,
+            type,
+            givens,
+            entity,
+            interaction,
+            interactionLabel,
+            selectCard,
+            release
+        );
+    });
+    return cards;
+}
+
 function createCreatureCard(
     name: string,
     type: string,
@@ -460,9 +468,23 @@ function createCreatureCard(
     );
 
     comp.setAttribute("image", `src/img/${type}.jpg`);
-    if (type === "cat" && interactClick) {
-        comp.setAttribute("showcatslot", "true");
-        comp.setInteractClick(() => interactClick(entity), interactLabel);
+
+    if (interactClick) {
+        if (type === "cat") {
+            comp.setAttribute("showcatslot", "true");
+            comp.setInteractClick(() => interactClick(entity), interactLabel);
+        }
+        if (type === "witch") {
+            const playerRenown = getRenownLevel(gameState.renown);
+            const witchValue = getRenownLevel(entity.value);
+            if (playerRenown >= witchValue) {
+                comp.setAttribute("showcatslot", "true");
+                comp.setInteractClick(
+                    () => interactClick(entity),
+                    interactLabel
+                );
+            }
+        }
     }
     if (selectCard) {
         comp.setDivClick(() => selectCard(entity));
@@ -484,7 +506,7 @@ function createCreatureCard(
     return comp;
 }
 
-function catInteract(entity: Entity) {
+function entityInteract(entity: Entity) {
     if (changeRemainingTime() > 0) {
         const newKnown = getNewKnown(entity);
 
@@ -494,6 +516,7 @@ function catInteract(entity: Entity) {
                   `You managed to learn that ${entity.name} is ${newKnown}`,
                   [],
                   entity,
+                  null,
                   null
               )
             : createNotification(
@@ -501,6 +524,7 @@ function catInteract(entity: Entity) {
                   `There doesn't seem to be anything left to learn about ${entity.name}.`,
                   [],
                   entity,
+                  null,
                   null
               );
     }

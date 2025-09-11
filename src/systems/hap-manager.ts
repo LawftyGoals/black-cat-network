@@ -20,6 +20,7 @@ export function createNewsHap(): Happening {
         null,
         null,
         null,
+        null,
         undefined,
         ["newsworthy"]
     );
