@@ -1,11 +1,9 @@
 import { closeDialogElement, gEiD } from "./get-elements";
 import {
     gameInitialState,
-    type IGameState,
     type IAcquisition,
     type IScreens,
 } from "./state/game-state";
-import { Entity } from "./Entity.js";
 
 export const gameState = gameInitialState;
 
@@ -97,58 +95,6 @@ export function getKnownWitches() {
 export function getRandomExistingWitch() {
     const w = gameState.witches;
     return Array.from(w.values())[getRandomInt(w.size)];
-}
-
-export function updateKnownWitchInfo(
-    gameState: IGameState,
-    witchInfo: Entity
-): void {
-    const knownWitches = gameState.knownWitches;
-    const witchId = witchInfo.id;
-
-    let existingWitch = knownWitches.get(witchId);
-
-    const witchAttributes: (keyof Entity)[] = [
-        "name",
-        "age",
-        "vocation",
-        "approach",
-        "traits",
-    ];
-
-    // If witch IS known, add newly learned attributes to her knowns.
-    if (existingWitch) {
-        // 1) If a known witch, update her witch knowns[] with whichever witchy nouns.
-        if (!existingWitch.knowns) {
-            existingWitch.knowns = [];
-        }
-
-        // 2) For each attribute in witchInfo, add to knowns[] IF not there already.
-        witchAttributes.forEach((attr) => {
-            if (
-                witchInfo[attr] !== undefined &&
-                !existingWitch.knowns!.includes(attr)
-            ) {
-                existingWitch.knowns!.push(attr);
-            }
-        });
-    } else {
-        // If witch not known, now she is, so add to known witch Map.
-        const newWitch: Entity = {
-            ...witchInfo,
-            knowns: [],
-        };
-
-        // Update previously unknown witch's knowns[] with attributes in witchInfo.
-        witchAttributes.forEach((attr) => {
-            if (witchInfo[attr] !== undefined) {
-                newWitch.knowns!.push(attr);
-            }
-        });
-
-        // Add newly known previously unknown witch to knownWitches Map
-        knownWitches.set(witchId, newWitch);
-    }
 }
 
 export function getRandomExistingWitchWithoutBonding() {
