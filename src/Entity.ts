@@ -32,8 +32,8 @@ export const coreEntityGivens = [
     "inBonding",
     "effectingspells",
 ];
-export const witchGivens = ["approach"];
-export const witchBaseUnknowns = ["age", "sex", "variant", "species"];
+export const witchGivens = ["vocation"];
+export const witchBaseUnknowns = ["age", "sex", "approach", "species"];
 export const catGivens = ["sex", "color"];
 export const catBaseUnknowns = ["age", "variant"];
 
@@ -46,7 +46,6 @@ export function getNewKnown(entity: Entity) {
 
     const unknowns = [];
 
-    console.log({ knownTraits, traits });
     if (knownTraits.length !== traits.length) {
         unknowns.push("traits");
     }
@@ -59,10 +58,7 @@ export function getNewKnown(entity: Entity) {
         }
     );
 
-    console.log(unknowns);
-
     if (unknowns.length < 1) return false;
-    console.log("passed false");
 
     const targetUnknown = unknowns[getRandomInt(unknowns.length)];
 
@@ -105,7 +101,7 @@ export class Entity {
 
     constructor(
         id: string,
-        type: "cat" | "spell" | "witch",
+        type: "cat" | "witch",
         inBonding: boolean = false,
         name: string,
         knowns: string[] = [],
@@ -219,8 +215,8 @@ export function createRandomizedWitch(
         ownsCat ? createRandomizedCat() : null,
         getRandomInt(154, 16), // age
         false, // deceased
-        "female",
-        null,
+        "Female",
+        witchValueDistribution(Math.random()),
         null,
         "Human",
         randomTraits,
@@ -301,4 +297,8 @@ function getRandomWitchTraits(quantity: number) {
         );
     }
     return traits;
+}
+
+function witchValueDistribution(chance: number) {
+    return 1 / ((1 + Math.E) ^ (5 * (chance - 0.5)));
 }

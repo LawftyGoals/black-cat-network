@@ -9,6 +9,8 @@ import {
 import { getRandomCatTraits } from "../Entity";
 import { updateGp } from "../ui";
 import { createNotification } from "./notifications-system";
+import { changeRenown, getRenownLevel } from "./renown-system";
+import { renownToWitchModifiers, renownValues } from "../Values";
 
 const gameState = gameInitialState;
 
@@ -72,6 +74,12 @@ export function updateBondings() {
                 gameState.catInventory.set(cat.id, cat);
                 cat.inbonding = false;
                 bonding.agent!.inbonding = false;
+                changeRenown(
+                    renownValues.bonding.maxFailedRenown,
+                    renownToWitchModifiers[
+                        getRenownLevel(bonding.agent!.value!)
+                    ].min
+                );
                 createNotification(
                     "Bonding Failed!",
                     `Unfortuantely ${cat.name} and ${bonding.agent!
@@ -87,6 +95,12 @@ export function updateBondings() {
                 bonding.agent!.inbonding = false;
                 cat.relationship = bonding.agent;
                 bonding.agent!.relationship = cat;
+                changeRenown(
+                    renownValues.bonding.maxRenown,
+                    renownToWitchModifiers[
+                        getRenownLevel(bonding.agent!.value!)
+                    ].max
+                );
                 createNotification(
                     "Bonding Succeeded!",
                     `${cat.name} and ${bonding.agent!
@@ -98,6 +112,7 @@ export function updateBondings() {
                     received
                 );
             }
+            console.log(gameState.renown);
         }
     });
 }

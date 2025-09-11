@@ -20,6 +20,6 @@ export const textResource = {
         },
     },
     time: {
-        noTime: "You have run out of time. You are too tired to do anything demanding.",
+        noTime: "No more zoomies, time for a catnap.",
     },
 };
