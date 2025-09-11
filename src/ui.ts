@@ -212,7 +212,7 @@ function createSpellCard(spell: Spell) {
             gEiD("dialog-content"),
             createCreatureCards(
                 (arrayFromMap("catInventory") as Entity[]).filter(
-                    (cat) => !cat.inbonding || !cat.relationship
+                    (cat) => !cat.inbonding && !cat.relationship
                 ),
                 coreEntityGivens,
                 undefined,
@@ -222,8 +222,6 @@ function createSpellCard(spell: Spell) {
                         entity.effectingspells.push(spell.variant);
                         dialogElement.close();
                         updateScreenElement();
-                    } else {
-                        displayModalMessage(textResource.time.noTime);
                     }
                 }
             )
@@ -340,7 +338,7 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
                 gEiD("dialog-content"),
                 createCreatureCards(
                     (arrayFromMap("catInventory") as Entity[]).filter(
-                        (cat) => !cat.inbonding
+                        (cat) => !cat.inbonding && !cat.relationship
                     ),
                     coreEntityGivens,
                     undefined,
@@ -350,7 +348,7 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
                         const catField = selectedBonding.cat;
                         catField && (catField.inbonding = false);
                         selectedBonding.cat = entity;
-                        entity.inbonding = true;
+                        selectedBonding.cat.inbonding = true;
                         dialogElement.close();
                         updateScreenElement();
                     }

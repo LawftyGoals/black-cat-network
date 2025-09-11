@@ -61,7 +61,6 @@ export function getNewKnown(entity: Entity) {
 
     const unknowns = [];
 
-    console.log({ knownTraits, traits });
     if (knownTraits.length !== traits.length) {
         unknowns.push("traits");
     }
@@ -74,10 +73,7 @@ export function getNewKnown(entity: Entity) {
         }
     );
 
-    console.log(unknowns);
-
     if (unknowns.length < 1) return false;
-    console.log("passed false");
 
     const targetUnknown = unknowns[getRandomInt(unknowns.length)];
 
@@ -139,7 +135,7 @@ export class Entity {
     age: number;
     deceased: boolean;
     sex: string;
-    value: number | null;
+    value: number;
     color: string | null;
     species: string | null;
     traits: string[];
@@ -154,7 +150,7 @@ export class Entity {
 
     constructor(
         id: string,
-        type: "cat" | "spell" | "witch",
+        type: "cat" | "witch",
         inBonding: boolean = false,
         name: string,
         knowns: string[] = [],
@@ -163,7 +159,7 @@ export class Entity {
         age: number,
         deceased: boolean,
         sex: string,
-        value: number | null,
+        value: number,
         color: string | null,
         species: string | null = null,
         traits: string[],
@@ -206,7 +202,7 @@ export function createRandomizedCat(freeCat?: boolean): Entity {
     const randomName = catNames[Math.floor(Math.random() * catNames.length)];
     const randomVariant =
         catVariants[Math.floor(Math.random() * catVariants.length)];
-    const randomTraits = getRandomCatTraits(getRandomInt(5, 3));
+    const randomTraits = getRandomTraits(getRandomInt(5, 3));
 
     const cat = new Entity(
         id,
@@ -246,14 +242,16 @@ export function getRandomizedCatCharacteristics(
 
 export function createRandomizedWitch(
     known: boolean = false,
-    ownsCat?: boolean
+    ownsCat?: boolean,
+    minValue: number = 0,
+    maxValue: number = 9
 ): Entity {
     const id = getRandomizedId();
     const randomFirstName =
         witchFirstNames[getRandomInt(witchFirstNames.length)];
     const randomSurName = witchSurNames[getRandomInt(witchSurNames.length)];
     const randomName = `${randomFirstName} ${randomSurName}`;
-    const randomTraits = getRandomWitchTraits(3);
+    const randomTraits = getRandomTraits(3);
 
     const randomVocation = witchVocations[getRandomInt(witchVocations.length)];
     const randomApproach =
@@ -268,8 +266,8 @@ export function createRandomizedWitch(
         ownsCat ? createRandomizedCat() : null,
         getRandomInt(154, 16), // age
         false, // deceased
-        "female",
-        null,
+        "Female",
+        applyDistributionToWitches(minValue, maxValue),
         null,
         "Human",
         randomTraits,
@@ -294,7 +292,7 @@ export function createRandomCatForSale(
     trap?: boolean
 ) {
     const id = getRandomizedId();
-    const randomTraits = getRandomCatTraits(getRandomInt(5, 3));
+    const randomTraits = getRandomTraits(getRandomInt(5, 3));
     const variant = getRandomCatVariant();
     const { color, value } = catVariantValues[variant];
 
@@ -326,7 +324,7 @@ function getSex() {
     return Math.random() < 0.5 ? "Male" : "Female";
 }
 
-export function getRandomCatTraits(quantity: number) {
+export function getRandomTraits(quantity: number) {
     const traits = [];
     const reducedTraits = [...allTraits];
     for (let i = 0; i < quantity; i++) {
@@ -341,13 +339,13 @@ function getRandomCatVariant() {
     return catVariants[getRandomInt(catVariants.length)] as TCatVariants;
 }
 
-function getRandomWitchTraits(quantity: number) {
-    const traits = [];
-    const reducedTraits = [...allTraits];
-    for (let i = 0; i < quantity; i++) {
-        traits.push(
-            ...reducedTraits.splice(getRandomInt(reducedTraits.length), 1)
-        );
-    }
-    return traits;
+function witchValueDistribution(chance: number) {
+    const bop = 1 - 1 / (1 + Math.pow(Math.E, 9 * (chance - 0.65)));
+    return bop;
+}
+
+function applyDistributionToWitches(min: number, max: number) {
+    const range = max - min;
+
+    return Math.floor(witchValueDistribution(Math.random()) * range + min);
 }

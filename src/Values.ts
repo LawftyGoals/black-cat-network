@@ -1,9 +1,47 @@
 // Values.ts
 
 export const itemValues = {
-    trap: { value: 10 },
+    trap: { value: 100 },
+    bonding: { value: 500 },
+};
+export const renownValues = {
+    bonding: { maxRenown: 100, maxFailedRenown: -100 },
+    detectedSpell: { failedRenown: -100 },
 };
 
+export const renownToWitchModifiers: IRenownLevels = {
+    0: { max: 0.1, min: 0.05 },
+    10: { max: 0.25, min: 0.1 },
+    50: { max: 0.5, min: 0.1 },
+    100: { max: 1.0, min: 1.0 },
+    250: { max: 1.5, min: 1.5 },
+    500: { max: 2, min: 2 },
+};
+
+export const renownToGoldModifiers: IRenownLevels = {
+    0: { max: 0.05, min: 0.01 },
+    10: { max: 0.1, min: 0.05 },
+    50: { max: 0.25, min: 0.1 },
+    100: { max: 0.5, min: 0.25 },
+    250: { max: 0.75, min: 0.5 },
+    500: { max: 1, min: 0.75 },
+};
+
+interface IRenownLevels {
+    [key: string]: {
+        max: number;
+        min: number;
+    };
+}
+
+export const renownLevelDivision: IRenownLevels = {
+    0: { max: 9, min: 0 },
+    10: { max: 49, min: 10 },
+    50: { max: 99, min: 50 },
+    100: { max: 249, min: 100 },
+    250: { max: 499, min: 250 },
+    500: { max: 750, min: 500 },
+};
 // Species
 export const species: string[] = ["Human", "Feline", "Other"];
 
