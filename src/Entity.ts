@@ -1,6 +1,15 @@
 // Entity.ts
-
-//  import { defaultCatAbilities, defaultWitchAbilities } from "./Values";
+//
+//      CONTAINS:
+// getNewKnown()
+// getWitchInfoFromNews()
+// getRandomizedCatCharacteristics()
+// createRandomizedWitch()
+// createRandomCatForSale()
+// getSex()
+// getRandomCatTraits()
+// getRandomCatVariant()
+// getRandomWitchTraits()
 
 import { gameInitialState } from "./state/game-state.js";
 import type { TSpells } from "./systems/spell-system.js";
@@ -22,6 +31,7 @@ import {
     type TCatVariant,
     getBlackCatVariants,
 } from "./Values.js";
+import { Happening } from "./Happening.js";
 
 const gameState = gameInitialState;
 
@@ -33,7 +43,13 @@ export const coreEntityGivens = [
     "effectingspells",
 ];
 export const witchGivens = ["vocation"];
-export const witchBaseUnknowns = ["age", "sex", "approach", "species"];
+export const witchBaseUnknowns = [
+    "age",
+    "sex",
+    "approach",
+    "species",
+    "traits",
+];
 export const catGivens = ["sex", "color"];
 export const catBaseUnknowns = ["age", "variant"];
 
@@ -73,6 +89,25 @@ export function getNewKnown(entity: Entity) {
         entity.knowns.push(targetUnknown);
     }
     return mutable[targetUnknown as keyof typeof mutable];
+}
+
+export function getWitchInfoFromNews(newsItem: Happening) {
+    const witchAttributes: (keyof Entity)[] = ["age", "vocation", "approach"];
+
+    const unknowns = [];
+    const agent = newsItem.agent!;
+
+    if (agent.knownTraits.length !== agent.traits.length) {
+        unknowns.push("traits");
+    }
+
+    unknowns.push(
+        ...witchAttributes.filter((unknown) => {
+            return !newsItem.agent!.knowns.includes(unknown);
+        })
+    );
+
+    return unknowns.length > 0 ? unknowns : false;
 }
 
 export class Entity {

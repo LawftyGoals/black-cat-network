@@ -3,6 +3,7 @@ import {
     coreEntityGivens,
     coreTrapGivens,
     getNewKnown,
+    getWitchInfoFromNews, // :D
     type Entity,
 } from "./Entity";
 import { happeningKnowns, type Happening, type TK } from "./Happening";
@@ -302,6 +303,23 @@ function createHappeningCard(happening: Happening) {
     agent && comp.setAttribute("agent", `${agent.name}`);
 
     variant === "bonding" && addBondingElements(happening, comp);
+
+    if (happening.variant === "news") {
+        const unknowns = getWitchInfoFromNews(happening);
+        unknowns &&
+            comp.setInterestingButton(() => {
+                happening.agent!.knowns.push(
+                    ...unknowns.filter((known) => known !== "traits")
+                );
+                happening.agent!.knownTraits = happening.agent!.traits;
+                if (!gameState.knownWitches.has(agent!.id)) {
+                    gameState.knownWitches.set(agent!.id, agent!);
+                }
+                updateScreenElement();
+            });
+    }
+
+    //
 
     return comp;
 }

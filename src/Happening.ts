@@ -11,7 +11,13 @@ type THappeningVariants =
     | "notification"
     | "misc";
 
-export const happeningKnowns = ["title", "content", "active", "offer", "spell"];
+export const happeningKnowns = [
+    "title",
+    "content",
+    "ongoing",
+    "offer",
+    "spell",
+];
 
 type TRequirements = { traits: string[]; variant: string } | null;
 

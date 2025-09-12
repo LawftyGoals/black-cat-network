@@ -4,6 +4,7 @@ export class HappeningCard extends HTMLElement {
     titleSlot: HTMLElement;
     contentSlot: HTMLElement;
     clickableSlot: HTMLElement;
+    interestingButton: HTMLElement;
     fromSlot: HTMLElement;
     offerSlot: HTMLElement;
     clearSlot: HTMLElement;
@@ -53,6 +54,7 @@ export class HappeningCard extends HTMLElement {
         <span id="bonding-slot" style="display:none"><button id="clickable">Pick Cat</button>
         <button style="display:none" id="clear-cat">Clear Cat</button>
         <button id="send-bonding-slot" style="display:none">Send for bonding</button></span>
+        <button id="interesting-button" style="display:none">That's interesting...</button>
       </div>
     `;
 
@@ -68,6 +70,7 @@ export class HappeningCard extends HTMLElement {
         this.clearSlot = sgeid(sr, "clear-cat");
         this.bondingSlot = sgeid(sr, "bonding-slot");
         this.sendBondingSlot = sgeid(sr, "send-bonding-slot");
+        this.interestingButton = sgeid(sr, "interesting-button");
     }
 
     static get observedAttributes() {
@@ -84,6 +87,11 @@ export class HappeningCard extends HTMLElement {
         ];
     }
 
+    setInterestingButton(onClick: () => any) {
+        this.interestingButton.onclick = onClick;
+        this.interestingButton.style = "display: block;";
+    }
+
     setDivClick(onClick: () => any) {
         this.clickableSlot.onclick = onClick;
     }
@@ -91,14 +99,22 @@ export class HappeningCard extends HTMLElement {
     setClearCat(onClick: () => void) {
         this.clearSlot.onclick = onClick;
     }
+    setClearCat(onClick: () => void) {
+        this.clearSlot.onclick = onClick;
+    }
 
+    setSendBonding(onClick: () => void) {
+        this.sendBondingSlot.onclick = onClick;
+    }
     setSendBonding(onClick: () => void) {
         this.sendBondingSlot.onclick = onClick;
     }
 
     attributeChangedCallback(
         name: string,
+
         _oldvalue: string,
+
         newValue: string
     ) {
         switch (name) {
