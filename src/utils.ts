@@ -8,6 +8,7 @@ import {
 import { getRenownLevel } from "./systems/renown-system";
 import { renownLevelDivision } from "./Values";
 import { displayModalMessage } from "./ui";
+import { createNotification } from "./systems/notifications-system";
 
 export const gameState = gameInitialState;
 
@@ -192,20 +193,22 @@ export function calculateWeeklyExpenses() {
 }
 
 export function payBills(): boolean {
-    const { gp, expenses } = gameState;
+    const { bank, gp, expenses } = gameState;
 
     if (gp >= expenses) {
         gameState.gp -= gameState.expenses;
         gameState.expenses = 0;
-        displayModalMessage(
-            "You have been robbed by the political bourgeoisie and the capital owning class!"
+        createNotification(
+            "BILLS PAID", // title
+            "You have been robbed by the political bourgeoisie and the capital owning class!", // content
+            [], // knowns
+            bank, // from
+            null, // reward
+            null // spell
         );
-        // console.log(
-        //     "You have been robbed by the political bourgeoisie and the capital owning class!"
-        // );
         return true;
     } else {
-        console.log("Ah, you poor bitch, you lost the fucking game!");
+        displayModalMessage("Ah, you poor bitch, you lost the fucking game!!!");
         return false;
     }
 }

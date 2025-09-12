@@ -15,8 +15,17 @@ export function updateDay() {
     gameState.day += 1;
     dayElement && (dayElement.innerText = `Day: ${gameState.day.toString()}`);
 
+    if (gameState.day % 7 === 0) {
+        payBills();
+    }
+
+    const { dailyExpenses, expensesCountdown } = calculateWeeklyExpenses();
+    console.log(
+        `Daily expenses: ${dailyExpenses}gp; Debt: ${gameState.expenses}gp; Due in ${expensesCountdown} days.`
+    );
+
     /* TEMPORARY TEST STATE */
-    createRandomizedBonding();
+    // createRandomizedBonding();
 
     /*PERMANENT CHANGES*/
     generateCatsForCatcher(true);

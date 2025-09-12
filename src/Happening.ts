@@ -33,13 +33,14 @@ export class Happening {
     content: string;
     offer: number | null;
     spell: TSpells | null;
-    request_Variant: Map<string, Entity | Happening> | null;
+    requestVariant: Map<string, Entity | Happening> | null;
     bondrequirements: TRequirements;
     cat: Entity | null;
-    patient?: Entity;
+    patient?: Entity | null;
     triggerKeyword?: string[];
     outcome?: Happening;
     triedCount?: number;
+
     constructor(
         id: string,
         ongoing: boolean,
@@ -54,28 +55,29 @@ export class Happening {
         spell: TSpells | null,
         requestVariant: Map<string, Entity | Happening> | null,
         requirements: TRequirements,
-        triedCount?: number,
-        patient?: Entity,
+        cat: Entity | null = null,
+        patient?: Entity | null,
         triggerKeyword?: string[],
-        outcome?: Happening
+        outcome?: Happening,
+        triedCount?: number
     ) {
         this.id = id;
         this.ongoing = ongoing;
         this.nextEventDay = nextEventDay;
         this.nextEventTick = nextEventTick;
-        this.knowns = [...knowns];
+        this.knowns = knowns;
         this.variant = variant;
         this.agent = agent;
         this.title = title;
         this.content = content;
         this.offer = offer;
         this.spell = spell;
-        this.request_Variant = requestVariant;
+        this.requestVariant = requestVariant;
         this.bondrequirements = requirements;
-        this.triedCount = triedCount;
-        this.cat = null;
+        this.cat = cat;
         this.patient = patient;
         this.triggerKeyword = triggerKeyword;
         this.outcome = outcome;
+        this.triedCount = triedCount;
     }
 }
