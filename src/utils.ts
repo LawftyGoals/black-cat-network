@@ -156,7 +156,7 @@ export function calculateWeeklyExpenses() {
         ["newspaper", 1],
         ["cat", 1],
         ["trap", 0],
-        ["rent", 100],
+        ["rent", 50],
     ]);
     // Retrieve expenses from gameState
     const { day, catInventory, expenses } = gameState;
@@ -173,22 +173,19 @@ export function calculateWeeklyExpenses() {
     const theRentIsDue = day % 7 === 0; // Every 7 days
 
     // Update expenses in gameState
-    // console.log(`gameState.expenses = ${gameState.expenses}`);
     gameState.expenses += dailyExpenses;
-    // console.log(`gameState.expenses = ${gameState.expenses}`);
-    if (theRentIsDue === true) {
+    if (theRentIsDue) {
+        console.log(`The rent is due today!`);
         gameState.expenses += weeklyExpenses;
+        console.log(`expenses after new rent = ${gameState.expenses}`);
     }
 
     // Return current accrued expenses for UI
     const expensesCountdown = 7 - (day % 7);
-    const accruedExpenses = theRentIsDue ? weeklyExpenses : 0;
 
-    // Return regular daily, weekly expenses; accrued running expenses
+    // Return daily expenses and countdown to paying bills
     return {
         dailyExpenses,
-        weeklyExpenses,
-        accruedExpenses,
         expensesCountdown,
     };
 }
@@ -197,14 +194,11 @@ export function payBills(): boolean {
     const { gp, expenses } = gameState;
 
     if (gp >= expenses) {
-        console.log(`gameState.expenses = ${gameState.expenses}`);
         gameState.gp -= gameState.expenses;
-        console.log(`gameState.expenses = ${gameState.expenses}`);
         gameState.expenses = 0;
-        console.log(`gameState.expenses = ${gameState.expenses}`);
-        // console.log(
-        //     "You have been robbed by the political bourgeoisie and the capital owning class!"
-        // );
+        console.log(
+            "You have been robbed by the political bourgeoisie and the capital owning class!"
+        );
         return true;
     } else {
         console.log("Ah, you poor bitch, you lost the fucking game!");

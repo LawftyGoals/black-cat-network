@@ -20,10 +20,10 @@ export function updateDay() {
         payBills();
     }
 
-    // Call this daily to update expenses and rentDue
+    // Daily update of running expenses
     const { dailyExpenses, expensesCountdown } = calculateWeeklyExpenses();
     console.log(
-        `Current expenses: ${gameState.expenses}gp, daily expenses: ${dailyExpenses}, bills due in ${expensesCountdown} days.`
+        `Current debt: ${gameState.expenses}gp, daily expenses: ${dailyExpenses}gp, due: ${expensesCountdown} days.`
     );
     /* TEMPORARY TEST STATE */
     createRandomizedBonding();

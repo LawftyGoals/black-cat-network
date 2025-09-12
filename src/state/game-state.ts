@@ -52,7 +52,7 @@ export const gameInitialState: IGameState = {
     news: new Map<string, Happening>(),
     catAcquisition: new Map<string, Entity>(),
     happenings: new Map<string, Happening>(),
-    day: 1,
+    day: 4,
     creations: 1,
     catInventory: new Map<string, Entity>(),
     maxCatInventorySize: 10,
