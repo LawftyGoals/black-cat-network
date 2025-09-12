@@ -1,13 +1,15 @@
+import { itemValues } from "../Values";
+
 export const textResource = {
     purchase: {
         noGp: "Moew No! Not enough shinies...",
         noSpace: "Not enough boxes, for cats to fits intos.",
     },
     traps: {
-        empty: `##################
-# Trap is Empty >#
-##################`,
-        purchaseTrap: "Purchase trap -10gp",
+        empty: `###################
+# <Trap is Empty> #
+###################`,
+        purchaseTrap: `Purchase trap -${itemValues.trap.value} gp`,
     },
     catInteraction: {
         learn: "You learnt something new!",

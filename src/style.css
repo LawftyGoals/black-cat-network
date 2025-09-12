@@ -13,8 +13,10 @@ html, body {
 
 
 #app {
+  position:relative;
   height: 100vh;
   width: 100vw;
+  z-index: 1;
 }
 
 #top-bar {
@@ -79,25 +81,40 @@ html, body {
 
 #dialog {
   max-height: 70vh;
+  max-width: 70vw;
+  background-color:  transparent;
+  border: none;
 }
 
 #notifications-wrapper{
   display:flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding:8px;
 
 }
+
+#notifications-background{
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  height: 60vh;
+  width: 100%;
+  border-radius: 8px;
+  background-color: Midnightblue;
+}
+
 #notifications {
   display:flex;
   flex-direction: column;
   gap: 4px;
-  height: 60vh;
-  background-color: blue;
-  width: 100%;
+  width: 95%;
+  height:100%;
   border-radius: 8px;
-  padding: 16px;
   overflow:auto;
+  opacity: 0.8;
+
 }
 
 button {
@@ -109,4 +126,21 @@ button:disabled {
   background-color: grey;
   color: black;
   border-color: darkgrey;
+}
+
+#backgroundtext {
+  position: fixed;
+  bottom: 50%;
+  right:50%;
+  transform: translateX(50%);
+  z-index: 0;
+  overflow:hidden;
+  white-space: nowrap;
+  -webkit-text-stroke: 2px white;
+  font-size: 70px;
+
+}
+
+#notification-title{
+  color: mintcream;
 }

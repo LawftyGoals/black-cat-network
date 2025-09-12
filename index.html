@@ -1,45 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + TS</title>
+    </head>
 
-  <body>
-    <dialog id="dialog">
-      <button id="close-dialog">X</button>
-      <div id="dialog-content"></div>
-    </dialog>
+    <body>
+        <h1 id="backgroundtext">BLACK HAT'S BLACK CATS</h1>
+        <dialog id="dialog">
+            <button id="close-dialog">X</button>
+            <div id="dialog-content"></div>
+        </dialog>
 
-    <div id="app">
-      <div id="top-bar">
-        <div id="time"></div>
-        <div id="day">0</div>
-        <div id="gp">Gold: 0</div>
-        <div><span>Cat space: </span><span id="cat-space">0/10</span></div>
-        <div>
-          <button id="advance-day">Next Day</button>
-          <button id="advance-time">Hour Tick</button>
-        </div>
-      </div>
+        <div id="app">
+            <div id="top-bar">
+                <div id="time"></div>
+                <div id="day">0</div>
+                <div id="gp">Gold: 0</div>
+                <div>
+                    <span>Cat space: </span><span id="cat-space">0/10</span>
+                </div>
+                <div>
+                    <button id="advance-day">Next Day</button>
+                    <button id="advance-time">Hour Tick</button>
+                </div>
+            </div>
 
-      <div id="content">
-        <div id="menu">
-          <button id="m-catInventory">Cats</button>
-          <button id="m-bondings">Bondings</button>
-          <button id="m-knownWitches">Witches</button>
-          <button id="m-spells">Spells</button>
-          <button id="m-news">Wiccan Times</button>
-          <button id="m-catAcquisition">Cat Acquisition</button>
+            <div id="content">
+                <div id="menu">
+                    <button id="m-catInventory">Cats</button>
+                    <button id="m-bondings">Bondings</button>
+                    <button id="m-knownWitches">Witches</button>
+                    <button id="m-spells">Spells</button>
+                    <button id="m-news">Wiccan Times</button>
+                    <button id="m-catAcquisition">Cat Acquisition</button>
+                </div>
+                <div id="screen"></div>
+                <div id="notifications-wrapper">
+                    <div id="notifications-background">
+                        <h3 id="notification-title">Notifications</h3>
+                        <div id="notifications"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="screen"></div>
-        <div id="notifications-wrapper">
-          <div id="notifications"></div>
-        </div>
-      </div>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+        <script type="module" src="/src/main.ts"></script>
+    </body>
 </html>

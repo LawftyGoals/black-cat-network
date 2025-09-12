@@ -1,6 +1,9 @@
 // Values.ts
 
-export const chanceToGetSpellFromBonding = 0.01;
+export const chances = {
+    getSpellFromBonding: 0.01,
+    discoverNewWitch: 0.99,
+};
 
 export const itemValues = {
     trap: { value: 100 },
@@ -61,7 +64,7 @@ export const catVariants: TCatVariant[] = [
     "Scottish Fold",
 ];
 
-type TCatVariantValues = {
+export type TCatVariantValues = {
     Tabby: { value: number; color: TCatColors[] };
     Siamese: { value: number; color: TCatColors[] };
     Persian: { value: number; color: TCatColors[] };
@@ -203,6 +206,7 @@ export const catNames: string[] = [
     "Selene",
     "Seth",
     "Siren",
+    "Stian",
     "Sylph",
     "Talon",
     "Undine",
