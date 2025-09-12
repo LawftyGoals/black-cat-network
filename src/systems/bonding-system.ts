@@ -12,7 +12,7 @@ import { createNotification } from "./notifications-system";
 import { changeRenown, getRenownLevel } from "./renown-system";
 import {
     catVariantsByColor,
-    chanceToGetSpellFromBonding,
+    chances,
     itemValues,
     renownToGoldModifiers,
     renownToWitchModifiers,
@@ -43,7 +43,7 @@ export function createBonding(witch?: Entity) {
     }
 
     const spell =
-        Math.random() < chanceToGetSpellFromBonding
+        Math.random() < chances.getSpellFromBonding
             ? getNonlearntSpells()
             : null;
     const goldOffer = spell
@@ -126,6 +126,8 @@ export function updateBondings() {
                 gameState.catInventory.set(cat.id, cat);
                 cat.inbonding = false;
                 bonding.agent!.inbonding = false;
+                cat.relationship = null;
+                bonding.agent!.relationship = null;
                 const possibleTraits = witch.traits.filter(
                     (trait) => !witch.knownTraits.includes(trait)
                 );
@@ -168,8 +170,6 @@ export function updateBondings() {
                 updateGp(offerMultiplyer);
                 cat.inbonding = false;
                 bonding.agent!.inbonding = false;
-                cat.relationship = bonding.agent;
-                bonding.agent!.relationship = cat;
                 changeRenown(
                     renownValues.bonding.maxRenown,
                     renownToWitchModifiers[
@@ -196,6 +196,8 @@ export function updateBondings() {
 export function acceptbonding(bonding: Happening) {
     bonding.ongoing = true;
     bonding.agent!.inbonding = true;
+    bonding.cat!.relationship = bonding.agent!;
+    bonding.agent!.relationship = bonding.cat!;
 
     const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
 

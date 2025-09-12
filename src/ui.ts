@@ -18,11 +18,7 @@ import {
     screen,
 } from "./get-elements";
 import type { CreatureCard } from "./components/creature-card";
-import {
-    acceptbonding,
-    createBonding,
-    offerBonding,
-} from "./systems/bonding-system";
+import { acceptbonding, offerBonding } from "./systems/bonding-system";
 import type { NotificationCard } from "./components/notification-card";
 import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
@@ -33,7 +29,7 @@ import { textResource } from "./text/textResource";
 import { SpellCardValues, type Spell } from "./Spell";
 import type { SpellCard } from "./components/spell-card";
 import { createSpellButton } from "./systems/spell-system";
-import { getRenownLevel } from "./systems/renown-system";
+import { changeRenown, getRenownLevel } from "./systems/renown-system";
 
 const gameState = gameInitialState;
 
@@ -380,7 +376,20 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
                 updateScreenElement();
             });
             comp.setSendBonding(() => {
-                acceptbonding(happening);
+                if (happening.cat!.color !== "black") {
+                    happening.cat = null;
+                    createNotification(
+                        "Bonding failed!",
+                        "What is this vermin? It's NOT BLACK!",
+                        [],
+                        happening.agent!,
+                        null,
+                        null
+                    );
+                    changeRenown(-20, 1);
+                } else {
+                    acceptbonding(happening);
+                }
                 updateScreenElement();
             });
         }
@@ -566,6 +575,8 @@ export function displayModalMessage(message: string) {
     dialogElement.showModal();
     const messageP = cE("p");
     messageP.textContent = message;
+    messageP.style =
+        "background-color:mediumslateblue;color:white;border:2px solid lightslategrey; padding:16px";
     replaceChildren(dialogContentElement, [messageP]);
 }
 

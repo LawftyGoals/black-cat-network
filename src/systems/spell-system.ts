@@ -2,7 +2,8 @@ import { getNewKnown, type Entity } from "../Entity";
 import { Spell } from "../Spell";
 import { textResource } from "../text/textResource";
 import { displayModalMessage, updateScreenElement } from "../ui";
-import { cE, gameState, getRandomInt } from "../utils";
+import { cE, gameState, getRandomExistingWitch, getRandomInt } from "../utils";
+import { chances } from "../Values";
 import { createNotification } from "./notifications-system";
 import { changeRemainingTime } from "./time-system";
 
@@ -60,24 +61,48 @@ function scryingEffect(target: Entity) {
             null
         );
     } else if (target.relationship) {
-        const newKnown = getNewKnown(target.relationship);
-        newKnown
-            ? createNotification(
-                  textResource.catInteraction.learn,
-                  `You managed to learn that ${target.relationship.name} is ${newKnown}`,
-                  [],
-                  target,
-                  null,
-                  null
-              )
-            : createNotification(
-                  textResource.catInteraction.noLearn,
-                  textResource.spells.scrying.noLearn,
-                  [],
-                  target,
-                  null,
-                  null
-              );
+        if (Math.random() < chances.discoverNewWitch) {
+            const witch = getRandomExistingWitch();
+            let newKnown;
+            if (gameState.knownWitches.has(witch.id)) {
+                gameState.knownWitches.set(witch.id, witch);
+            } else {
+                newKnown = getNewKnown(witch);
+            }
+            createNotification(
+                textResource.catInteraction.learn,
+                `You tune in to ${target.name} only to discover that ${
+                    target.relationship.name
+                } is having a bewitching conversation with ${witch.name}.${
+                    newKnown
+                        ? `You've learnt something new about ${witch.name}`
+                        : ""
+                }`,
+                [],
+                target,
+                null,
+                null
+            );
+        } else {
+            const newKnown = getNewKnown(target.relationship);
+            newKnown
+                ? createNotification(
+                      textResource.catInteraction.learn,
+                      `You managed to learn that ${target.relationship.name} is ${newKnown}`,
+                      [],
+                      target,
+                      null,
+                      null
+                  )
+                : createNotification(
+                      textResource.catInteraction.noLearn,
+                      textResource.spells.scrying.noLearn,
+                      [],
+                      target,
+                      null,
+                      null
+                  );
+        }
     } else {
         const newKnown = getNewKnown(target);
         newKnown

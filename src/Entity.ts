@@ -30,6 +30,7 @@ import {
     catVariantValues,
     type TCatVariant,
     getBlackCatVariants,
+    type TCatVariantValues,
 } from "./Values.js";
 import { Happening } from "./Happening.js";
 
@@ -276,14 +277,18 @@ export function createRandomizedWitch(
 
 export function createRandomCatForSale(
     targetMap: Map<string, Entity>,
+    variants: "black" | "any",
     mapId?: string,
     trap?: boolean
 ) {
     const id = getRandomizedId();
     const randomTraits = getRandomTraits(getRandomInt(5, 3));
     const variant =
-        getBlackCatVariants()[getRandomInt(getBlackCatVariants().length)];
-    const { value } = catVariantValues[variant as TCatVariant];
+        variants === "black"
+            ? getBlackCatVariants()[getRandomInt(getBlackCatVariants().length)]
+            : getRandomCatVariant();
+    const { value, color } = catVariantValues[variant as TCatVariant];
+    const colorChoice = color[getRandomInt(color.length)];
 
     const cat = new Entity(
         id,
@@ -296,7 +301,7 @@ export function createRandomCatForSale(
         false,
         getSex(),
         value,
-        "black",
+        variant === "black" ? "black" : colorChoice,
         "Feline",
         randomTraits,
         trap ? [] : getRandomAmountOrNone(randomTraits, 2, 10),
