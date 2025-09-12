@@ -150,3 +150,43 @@ export function convertTicksToDaysAndTicks(ticks: number) {
 export function arrayFromMap<T>(mapName: keyof IScreens | keyof IAcquisition) {
     return Array.from((gameState[mapName] as Map<string, T>).values());
 }
+
+export function calculateWeeklyExpenses() {
+    let expenseRates = new Map<string, number>([
+        ["newspaper", 1],
+        ["cat", 1],
+        ["trap", 1],
+        ["rent", 100],
+    ]);
+    // Retrieve expenses from gameState
+    const { day, cats, rentDue } = gameState;
+    // Daily expenses
+    const newspaper = expenseRates.get("newspaper");
+    const catCount = Array.from(cats.values()).length;
+    const trapCount = 1;
+    const dailyExpenses =
+        newspaper! +
+        catCount * expenseRates.get("cat")! +
+        trapCount * expenseRates.get("trap")!;
+    // Weekly expenses
+    const weeklyExpenses = expenseRates.get("rent")!;
+    const theRentIsDue = day % 7 === 0; // Every 7 days
+
+    // Update expenses in gameState
+    gameState.expenses += dailyExpenses;
+    if (theRentIsDue) {
+        gameState.expenses += weeklyExpenses;
+    }
+
+    // Return current accrued expenses for UI
+    const expensesCountdown = 7 - (day % 7);
+    const accruedExpenses = theRentIsDue ? weeklyExpenses : 0;
+
+    // Return regular daily, weekly expenses; accrued running expenses
+    return {
+        dailyExpenses,
+        weeklyExpenses: theRentIsDue ? weeklyExpenses : 0,
+        accruedExpenses,
+        expensesCountdown,
+    };
+}

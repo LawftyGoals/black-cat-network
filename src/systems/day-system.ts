@@ -4,31 +4,39 @@ import { resetRemainingTime } from "./time-system";
 import { dayElement, gEiD } from "../get-elements";
 import { updateScreenElement } from "../ui";
 import {
-  generateCatsForCatcher,
-  generateCatsForTraps,
+    generateCatsForCatcher,
+    generateCatsForTraps,
 } from "./acquisition-system";
 
+import { calculateWeeklyExpenses } from "../utils";
 const gameState = gameInitialState;
 
 export function updateDay() {
-  gameState.day += 1;
-  dayElement && (dayElement.innerText = `Day: ${gameState.day.toString()}`);
+    gameState.day += 1;
+    dayElement && (dayElement.innerText = `Day: ${gameState.day.toString()}`);
 
-  /* TEMPORARY TEST STATE */
-  createRandomizedBonding();
+    // Call this daily to update expenses and rentDue
+    const { dailyExpenses, accruedExpenses, expensesCountdown } =
+        calculateWeeklyExpenses();
+    console.log(
+        `Daily expenses: ${dailyExpenses}gp, Accrued rent: ${accruedExpenses}gp due in ${expensesCountdown} days.`
+    );
 
-  /*PERMANENT CHANGES*/
-  generateCatsForCatcher(true);
-  generateCatsForTraps(0.25);
+    /* TEMPORARY TEST STATE */
+    createRandomizedBonding();
 
-  resetRemainingTime();
-  updateScreenElement();
+    /*PERMANENT CHANGES*/
+    generateCatsForCatcher(true);
+    generateCatsForTraps(0.25);
+
+    resetRemainingTime();
+    updateScreenElement();
 }
 
 export function initDaySystem() {
-  dayElement.innerText = `Day: ${gameState.day.toString()}`;
+    dayElement.innerText = `Day: ${gameState.day.toString()}`;
 
-  const updateDayButton = gEiD("advance-day");
+    const updateDayButton = gEiD("advance-day");
 
-  updateDayButton!.onclick = updateDay;
+    updateDayButton!.onclick = updateDay;
 }
