@@ -3,7 +3,7 @@ import { Spell } from "../Spell";
 import { textResource } from "../text/textResource";
 import { displayModalMessage, updateScreenElement } from "../ui";
 import { cE, gameState, getRandomExistingWitch, getRandomInt } from "../utils";
-import { chances, type TCatColors } from "../Values";
+import { chances, type TCatColor } from "../Values";
 import { createNotification } from "./notifications-system";
 import { changeRemainingTime } from "./time-system";
 
@@ -22,7 +22,7 @@ export function createScryingButton(target: Entity) {
 export function createSpellButton(
     target: Entity,
     spelltype: TSpells,
-    color?: TCatColors
+    color?: TCatColor
 ) {
     const button = cE("button");
     button.textContent = spellMapping[spelltype].label;
@@ -59,17 +59,17 @@ export const spellMapping = {
             "By weaving this spell onto any victim... target, you change their base color to whatever you desire.",
         value: 10,
         label: "Colorize",
-        action: (props: { target: Entity; color?: TCatColors }) => {
+        action: (props: { target: Entity; color?: TCatColor }) => {
             if (changeRemainingTime() > 0) {
                 props.target.color = props.color!;
                 createNotification(
-                    `${props.target.name} has ben colorized`,
+                    `${props.target.name} has been colorized`,
                     `${
                         props.target.name
                     } looks bedazzeling with the new ${props.color!} color`,
                     [],
                     props.target,
-                    0,
+                    null,
                     null
                 );
                 updateScreenElement();

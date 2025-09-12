@@ -1,11 +1,11 @@
 import type { Entity } from "./Entity";
-import type { TCatColors } from "./Values";
+import type { TCatColor } from "./Values";
 
 type TSpellVariant = "scrying" | "colorize";
 
 export const SpellCardValues: (keyof Spell)[] = ["variant", "description"];
 
-export type TActionProps = { target: Entity; color?: TCatColors };
+export type TActionProps = { target: Entity; color?: TCatColor };
 
 export type TSpellName = "forzachromata" | "scrying";
 

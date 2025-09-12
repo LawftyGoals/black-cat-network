@@ -30,7 +30,7 @@ import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
 import type { CatAcquisition } from "./components/cat-acquisition";
 import { generateTraps, getCatFromTrap } from "./systems/acquisition-system";
-import { itemValues } from "./Values";
+import { catColors, itemValues, type TCatColor } from "./Values";
 import { textResource } from "./text/textResource";
 import { SpellCardValues, type Spell } from "./Spell";
 import type { SpellCard } from "./components/spell-card";
@@ -218,27 +218,51 @@ function createSpellCard(spell: Spell) {
         comp.setAttribute(key, mSpell[key] as string);
     });
 
-    comp.setApplyButton(() => {
-        dialogElement.showModal();
-        replaceChildren(
-            gEiD("dialog-content"),
-            createCreatureCards(
-                (arrayFromMap("catInventory") as Entity[]).filter(
-                    (cat) => !cat.inbonding && !cat.relationship
-                ),
-                coreEntityGivens,
-                undefined,
-                undefined,
-                (entity: Entity) => {
-                    if (changeRemainingTime() > 0) {
-                        entity.effectingspells.push(spell.name);
-                        dialogElement.close();
-                        updateScreenElement();
+    mSpell.variant === "scrying" &&
+        comp.setApplyButton(() => {
+            dialogElement.showModal();
+            replaceChildren(
+                gEiD("dialog-content"),
+                createCreatureCards(
+                    (arrayFromMap("catInventory") as Entity[]).filter(
+                        (cat) => !cat.inbonding && !cat.relationship
+                    ),
+                    coreEntityGivens,
+                    undefined,
+                    undefined,
+                    (entity: Entity) => {
+                        if (changeRemainingTime() > 0) {
+                            entity.effectingspells.push(spell.name);
+                            dialogElement.close();
+                            updateScreenElement();
+                        }
                     }
-                }
-            )
-        );
-    });
+                )
+            );
+        });
+
+    mSpell.variant === "colorize" &&
+        comp.setColorButtons(catColors, (color: TCatColor) => {
+            dialogElement.showModal();
+            replaceChildren(
+                gEiD("dialog-content"),
+                createCreatureCards(
+                    (arrayFromMap("catInventory") as Entity[]).filter(
+                        (cat) => !cat.inbonding && !cat.relationship
+                    ),
+                    coreEntityGivens,
+                    undefined,
+                    undefined,
+                    (entity: Entity) => {
+                        if (changeRemainingTime() > 0) {
+                            mSpell.action({ color: color, target: entity });
+                            dialogElement.close();
+                            updateScreenElement();
+                        }
+                    }
+                )
+            );
+        });
 
     return comp;
 }

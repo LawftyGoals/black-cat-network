@@ -1,7 +1,5 @@
-import type { Entity } from "../Entity";
-import type { TActionProps } from "../Spell";
 import { cE, sgeid } from "../utils";
-import type { TCatColors } from "../Values";
+import type { TCatColor } from "../Values";
 
 export class SpellCard extends HTMLElement {
     descriptionSlot: HTMLElement;
@@ -28,7 +26,7 @@ export class SpellCard extends HTMLElement {
               <div id="card">
               <h2 id="variant-slot"></h2>
               <p id="description-slot"></p>
-              <div id="btn-slot"><button id="apply-btn">Apply to Cat</button></div>
+              <div id="btn-slot"><button id="apply-btn" style="display:none;">Apply to Cat</button></div>
               </div>
             `;
 
@@ -46,18 +44,16 @@ export class SpellCard extends HTMLElement {
     }
 
     setApplyButton(onClick: () => void) {
+        this.applyBtn.style = "display:block;";
         this.applyBtn.onclick = onClick;
     }
 
-    setColorButtons(
-        colors: TCatColors[],
-        target: Entity,
-        action: (props: TActionProps) => void
-    ) {
+    setColorButtons(colors: TCatColor[], onClick: (color: TCatColor) => void) {
         colors.forEach((color) => {
             const button = cE("button");
             button.id = color;
-            button.onclick = () => action({ target, color });
+            button.textContent = color;
+            button.onclick = () => onClick(color);
             this.btnSlot.appendChild(button);
         });
     }

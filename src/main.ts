@@ -109,5 +109,6 @@ function generateData() {
     forit(createRandomizedNews);
     forit(() => {
         gameState.spells.set("scrying", spellMapping["scrying"]);
+        gameState.spells.set("forzachromata", spellMapping["forzachromata"]);
     });
 }
