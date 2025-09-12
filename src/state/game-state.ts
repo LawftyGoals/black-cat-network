@@ -37,6 +37,8 @@ export interface IGameState extends IScreens, IAcquisition {
     gp: number;
     notifications: Map<string, Happening>;
     renown: number;
+    expenses: number;
+    bank: Entity | null;
 }
 
 export const gameInitialState: IGameState = {
@@ -65,5 +67,7 @@ export const gameInitialState: IGameState = {
     traps: new Map<string, Entity | null>(),
     catCatcher: new Map<string, Entity>(),
     selectedAcqusition: "traps",
-    renown: 15,
+    renown: 115,
+    expenses: 0,
+    bank: null,
 };

@@ -22,6 +22,7 @@ export function createNewsHapOld(): Happening {
         null,
         null,
         undefined,
+        undefined,
         ["newsworthy"]
     );
     gameState.happenings.set(id, newsHap);
@@ -45,7 +46,9 @@ export function createNewsHap(): Happening {
         // "Ordinary life keeps on keeping on in the town...", // content
         null, // request_Variant
         null, // bondrequirements
-        null, // cat
+        null,
+        null,
+        undefined, // cat
         undefined, // patient?
         ["newsworthy"] // triggerKeyword
     );

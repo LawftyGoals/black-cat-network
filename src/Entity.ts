@@ -1,15 +1,4 @@
 // Entity.ts
-//
-//      CONTAINS:
-// getNewKnown()
-// getWitchInfoFromNews()
-// getRandomizedCatCharacteristics()
-// createRandomizedWitch()
-// createRandomCatForSale()
-// getSex()
-// getRandomCatTraits()
-// getRandomCatVariant()
-// getRandomWitchTraits()
 
 import { gameInitialState } from "./state/game-state.js";
 import type { TSpells } from "./systems/spell-system.js";
@@ -112,7 +101,7 @@ export function getWitchInfoFromNews(newsItem: Happening) {
 
 export class Entity {
     id: string;
-    type: "cat" | "spell" | "witch";
+    type: "cat" | "spell" | "witch" | "bank";
     inbonding: boolean;
     name: string;
     knowns: string[];
@@ -136,7 +125,7 @@ export class Entity {
 
     constructor(
         id: string,
-        type: "cat" | "witch",
+        type: "cat" | "witch" | "bank",
         inBonding: boolean = false,
         name: string,
         knowns: string[] = [],
