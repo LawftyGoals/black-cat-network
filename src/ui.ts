@@ -267,10 +267,12 @@ function createCatAcquisitionScreen() {
                         ) {
                             displayModalMessage(textResource.purchase.noSpace);
                         } else {
-                            gameState.catCatcher.delete(cat.id);
-                            gameState.catInventory.set(cat.id, cat);
-                            cat.value && updateGp(-cat.value);
-                            updateScreenElement();
+                            displayModalNameField(cat, () => {
+                                gameState.catCatcher.delete(cat.id);
+                                gameState.catInventory.set(cat.id, cat);
+                                cat.value && updateGp(-cat.value);
+                                updateScreenElement();
+                            });
                         }
                     },
                     "Purchase"
@@ -398,8 +400,10 @@ function createTrapCards(traps: Map<string, Entity | null>) {
                         ) {
                             displayModalMessage(textResource.purchase.noSpace);
                         } else {
-                            getCatFromTrap(key);
-                            updateScreenElement();
+                            displayModalNameField(cat, () => {
+                                getCatFromTrap(key);
+                                updateScreenElement();
+                            });
                         }
                     },
                     "Acquire",
@@ -559,6 +563,32 @@ export function displayModalMessage(message: string) {
     const messageP = cE("p");
     messageP.textContent = message;
     replaceChildren(dialogContentElement, [messageP]);
+}
+
+function displayModalNameField(entity: Entity, onClick: () => void) {
+    let catName = "";
+    const button = cE("button") as HTMLButtonElement;
+    button.textContent = "Welcome home purrrcious";
+    button.disabled = true;
+    button.onclick = () => {
+        entity.name = catName;
+        onClick();
+        dialogElement.close();
+    };
+
+    const textField = cE("input");
+    textField.oninput = (ev: Event) => {
+        console.log(ev);
+        catName = (ev.target as HTMLInputElement).value;
+        if (catName !== "") {
+            button.disabled = false;
+        }
+    };
+    const label = cE("label");
+    label.textContent = "Name your new cat ";
+    dialogElement.showModal();
+
+    replaceChildren(dialogContentElement, [label, textField, button]);
 }
 
 function updateCatSpace() {
