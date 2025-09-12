@@ -377,10 +377,16 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
             });
             comp.setSendBonding(() => {
                 if (happening.cat!.color !== "black") {
+                    const cat = happening.cat!;
+                    const witch = happening.agent!;
+                    gameState.catInventory.delete(cat.id);
+                    cat.inbonding = false;
+                    cat.relationship = null;
+                    happening.cat!.deceased = true;
                     happening.cat = null;
                     createNotification(
                         "Bonding failed!",
-                        "What is this vermin? It's NOT BLACK!",
+                        `"What is this vermin? It's NOT BLACK!" ${witch.name} hollers and proceeds to wave her spell slinging arm at ${cat.name} who proceeds to disapear, with a final faint meow, in a puff of smoke.`,
                         [],
                         happening.agent!,
                         null,

@@ -81,6 +81,7 @@ html, body {
 
 #dialog {
   max-height: 70vh;
+  max-width: 70vw;
   background-color:  transparent;
   border: none;
 }
