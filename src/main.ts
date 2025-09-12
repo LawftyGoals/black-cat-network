@@ -13,7 +13,6 @@ import { CatAcquisition } from "./components/cat-acquisition";
 import { initAcquisition } from "./systems/acquisition-system";
 import { SpellCard } from "./components/spell-card";
 import { renownLevelDivision } from "./Values";
-// import { gameState } from "./utils";
 import { spellMapping } from "./systems/spell-system";
 
 export function initGameStates() {

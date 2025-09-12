@@ -4,7 +4,6 @@ import { createNotification } from "../systems/notifications-system";
 import { displayModalMessage } from "../ui";
 import { Entity } from "../Entity";
 import { resetGameFromTemplateState } from "../utils";
-// import { updateScreenElement } from "../ui";
 
 export let gameState = gameInitialState;
 
@@ -80,7 +79,7 @@ export function payBills(): boolean {
         gameState.expenses = 0;
         createNotification(
             "You settle your debts.", // title
-            "Sanguinis auctor neque eu tenebris rhoncus ut eleifend nibh porttitor. Ut in nulla maledictio, phasellus malum magna!", // content
+            "This week's rent and expenses are padi in full!", // content
             [], // knowns
             gameState.bank!, // from
             null, // reward
@@ -92,10 +91,8 @@ export function payBills(): boolean {
             "You ran out of money, and the bank gets your home, stuff and even the cats. Game over."
         );
         setTimeout(() => {
-            // Object.assign(gameInitialState, gameTemplateState);
-            // resetToGameTemplateState();
             resetGameFromTemplateState();
-        }, 3000);
+        }, 5000);
         return false;
     }
 }
