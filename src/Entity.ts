@@ -96,10 +96,6 @@ export function getWitchInfoFromNews(newsItem: Happening) {
     const unknowns = [];
     const agent = newsItem.agent!;
 
-    // if (!gameState.knownWitches.has(agent.id)) {
-    //     gameState.knownWitches.set(agent.id, agent);
-    // }
-
     if (agent.knownTraits.length !== agent.traits.length) {
         unknowns.push("traits");
     }
@@ -109,17 +105,6 @@ export function getWitchInfoFromNews(newsItem: Happening) {
             return !newsItem.agent!.knowns.includes(unknown);
         })
     );
-    // console.log(unknowns);
-
-    // const witchNews: Partial<Entity> = {
-    //     id: newsItem.agent!.id,
-    //     type: newsItem.agent!.type,
-    //     name: newsItem.agent!.name,
-
-    //     ...(newsItem.agent!.vocation && { vocation: newsItem.agent!.vocation }),
-    //     ...(newsItem.agent!.approach && { approach: newsItem.agent!.approach }),
-    //     ...(newsItem.agent!.traits && { traits: newsItem.agent!.traits }),
-    // };
 
     return unknowns.length > 0 ? unknowns : false;
 }

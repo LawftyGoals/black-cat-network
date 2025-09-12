@@ -306,8 +306,6 @@ function createHappeningCard(happening: Happening) {
                     ...unknowns.filter((known) => known !== "traits")
                 );
                 happening.agent!.knownTraits = happening.agent!.traits;
-                console.log(happening.agent!.knowns);
-                console.log(happening.agent!.knownTraits);
                 if (!gameState.knownWitches.has(agent!.id)) {
                     gameState.knownWitches.set(agent!.id, agent!);
                 }
