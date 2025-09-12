@@ -7,6 +7,8 @@ import {
 } from "./state/game-state";
 import { getRenownLevel } from "./systems/renown-system";
 import { renownLevelDivision } from "./Values";
+import { createNotification } from "./systems/notifications-system";
+import { displayModalMessage } from "./ui";
 
 export const gameState = gameInitialState;
 
@@ -149,4 +151,64 @@ export function convertTicksToDaysAndTicks(ticks: number) {
 
 export function arrayFromMap<T>(mapName: keyof IScreens | keyof IAcquisition) {
     return Array.from((gameState[mapName] as Map<string, T>).values());
+}
+
+export function calculateWeeklyExpenses() {
+    let expenseRates = new Map<string, number>([
+        ["newspaper", 1],
+        ["cat", 1],
+        ["trap", 0],
+        ["rent", 50],
+    ]);
+    // Retrieve expenses from gameState
+    const { day, catInventory } = gameState;
+    // Daily expenses
+    const newspaper = expenseRates.get("newspaper");
+    const catCount = Array.from(catInventory.values()).length;
+    const trapCount = 1;
+    const dailyExpenses =
+        newspaper! +
+        catCount * expenseRates.get("cat")! +
+        trapCount * expenseRates.get("trap")!;
+    // Weekly expenses
+    const weeklyExpenses = expenseRates.get("rent")!;
+    const theRentIsDue = day % 7 === 0; // Every 7 days
+
+    // Update expenses in gameState
+    gameState.expenses += dailyExpenses;
+    if (theRentIsDue) {
+        console.log(`The rent is due today!`);
+        gameState.expenses += weeklyExpenses;
+        console.log(`expenses after new rent = ${gameState.expenses}`);
+    }
+
+    // Return current accrued expenses for UI
+    const expensesCountdown = 7 - (day % 7);
+
+    // Return daily expenses and countdown to paying bills
+    return {
+        dailyExpenses,
+        expensesCountdown,
+    };
+}
+
+export function payBills(): boolean {
+    const { bank, gp, expenses } = gameState;
+
+    if (gp >= expenses) {
+        gameState.gp -= gameState.expenses;
+        gameState.expenses = 0;
+        createNotification(
+            "BILLS PAID", // title
+            "You have been robbed by the political bourgeoisie and the capital owning class!", // content
+            [], // knowns
+            bank, // from
+            null, // reward
+            null // spell
+        );
+        return true;
+    } else {
+        displayModalMessage("Ah, you poor bitch, you lost the fucking game!!!");
+        return false;
+    }
 }

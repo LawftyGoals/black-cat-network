@@ -7,6 +7,7 @@ import {
     generateCatsForCatcher,
     generateCatsForTraps,
 } from "./acquisition-system";
+import { payBills, calculateWeeklyExpenses } from "../utils";
 
 const gameState = gameInitialState;
 
@@ -16,6 +17,15 @@ export function updateDay() {
 
     /* TEMPORARY TEST STATE */
     createBonding();
+
+    if (gameState.day % 7 === 0) {
+        payBills();
+    }
+
+    const { dailyExpenses, expensesCountdown } = calculateWeeklyExpenses();
+    console.log(
+        `Daily expenses: ${dailyExpenses}gp; Debt: ${gameState.expenses}gp; Due in ${expensesCountdown} days.`
+    );
 
     /*PERMANENT CHANGES*/
     generateCatsForCatcher(true);
