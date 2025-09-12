@@ -155,14 +155,14 @@ export function calculateWeeklyExpenses() {
     let expenseRates = new Map<string, number>([
         ["newspaper", 1],
         ["cat", 1],
-        ["trap", 1],
+        ["trap", 0],
         ["rent", 100],
     ]);
     // Retrieve expenses from gameState
-    const { day, cats, rentDue } = gameState;
+    const { day, catInventory, expenses } = gameState;
     // Daily expenses
     const newspaper = expenseRates.get("newspaper");
-    const catCount = Array.from(cats.values()).length;
+    const catCount = Array.from(catInventory.values()).length;
     const trapCount = 1;
     const dailyExpenses =
         newspaper! +
@@ -173,8 +173,10 @@ export function calculateWeeklyExpenses() {
     const theRentIsDue = day % 7 === 0; // Every 7 days
 
     // Update expenses in gameState
+    // console.log(`gameState.expenses = ${gameState.expenses}`);
     gameState.expenses += dailyExpenses;
-    if (theRentIsDue) {
+    // console.log(`gameState.expenses = ${gameState.expenses}`);
+    if (theRentIsDue === true) {
         gameState.expenses += weeklyExpenses;
     }
 
@@ -185,8 +187,27 @@ export function calculateWeeklyExpenses() {
     // Return regular daily, weekly expenses; accrued running expenses
     return {
         dailyExpenses,
-        weeklyExpenses: theRentIsDue ? weeklyExpenses : 0,
+        weeklyExpenses,
         accruedExpenses,
         expensesCountdown,
     };
+}
+
+export function payBills(): boolean {
+    const { gp, expenses } = gameState;
+
+    if (gp >= expenses) {
+        console.log(`gameState.expenses = ${gameState.expenses}`);
+        gameState.gp -= gameState.expenses;
+        console.log(`gameState.expenses = ${gameState.expenses}`);
+        gameState.expenses = 0;
+        console.log(`gameState.expenses = ${gameState.expenses}`);
+        // console.log(
+        //     "You have been robbed by the political bourgeoisie and the capital owning class!"
+        // );
+        return true;
+    } else {
+        console.log("Ah, you poor bitch, you lost the fucking game!");
+        return false;
+    }
 }

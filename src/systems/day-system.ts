@@ -8,20 +8,23 @@ import {
     generateCatsForTraps,
 } from "./acquisition-system";
 
-import { calculateWeeklyExpenses } from "../utils";
+import { calculateWeeklyExpenses, payBills } from "../utils";
 const gameState = gameInitialState;
 
 export function updateDay() {
     gameState.day += 1;
     dayElement && (dayElement.innerText = `Day: ${gameState.day.toString()}`);
 
-    // Call this daily to update expenses and rentDue
-    const { dailyExpenses, accruedExpenses, expensesCountdown } =
-        calculateWeeklyExpenses();
-    console.log(
-        `Daily expenses: ${dailyExpenses}gp, Accrued rent: ${accruedExpenses}gp due in ${expensesCountdown} days.`
-    );
+    // Pay bills every 7 days.
+    if (gameState.day % 7 === 0) {
+        payBills();
+    }
 
+    // Call this daily to update expenses and rentDue
+    const { dailyExpenses, expensesCountdown } = calculateWeeklyExpenses();
+    console.log(
+        `Current expenses: ${gameState.expenses}gp, daily expenses: ${dailyExpenses}, bills due in ${expensesCountdown} days.`
+    );
     /* TEMPORARY TEST STATE */
     createRandomizedBonding();
 
