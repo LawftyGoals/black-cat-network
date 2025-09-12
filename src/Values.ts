@@ -1,14 +1,8 @@
 // Values.ts
 
-export const chances = {
-    getSpellFromBonding: 0.01,
-    discoverNewWitch: 0.25,
-};
+export const chances = { getSpellFromBonding: 0.01, discoverNewWitch: 0.25 };
 
-export const itemValues = {
-    trap: { value: 100 },
-    bonding: { value: 500 },
-};
+export const itemValues = { trap: { value: 100 }, bonding: { value: 500 } };
 export const renownValues = {
     bonding: { maxRenown: 100, maxFailedRenown: -100 },
     detectedSpell: { failedRenown: -100 },
@@ -33,10 +27,7 @@ export const renownToGoldModifiers: IRenownLevels = {
 };
 
 interface IRenownLevels {
-    [key: string]: {
-        max: number;
-        min: number;
-    };
+    [key: string]: { max: number; min: number };
 }
 
 export const renownLevelDivision: IRenownLevels = {
@@ -264,3 +255,7 @@ export const witchApproaches = [
     ["Extremist", "Moderate"],
     ["Purist", "Syncretic"],
 ];
+
+export const witchSVG = `<svg width="50px" height="50px" viewBox="0 0 64 64" version="1.1" id="svg1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"><defs id="defs1" /><g id="layer2"><path style="fill:#000000;stroke-width:0.264583" d="m 27.975404,17.69607 -4.554135,-5.204727 16.915362,-11.3202796 -3.51319,11.1901616 8.587798,4.163781 -9.758863,6.245672 4.293899,4.163781 19.647842,2.992718 -3.750919,5.626027 -7.699478,2.701534 -9.636331,-2.619851 -11.169547,1.218204 -9.511654,3.873893 L 9.2277009,38.233372 5.4649629,33.440367 18.737015,29.66694 Z" id="path1" /><ellipse style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:2.973;stroke-dasharray:none;stroke-opacity:1" id="path2" cx="32.334358" cy="39.946278" rx="15.554242" ry="12.626583" /><path style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.97299;stroke-dasharray:none;stroke-opacity:1" d="m 19.908079,48.79431 -8.067326,12.100988 45.93171,-4.033663 -10.799807,-10.799807 -7.546853,5.725199 -12.100989,0.13012 z" id="path3" /></g></svg>`;
+
+export const catSVG = `<svg width="50" height="50" viewBox="0 0 13.229167 13.229167" version="1.1" id="svg1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"><defs id="defs1" /><g id="layer3"><ellipse style="fill:#000000;stroke-width:3.46405" id="path1" cx="6.7165418" cy="6.762547" rx="5.7044616" ry="4.6463757" /><path style="fill:#000000;stroke-width:2.97299" id="path2" d="m 3.8643123,0.87407064 -3.58828998,2.07170016 0,-4.1434003 z" transform="matrix(1.2307693,0,0,1.2109549,1.0403918,2.0007871)" /><path style="fill:#000000;stroke-width:2.97299" id="path3" d="M 14.445168,-3.0822493 14.309456,4.1726843 8.0943555,0.42768766 Z" transform="matrix(0.6015936,0,0,0.80976924,3.730884,2.3578993)" /><ellipse style="fill:#ffffff;fill-opacity:1;stroke-width:2.19414" id="path4" cx="5.0302038" cy="5.2399859" rx="1.472119" ry="0.73605949" transform="rotate(5)" /><ellipse style="fill:#ffffff;fill-opacity:1;stroke-width:2.19414" id="path4-7" cx="-8.5396643" cy="-6.8836594" rx="1.472119" ry="0.73605949" transform="rotate(172.4)" /><ellipse style="fill:#000000;fill-opacity:1;stroke-width:2.97299" id="path5" cx="4.5083642" cy="5.612453" rx="0.55204457" ry="0.9660781" /><ellipse style="fill:#000000;fill-opacity:1;stroke-width:2.97299" id="path5-7" cx="9.3521757" cy="5.6129494" rx="0.55204457" ry="0.9660781" /><path style="fill:#000000;fill-opacity:1;stroke-width:2.97299" d="m 2.3461896,9.2467471 c 0,0 -0.7003033,0.3421585 -1.0104363,1.2343839 -0.310133,0.892226 -0.1856604,1.801861 -0.1856604,1.801861 0,0 1.439634,0.523797 5.4728956,0.388576 4.0332615,-0.135221 5.1539625,-0.618594 5.1539625,-0.618594 0,0 0.167413,-0.564258 0.08065,-1.368828 -0.08676,-0.8045692 -0.632697,-1.4373989 -0.632697,-1.4373989 z" id="path6" /><path style="fill:#ffffff;fill-opacity:1;stroke-width:2.97299" id="path7" d="M 7.5906136,8.8787176 3.8179848,7.284541 7.0848966,4.8144369 Z" transform="matrix(0.20851111,0.12038394,-0.09843707,0.17049801,6.328186,5.3769613)" /></g></svg>`;

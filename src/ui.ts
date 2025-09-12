@@ -33,7 +33,9 @@ import { generateTraps, getCatFromTrap } from "./systems/acquisition-system";
 import {
     allTraits,
     catColors,
+    catSVG,
     itemValues,
+    witchSVG,
     type TCatColor,
     type TTrait,
 } from "./Values";
@@ -566,7 +568,7 @@ function createCreatureCard(
         `What you know about ${name}: ${knowns.join(", ")}`
     );
 
-    comp.setAttribute("image", `src/img/${type}.jpg`);
+    comp.setAttribute("image", type === "witch"?witchSVG : catSVG);
 
     if (interactClick) {
         if (type === "cat") {

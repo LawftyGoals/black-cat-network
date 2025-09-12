@@ -51,7 +51,7 @@ export class CreatureCard extends HTMLElement {
             width: 50px;
             height: 50px;
             border-radius: 4px;
-            background-color: #666;
+            background-color: #EEE;
             border: 2px solid #333;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             background-size: cover;
@@ -147,9 +147,7 @@ export class CreatureCard extends HTMLElement {
                 this.titleSlot.textContent = `${this.titleSlot.textContent} (${newValue})`;
                 break;
             case "image":
-                this.pictureSlot.style = `background-image: ${
-                    newValue ? `url("${newValue}")` : "none"
-                }`;
+                this.pictureSlot.innerHTML = newValue;
                 break;
             case "description":
                 this.descriptionSlot.textContent = newValue;
