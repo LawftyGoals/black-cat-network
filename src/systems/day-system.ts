@@ -7,11 +7,7 @@ import {
     generateCatsForCatcher,
     generateCatsForTraps,
 } from "./acquisition-system";
-import {
-    payBills,
-    calculateWeeklyExpenses,
-    initBank,
-} from "../systems/banking-system";
+import { payBills, calculateWeeklyExpenses } from "../systems/banking-system";
 
 const gameState = gameInitialState;
 
@@ -21,8 +17,6 @@ export function updateDay() {
 
     /* TEMPORARY TEST STATE */
     createBonding();
-
-    initBank();
     if (gameState.day % 7 === 0) {
         payBills();
     }
@@ -32,7 +26,6 @@ export function updateDay() {
     /*PERMANENT CHANGES*/
     generateCatsForCatcher(true);
     generateCatsForTraps(0.25);
-
     resetRemainingTime();
     updateScreenElement();
 }

@@ -8,6 +8,8 @@ export const renownValues = {
     detectedSpell: { failedRenown: -100 },
 };
 
+export const levels = ["0", "10", "50", "100", "250", "500"];
+
 export const renownToWitchModifiers: IRenownLevels = {
     0: { max: 0.1, min: 0.05 },
     10: { max: 0.25, min: 0.1 },

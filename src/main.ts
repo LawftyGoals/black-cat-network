@@ -12,8 +12,9 @@ import { NotificationCard } from "./components/notification-card";
 import { CatAcquisition } from "./components/cat-acquisition";
 import { initAcquisition } from "./systems/acquisition-system";
 import { SpellCard } from "./components/spell-card";
-import { renownLevelDivision } from "./Values";
+import { levels, renownLevelDivision } from "./Values";
 import { spellMapping } from "./systems/spell-system";
+import { initBank } from "./systems/banking-system";
 
 export function initGameStates() {
     generateData();
@@ -22,6 +23,7 @@ export function initGameStates() {
     updateScreenElement();
     initDaySystem();
     initTimeSystem();
+    initBank();
 }
 
 initCustomComponents();
@@ -37,75 +39,26 @@ function initCustomComponents() {
 
 function forit(cre: () => void, quantity?: number) {
     for (let i = 0; i < (quantity ?? 3); i++) {
-        // for (let i = 0; i < 10; i++) {
         cre();
     }
 }
 
 function generateData() {
-    forit(
-        () =>
-            createRandomizedWitch(
-                Math.random() < 0.5,
-                undefined,
-                renownLevelDivision["0"].min,
-                renownLevelDivision["0"].max
-            ),
-        30
-    );
-    forit(
-        () =>
-            createRandomizedWitch(
-                undefined,
-                undefined,
-                renownLevelDivision["10"].min,
-                renownLevelDivision["10"].max
-            ),
-        20
-    );
-    forit(
-        () =>
-            createRandomizedWitch(
-                undefined,
-                undefined,
-                renownLevelDivision["50"].min,
-                renownLevelDivision["50"].max
-            ),
-        20
-    );
-    forit(
-        () =>
-            createRandomizedWitch(
-                undefined,
-                undefined,
-                renownLevelDivision["100"].min,
-                renownLevelDivision["100"].max
-            ),
-        10
-    );
-    forit(
-        () =>
-            createRandomizedWitch(
-                undefined,
-                undefined,
-                renownLevelDivision["250"].min,
-                renownLevelDivision["250"].max
-            ),
-        10
-    );
-    forit(
-        () =>
-            createRandomizedWitch(
-                undefined,
-                undefined,
-                renownLevelDivision["500"].min,
-                renownLevelDivision["500"].max
-            ),
-        10
-    );
-    forit(createRandomizedCat);
-    forit(createBonding);
-    forit(createRandomizedNews);
+    levels.forEach((level) => {
+        forit(
+            () =>
+                createRandomizedWitch(
+                    undefined,
+                    undefined,
+                    renownLevelDivision[level].min,
+                    renownLevelDivision[level].max
+                ),
+            30
+        );
+    });
+    forit(createRandomizedCat, 2);
+    forit(createBonding, 1);
+    forit(createRandomizedNews, 1);
     forit(() => {
         gameState.spells.set("scrying", spellMapping["scrying"]);
         gameState.spells.set("forzachromata", spellMapping["forzachromata"]);

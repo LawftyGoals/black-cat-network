@@ -168,7 +168,7 @@ export function updateNotifications() {
 
 export function updateScreenElement() {
     const cS = gameState.currentScreen;
-
+    console.log(gameState.witches);
     switch (cS) {
         case "catInventory":
             replaceChildren(
@@ -568,7 +568,7 @@ function createCreatureCard(
         `What you know about ${name}: ${knowns.join(", ")}`
     );
 
-    comp.setAttribute("image", type === "witch"?witchSVG : catSVG);
+    comp.setAttribute("image", type === "witch" ? witchSVG : catSVG);
 
     if (interactClick) {
         if (type === "cat") {
