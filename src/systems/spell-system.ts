@@ -3,7 +3,7 @@ import { Spell } from "../Spell";
 import { textResource } from "../text/textResource";
 import { displayModalMessage, updateScreenElement } from "../ui";
 import { cE, gameState, getRandomExistingWitch, getRandomInt } from "../utils";
-import { chances, type TCatColor } from "../Values";
+import { chances, type TCatColor, type TTrait } from "../Values";
 import { createNotification } from "./notifications-system";
 import { changeRemainingTime } from "./time-system";
 
@@ -67,6 +67,44 @@ export const spellMapping = {
                     `${
                         props.target.name
                     } looks bedazzeling with the new ${props.color!} color`,
+                    [],
+                    props.target,
+                    null,
+                    null
+                );
+                updateScreenElement();
+            } else {
+                displayModalMessage(textResource.time.noTime);
+            }
+        },
+        target: undefined,
+    }),
+    mutatioousia: new Spell({
+        name: "mutatioousia",
+        variant: "trait-change",
+        description: "",
+        value: 100,
+        label: "Change trait",
+        action: (props: { target: Entity; trait?: TTrait }) => {
+            if (props.target.traits.includes(props.trait!)) {
+                if (!props.target.knownTraits.includes(props.trait!)) {
+                    props.target.knownTraits.push(props.trait!);
+                }
+                displayModalMessage(
+                    `${props.target.name} seems to already behave this way.`
+                );
+            } else if (props.target.traits.length > 5) {
+                displayModalMessage(
+                    `${props.target.name}'s little brain couldn't possibly hold any more traits`
+                );
+            } else if (changeRemainingTime() > 0) {
+                props.target.traits.push(props.trait!);
+                props.target.knownTraits.push(props.trait!);
+                createNotification(
+                    `${props.target.name} has had a change in personality`,
+                    `${
+                        props.target.name
+                    } is panicking following the psychological expansion of being ${props.trait!}`,
                     [],
                     props.target,
                     null,

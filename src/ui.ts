@@ -30,7 +30,13 @@ import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
 import type { CatAcquisition } from "./components/cat-acquisition";
 import { generateTraps, getCatFromTrap } from "./systems/acquisition-system";
-import { catColors, itemValues, type TCatColor } from "./Values";
+import {
+    allTraits,
+    catColors,
+    itemValues,
+    type TCatColor,
+    type TTrait,
+} from "./Values";
 import { textResource } from "./text/textResource";
 import { SpellCardValues, type Spell } from "./Spell";
 import type { SpellCard } from "./components/spell-card";
@@ -257,6 +263,28 @@ function createSpellCard(spell: Spell) {
                         if (changeRemainingTime() > 0) {
                             mSpell.action({ color: color, target: entity });
                             dialogElement.close();
+                            updateScreenElement();
+                        }
+                    }
+                )
+            );
+        });
+
+    mSpell.variant === "trait-change" &&
+        comp.setTraitButtons(allTraits, (trait: TTrait) => {
+            dialogElement.showModal();
+            replaceChildren(
+                gEiD("dialog-content"),
+                createCreatureCards(
+                    (arrayFromMap("catInventory") as Entity[]).filter(
+                        (cat) => !cat.inbonding && !cat.relationship
+                    ),
+                    coreEntityGivens,
+                    undefined,
+                    undefined,
+                    (entity: Entity) => {
+                        if (changeRemainingTime() > 0) {
+                            mSpell.action({ trait: trait, target: entity });
                             updateScreenElement();
                         }
                     }
@@ -608,12 +636,13 @@ function catRelease(entity: Entity) {
 }
 
 export function displayModalMessage(message: string) {
-    dialogElement.showModal();
+    dialogElement.close();
     const messageP = cE("p");
     messageP.textContent = message;
     messageP.style =
         "background-color:mediumslateblue;color:white;border:2px solid lightslategrey; padding:16px";
     replaceChildren(dialogContentElement, [messageP]);
+    dialogElement.showModal();
 }
 
 function displayModalNameField(entity: Entity, onClick: () => void) {

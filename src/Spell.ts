@@ -1,13 +1,17 @@
 import type { Entity } from "./Entity";
-import type { TCatColor } from "./Values";
+import type { TCatColor, TTrait } from "./Values";
 
-type TSpellVariant = "scrying" | "colorize";
+type TSpellVariant = "scrying" | "colorize" | "trait-change";
 
 export const SpellCardValues: (keyof Spell)[] = ["variant", "description"];
 
-export type TActionProps = { target: Entity; color?: TCatColor };
+export type TActionProps = {
+    target: Entity;
+    color?: TCatColor;
+    trait?: TTrait;
+};
 
-export type TSpellName = "forzachromata" | "scrying";
+export type TSpellName = "forzachromata" | "scrying" | "mutatioousia";
 
 export class Spell {
     name: TSpellName;

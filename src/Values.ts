@@ -129,7 +129,7 @@ export const getBlackCatVariants = () =>
     );
 
 // Witch Traits
-export const allTraits: string[] = [
+export const allTraits: TTrait[] = [
     "affectionate",
     "calm",
     "charming",
@@ -147,6 +147,24 @@ export const allTraits: string[] = [
     "defiant",
     "greedy",
 ];
+
+export type TTrait =
+    | "affectionate"
+    | "calm"
+    | "charming"
+    | "clever"
+    | "independent"
+    | "mischievous"
+    | "playful"
+    | "possessive"
+    | "reclusive"
+    | "stubborn"
+    | "vocal"
+    | "agressive"
+    | "thoughtful"
+    | "short fused"
+    | "defiant"
+    | "greedy";
 
 // Names for Cats
 export const catNames: string[] = [

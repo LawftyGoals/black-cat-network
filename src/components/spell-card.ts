@@ -1,5 +1,5 @@
 import { cE, sgeid } from "../utils";
-import type { TCatColor } from "../Values";
+import type { TCatColor, TTrait } from "../Values";
 
 export class SpellCard extends HTMLElement {
     descriptionSlot: HTMLElement;
@@ -50,6 +50,15 @@ export class SpellCard extends HTMLElement {
 
     setColorButtons(colors: TCatColor[], onClick: (color: TCatColor) => void) {
         colors.forEach((color) => {
+            const button = cE("button");
+            button.id = color;
+            button.textContent = color;
+            button.onclick = () => onClick(color);
+            this.btnSlot.appendChild(button);
+        });
+    }
+    setTraitButtons(traits: TTrait[], onClick: (trait: TTrait) => void) {
+        traits.forEach((color) => {
             const button = cE("button");
             button.id = color;
             button.textContent = color;
