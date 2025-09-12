@@ -69,7 +69,8 @@ export function createRandomizedBonding() {
         {
             traits: [randomTrait],
             variant: catVariants[getRandomInt(catVariants.length)],
-        }
+        },
+        1
     );
 
     gameState.knownWitches.set(randomWitch.id, randomWitch);
@@ -103,9 +104,6 @@ export function updateBondings() {
                 } else missTraits++;
             });
 
-            gameState.completedBondings.set(bonding.id, bonding);
-            gameState.bondings.delete(bonding.id);
-
             const offer = bonding.offer ?? 0;
 
             const offerMultiplyer =
@@ -125,24 +123,45 @@ export function updateBondings() {
                 gameState.catInventory.set(cat.id, cat);
                 cat.inbonding = false;
                 bonding.agent!.inbonding = false;
-                changeRenown(
-                    renownValues.bonding.maxFailedRenown,
-                    renownToWitchModifiers[
-                        getRenownLevel(bonding.agent!.value!)
-                    ].min
+                const possibleTraits = witch.traits.filter(
+                    (trait) => !witch.knownTraits.includes(trait)
                 );
+                const possibleTrait =
+                    possibleTraits[getRandomInt(possibleTraits.length)];
+
+                if (bonding.triedCount! > 2) {
+                    changeRenown(
+                        renownValues.bonding.maxFailedRenown,
+                        renownToWitchModifiers[
+                            getRenownLevel(bonding.agent!.value!)
+                        ].min
+                    );
+                    gameState.completedBondings.set(bonding.id, bonding);
+                    gameState.bondings.delete(bonding.id);
+                } else {
+                    bonding.ongoing = false;
+                    bonding.cat = null;
+                    bonding.bondrequirements!.traits.push(possibleTrait);
+                    bonding.nextEventDay = gameState.day + getRandomInt(5, 7);
+                }
                 createNotification(
                     "Bonding Failed!",
                     `Unfortuantely ${cat.name} and ${bonding.agent!
                         .name!} did not get along. ${
                         cat.name
-                    } returned to you slightly miffed.`,
+                    } returned to you slightly miffed.${
+                        possibleTraits.length > 0
+                            ? ` It seems${witch.name} would preffer a familiar that is a bit more: ${possibleTrait}`
+                            : ""
+                    }`,
                     [],
                     cat,
                     0,
                     null
                 );
             } else {
+                gameState.completedBondings.set(bonding.id, bonding);
+                gameState.bondings.delete(bonding.id);
                 updateGp(offerMultiplyer);
                 cat.inbonding = false;
                 bonding.agent!.inbonding = false;

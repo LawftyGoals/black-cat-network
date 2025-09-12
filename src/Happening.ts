@@ -39,6 +39,7 @@ export class Happening {
     patient?: Entity;
     triggerKeyword?: string[];
     outcome?: Happening;
+    triedCount?: number;
     constructor(
         id: string,
         ongoing: boolean,
@@ -53,6 +54,7 @@ export class Happening {
         spell: TSpells | null,
         requestVariant: Map<string, Entity | Happening> | null,
         requirements: TRequirements,
+        triedCount?: number,
         patient?: Entity,
         triggerKeyword?: string[],
         outcome?: Happening
@@ -70,6 +72,7 @@ export class Happening {
         this.spell = spell;
         this.request_Variant = requestVariant;
         this.bondrequirements = requirements;
+        this.triedCount = triedCount;
         this.cat = null;
         this.patient = patient;
         this.triggerKeyword = triggerKeyword;

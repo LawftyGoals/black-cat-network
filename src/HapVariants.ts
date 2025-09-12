@@ -26,6 +26,7 @@ export function hapWitchySmalltalk(): Happening {
         null,
         null,
         undefined,
+        undefined,
         ["daily", "news", "witchInteraction"]
     );
 }

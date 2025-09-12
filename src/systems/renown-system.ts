@@ -4,8 +4,10 @@ import { renownLevelDivision } from "../Values";
 const gameState = gameInitialState;
 
 export function changeRenown(quantity: number, modifier: number) {
-    if (gameState.renown < 500 && gameState.renown > -500) {
+    if (gameState.renown < 750 && gameState.renown > 0) {
         gameState.renown += quantity * modifier;
+        if (gameState.renown < 0) gameState.renown = 0;
+        if (gameState.renown > 750) gameState.renown = 750;
     }
     return gameState.renown;
 }
