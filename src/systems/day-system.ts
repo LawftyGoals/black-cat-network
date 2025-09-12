@@ -7,7 +7,11 @@ import {
     generateCatsForCatcher,
     generateCatsForTraps,
 } from "./acquisition-system";
-import { payBills, calculateWeeklyExpenses } from "../utils";
+import {
+    payBills,
+    calculateWeeklyExpenses,
+    initBank,
+} from "../systems/banking-system";
 
 const gameState = gameInitialState;
 
@@ -18,6 +22,7 @@ export function updateDay() {
     /* TEMPORARY TEST STATE */
     createBonding();
 
+    initBank();
     if (gameState.day % 7 === 0) {
         payBills();
     }

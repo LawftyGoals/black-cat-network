@@ -1,4 +1,4 @@
-import { Entity } from "../Entity";
+import type { Entity } from "../Entity";
 import type { Happening } from "../Happening";
 import type { Spell } from "../Spell";
 
@@ -38,7 +38,7 @@ export interface IGameState extends IScreens, IAcquisition {
     notifications: Map<string, Happening>;
     renown: number;
     expenses: number;
-    bank: Entity;
+    bank: Entity | null;
 }
 
 export const gameInitialState: IGameState = {
@@ -67,26 +67,7 @@ export const gameInitialState: IGameState = {
     traps: new Map<string, Entity | null>(),
     catCatcher: new Map<string, Entity>(),
     selectedAcqusition: "traps",
-    renown: 5,
+    renown: 15,
     expenses: 0,
-    bank: new Entity(
-        "666", // id
-        "bank", // type
-        false, // inbonding
-        "Golden Cauldron Rental & Usury", // name
-        [], // knowns
-        null, // relationship
-        47, // age (e.g., ancient bank)
-        false, // deceased
-        "none", // sex (or another default)
-        0, // value
-        null, // color
-        null, // species
-        [], // traits
-        [], // knownTraits
-        "bank", // variant
-        [], // effectingspells
-        "Banker", // vocation
-        "Capitalist" // approach
-    ),
+    bank: null,
 };
