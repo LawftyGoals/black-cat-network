@@ -1,8 +1,8 @@
 // Values.ts
 
 export const chances = {
-    getSpellFromBonding: 0.01,
-    discoverNewWitch: 0.99,
+    getSpellFromBonding: 0.991,
+    discoverNewWitch: 0.25,
 };
 
 export const itemValues = {
@@ -101,7 +101,13 @@ export const catVariantValues: TCatVariantValues = {
     },
 };
 
-type TCatColors = "black" | "orange" | "greytone" | "white" | "grey" | "pink";
+export type TCatColors =
+    | "black"
+    | "orange"
+    | "greytone"
+    | "white"
+    | "grey"
+    | "pink";
 
 export const catVariantsByColor = (color: TCatColors) =>
     Object.keys(catVariantValues).filter((cat) =>

@@ -8,7 +8,13 @@ import {
 } from "./Entity";
 import { happeningKnowns, type Happening, type TK } from "./Happening";
 import { gameInitialState } from "./state/game-state";
-import { arrayFromMap, cE, clearChildren, replaceChildren } from "./utils";
+import {
+    appendChildren,
+    arrayFromMap,
+    cE,
+    clearChildren,
+    replaceChildren,
+} from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import {
     closeDialogElement,
@@ -225,7 +231,7 @@ function createSpellCard(spell: Spell) {
                 undefined,
                 (entity: Entity) => {
                     if (changeRemainingTime() > 0) {
-                        entity.effectingspells.push(spell.variant);
+                        entity.effectingspells.push(spell.name);
                         dialogElement.close();
                         updateScreenElement();
                     }
@@ -597,19 +603,26 @@ function displayModalNameField(entity: Entity, onClick: () => void) {
         dialogElement.close();
     };
 
+    const fieldId = "cat-name-field";
     const textField = cE("input");
     textField.oninput = (ev: Event) => {
-        console.log(ev);
         catName = (ev.target as HTMLInputElement).value;
         if (catName !== "") {
             button.disabled = false;
         }
     };
-    const label = cE("label");
+    textField.id = fieldId;
+    const label = cE("label") as HTMLLabelElement;
+    label.htmlFor = fieldId;
     label.textContent = "Name your new cat ";
     dialogElement.showModal();
 
-    replaceChildren(dialogContentElement, [label, textField, button]);
+    const bg = cE("div");
+    appendChildren(bg, [label, textField, button]);
+    bg.style =
+        "background-color:mediumslateblue;color:white;border:2px solid lightslategrey;padding:16px;display:flex;flex-direction:column;";
+
+    replaceChildren(dialogContentElement, [bg]);
 }
 
 function updateCatSpace() {

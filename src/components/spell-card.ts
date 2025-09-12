@@ -1,10 +1,14 @@
+import type { Entity } from "../Entity";
+import type { TActionProps } from "../Spell";
 import { cE, sgeid } from "../utils";
+import type { TCatColors } from "../Values";
 
 export class SpellCard extends HTMLElement {
     descriptionSlot: HTMLElement;
     variantSlot: HTMLElement;
     cardSlot: HTMLElement;
     applyBtn: HTMLElement;
+    btnSlot: HTMLElement;
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
@@ -24,7 +28,7 @@ export class SpellCard extends HTMLElement {
               <div id="card">
               <h2 id="variant-slot"></h2>
               <p id="description-slot"></p>
-              <button id="apply-btn">Apply to Cat</button>
+              <div id="btn-slot"><button id="apply-btn">Apply to Cat</button></div>
               </div>
             `;
 
@@ -34,6 +38,7 @@ export class SpellCard extends HTMLElement {
         this.variantSlot = sgeid(sr, "variant-slot");
         this.descriptionSlot = sgeid(sr, "description-slot");
         this.applyBtn = sgeid(sr, "apply-btn");
+        this.btnSlot = sgeid(sr, "btn-slot");
     }
 
     static get observedAttributes() {
@@ -42,6 +47,19 @@ export class SpellCard extends HTMLElement {
 
     setApplyButton(onClick: () => void) {
         this.applyBtn.onclick = onClick;
+    }
+
+    setColorButtons(
+        colors: TCatColors[],
+        target: Entity,
+        action: (props: TActionProps) => void
+    ) {
+        colors.forEach((color) => {
+            const button = cE("button");
+            button.id = color;
+            button.onclick = () => action({ target, color });
+            this.btnSlot.appendChild(button);
+        });
     }
 
     attributeChangedCallback(

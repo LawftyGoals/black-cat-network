@@ -65,5 +65,5 @@ export const gameInitialState: IGameState = {
     traps: new Map<string, Entity | null>(),
     catCatcher: new Map<string, Entity>(),
     selectedAcqusition: "traps",
-    renown: 5,
+    renown: 15,
 };

@@ -100,9 +100,7 @@ export function updateBondings() {
             let hitTraits = 0;
 
             cat.traits.forEach((trait) => {
-                console.log({ catTrait: trait, witchTrait: witch.traits });
                 if (witch.traits.includes(trait)) {
-                    console.log("included");
                     hitTraits++;
                 } else missTraits++;
             });

@@ -3,7 +3,7 @@ import { Spell } from "../Spell";
 import { textResource } from "../text/textResource";
 import { displayModalMessage, updateScreenElement } from "../ui";
 import { cE, gameState, getRandomExistingWitch, getRandomInt } from "../utils";
-import { chances } from "../Values";
+import { chances, type TCatColors } from "../Values";
 import { createNotification } from "./notifications-system";
 import { changeRemainingTime } from "./time-system";
 
@@ -19,11 +19,15 @@ export function createScryingButton(target: Entity) {
     return button;
 }
 
-export function createSpellButton(target: Entity, spelltype: TSpells) {
+export function createSpellButton(
+    target: Entity,
+    spelltype: TSpells,
+    color?: TCatColors
+) {
     const button = cE("button");
     button.textContent = spellMapping[spelltype].label;
     button.onclick = () => {
-        spellMapping[spelltype].action(target);
+        spellMapping[spelltype].action({ target, color });
         updateScreenElement();
     };
     return button;
@@ -33,14 +37,42 @@ export type TSpells = keyof typeof spellMapping;
 
 export const spellMapping = {
     scrying: new Spell({
+        name: "scrying",
         variant: "scrying",
         description:
             "If you apply the marking to anything... even a cat, you can then view it and its surroundings through the ether. Simply speaking, you might not learn something interesting. Costs 1 hour.",
         value: 0,
         label: "Scry",
-        action: (target: Entity) => {
+        action: (props: { target: Entity }) => {
             if (changeRemainingTime() > 0) {
-                scryingEffect(target);
+                scryingEffect(props.target);
+            } else {
+                displayModalMessage(textResource.time.noTime);
+            }
+        },
+        target: undefined,
+    }),
+    forzachromata: new Spell({
+        name: "forzachromata",
+        variant: "colorize",
+        description:
+            "By weaving this spell onto any victim... target, you change their base color to whatever you desire.",
+        value: 10,
+        label: "Colorize",
+        action: (props: { target: Entity; color?: TCatColors }) => {
+            if (changeRemainingTime() > 0) {
+                props.target.color = props.color!;
+                createNotification(
+                    `${props.target.name} has ben colorized`,
+                    `${
+                        props.target.name
+                    } looks bedazzeling with the new ${props.color!} color`,
+                    [],
+                    props.target,
+                    0,
+                    null
+                );
+                updateScreenElement();
             } else {
                 displayModalMessage(textResource.time.noTime);
             }

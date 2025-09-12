@@ -301,7 +301,7 @@ export function createRandomCatForSale(
         false,
         getSex(),
         value,
-        variant === "black" ? "black" : colorChoice,
+        variants === "black" ? "black" : colorChoice,
         "Feline",
         randomTraits,
         trap ? [] : getRandomAmountOrNone(randomTraits, 2, 10),
