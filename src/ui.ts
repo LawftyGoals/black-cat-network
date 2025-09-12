@@ -8,7 +8,13 @@ import {
 } from "./Entity";
 import { happeningKnowns, type Happening, type TK } from "./Happening";
 import { gameInitialState } from "./state/game-state";
-import { arrayFromMap, cE, clearChildren, replaceChildren } from "./utils";
+import {
+    appendChildren,
+    arrayFromMap,
+    cE,
+    clearChildren,
+    replaceChildren,
+} from "./utils";
 import type { HappeningCard } from "./components/happening-card";
 import {
     closeDialogElement,
@@ -24,7 +30,13 @@ import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
 import type { CatAcquisition } from "./components/cat-acquisition";
 import { generateTraps, getCatFromTrap } from "./systems/acquisition-system";
-import { itemValues } from "./Values";
+import {
+    allTraits,
+    catColors,
+    itemValues,
+    type TCatColor,
+    type TTrait,
+} from "./Values";
 import { textResource } from "./text/textResource";
 import { SpellCardValues, type Spell } from "./Spell";
 import type { SpellCard } from "./components/spell-card";
@@ -212,27 +224,73 @@ function createSpellCard(spell: Spell) {
         comp.setAttribute(key, mSpell[key] as string);
     });
 
-    comp.setApplyButton(() => {
-        dialogElement.showModal();
-        replaceChildren(
-            gEiD("dialog-content"),
-            createCreatureCards(
-                (arrayFromMap("catInventory") as Entity[]).filter(
-                    (cat) => !cat.inbonding && !cat.relationship
-                ),
-                coreEntityGivens,
-                undefined,
-                undefined,
-                (entity: Entity) => {
-                    if (changeRemainingTime() > 0) {
-                        entity.effectingspells.push(spell.variant);
-                        dialogElement.close();
-                        updateScreenElement();
+    mSpell.variant === "scrying" &&
+        comp.setApplyButton(() => {
+            dialogElement.showModal();
+            replaceChildren(
+                gEiD("dialog-content"),
+                createCreatureCards(
+                    (arrayFromMap("catInventory") as Entity[]).filter(
+                        (cat) => !cat.inbonding && !cat.relationship
+                    ),
+                    coreEntityGivens,
+                    undefined,
+                    undefined,
+                    (entity: Entity) => {
+                        if (changeRemainingTime() > 0) {
+                            entity.effectingspells.push(spell.name);
+                            dialogElement.close();
+                            updateScreenElement();
+                        }
                     }
-                }
-            )
-        );
-    });
+                )
+            );
+        });
+
+    mSpell.variant === "colorize" &&
+        comp.setColorButtons(catColors, (color: TCatColor) => {
+            dialogElement.showModal();
+            replaceChildren(
+                gEiD("dialog-content"),
+                createCreatureCards(
+                    (arrayFromMap("catInventory") as Entity[]).filter(
+                        (cat) => !cat.inbonding && !cat.relationship
+                    ),
+                    coreEntityGivens,
+                    undefined,
+                    undefined,
+                    (entity: Entity) => {
+                        if (changeRemainingTime() > 0) {
+                            mSpell.action({ color: color, target: entity });
+                            dialogElement.close();
+                            updateScreenElement();
+                        }
+                    }
+                )
+            );
+        });
+
+    mSpell.variant === "trait-change" &&
+        comp.setTraitButtons(allTraits, (trait: TTrait) => {
+            dialogElement.showModal();
+            replaceChildren(
+                gEiD("dialog-content"),
+                createCreatureCards(
+                    (arrayFromMap("catInventory") as Entity[]).filter(
+                        (cat) => !cat.inbonding && !cat.relationship
+                    ),
+                    coreEntityGivens,
+                    undefined,
+                    undefined,
+                    (entity: Entity) => {
+                        if (changeRemainingTime() > 0) {
+                            mSpell.action({ trait: trait, target: entity });
+                            updateScreenElement();
+                        }
+                    }
+                )
+            );
+        });
 
     return comp;
 }
@@ -578,12 +636,13 @@ function catRelease(entity: Entity) {
 }
 
 export function displayModalMessage(message: string) {
-    dialogElement.showModal();
+    dialogElement.close();
     const messageP = cE("p");
     messageP.textContent = message;
     messageP.style =
         "background-color:mediumslateblue;color:white;border:2px solid lightslategrey; padding:16px";
     replaceChildren(dialogContentElement, [messageP]);
+    dialogElement.showModal();
 }
 
 function displayModalNameField(entity: Entity, onClick: () => void) {
@@ -597,19 +656,26 @@ function displayModalNameField(entity: Entity, onClick: () => void) {
         dialogElement.close();
     };
 
+    const fieldId = "cat-name-field";
     const textField = cE("input");
     textField.oninput = (ev: Event) => {
-        console.log(ev);
         catName = (ev.target as HTMLInputElement).value;
         if (catName !== "") {
             button.disabled = false;
         }
     };
-    const label = cE("label");
+    textField.id = fieldId;
+    const label = cE("label") as HTMLLabelElement;
+    label.htmlFor = fieldId;
     label.textContent = "Name your new cat ";
     dialogElement.showModal();
 
-    replaceChildren(dialogContentElement, [label, textField, button]);
+    const bg = cE("div");
+    appendChildren(bg, [label, textField, button]);
+    bg.style =
+        "background-color:mediumslateblue;color:white;border:2px solid lightslategrey;padding:16px;display:flex;flex-direction:column;";
+
+    replaceChildren(dialogContentElement, [bg]);
 }
 
 function updateCatSpace() {

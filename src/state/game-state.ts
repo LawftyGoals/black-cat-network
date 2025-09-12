@@ -99,7 +99,7 @@ export const gameTemplateState: IGameState = {
     traps: new Map<string, Entity | null>(),
     catCatcher: new Map<string, Entity>(),
     selectedAcqusition: "traps",
-    renown: 15,
+    renown: 115,
     expenses: 0,
     bank: null,
 };

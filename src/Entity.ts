@@ -19,7 +19,6 @@ import {
     catVariantValues,
     type TCatVariant,
     getBlackCatVariants,
-    type TCatVariantValues,
 } from "./Values.js";
 import { Happening } from "./Happening.js";
 
@@ -290,7 +289,7 @@ export function createRandomCatForSale(
         false,
         getSex(),
         value,
-        variant === "black" ? "black" : colorChoice,
+        variants === "black" ? "black" : colorChoice,
         "Feline",
         randomTraits,
         trap ? [] : getRandomAmountOrNone(randomTraits, 2, 10),

@@ -2,7 +2,7 @@
 
 export const chances = {
     getSpellFromBonding: 0.01,
-    discoverNewWitch: 0.99,
+    discoverNewWitch: 0.25,
 };
 
 export const itemValues = {
@@ -65,16 +65,16 @@ export const catVariants: TCatVariant[] = [
 ];
 
 export type TCatVariantValues = {
-    Tabby: { value: number; color: TCatColors[] };
-    Siamese: { value: number; color: TCatColors[] };
-    Persian: { value: number; color: TCatColors[] };
-    "Maine Coon": { value: number; color: TCatColors[] };
-    Bengal: { value: number; color: TCatColors[] };
-    Sphynx: { value: number; color: TCatColors[] };
-    Ragdoll: { value: number; color: TCatColors[] };
-    "British Shorthair": { value: number; color: TCatColors[] };
-    Abyssinian: { value: number; color: TCatColors[] };
-    "Scottish Fold": { value: number; color: TCatColors[] };
+    Tabby: { value: number; color: TCatColor[] };
+    Siamese: { value: number; color: TCatColor[] };
+    Persian: { value: number; color: TCatColor[] };
+    "Maine Coon": { value: number; color: TCatColor[] };
+    Bengal: { value: number; color: TCatColor[] };
+    Sphynx: { value: number; color: TCatColor[] };
+    Ragdoll: { value: number; color: TCatColor[] };
+    "British Shorthair": { value: number; color: TCatColor[] };
+    Abyssinian: { value: number; color: TCatColor[] };
+    "Scottish Fold": { value: number; color: TCatColor[] };
 };
 
 export type TCatVariant = keyof TCatVariantValues;
@@ -101,9 +101,24 @@ export const catVariantValues: TCatVariantValues = {
     },
 };
 
-type TCatColors = "black" | "orange" | "greytone" | "white" | "grey" | "pink";
+export type TCatColor =
+    | "black"
+    | "orange"
+    | "greytone"
+    | "white"
+    | "grey"
+    | "pink";
 
-export const catVariantsByColor = (color: TCatColors) =>
+export const catColors: TCatColor[] = [
+    "black",
+    "orange",
+    "greytone",
+    "white",
+    "grey",
+    "pink",
+];
+
+export const catVariantsByColor = (color: TCatColor) =>
     Object.keys(catVariantValues).filter((cat) =>
         catVariantValues[cat as TCatVariant].color.includes(color)
     );
@@ -114,7 +129,7 @@ export const getBlackCatVariants = () =>
     );
 
 // Witch Traits
-export const allTraits: string[] = [
+export const allTraits: TTrait[] = [
     "affectionate",
     "calm",
     "charming",
@@ -132,6 +147,24 @@ export const allTraits: string[] = [
     "defiant",
     "greedy",
 ];
+
+export type TTrait =
+    | "affectionate"
+    | "calm"
+    | "charming"
+    | "clever"
+    | "independent"
+    | "mischievous"
+    | "playful"
+    | "possessive"
+    | "reclusive"
+    | "stubborn"
+    | "vocal"
+    | "agressive"
+    | "thoughtful"
+    | "short fused"
+    | "defiant"
+    | "greedy";
 
 // Names for Cats
 export const catNames: string[] = [
