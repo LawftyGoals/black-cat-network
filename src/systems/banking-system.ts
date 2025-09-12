@@ -87,8 +87,9 @@ export function payBills(): boolean {
         return true;
     } else {
         displayModalMessage(
-            "Lorem ipsum maleficarum, daemonis dolor sit amet, consectetur infernus elit. Noctis in dui mauris, veneficus hendrerit arcu sed maledictum."
+            "You ran out of money, and the bank gets your home, stuff and even the cats. Game over."
         );
+        setTimeout(() => {});
         return false;
     }
 }
