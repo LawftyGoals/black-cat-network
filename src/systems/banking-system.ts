@@ -1,11 +1,12 @@
 // banking-system.ts
-import { gameInitialState } from "../state/game-state";
+import { gameInitialState, gameTemplateState } from "../state/game-state";
 import { createNotification } from "../systems/notifications-system";
-import { displayModalMessage } from "../ui";
+import { displayModalMessage, updateScreenElement } from "../ui";
 import { Entity } from "../Entity";
-import { resetGameFromTemplateState } from "../utils";
+import { initGameStates } from "../main";
+import { dialogElement } from "../get-elements";
 
-export let gameState = gameInitialState;
+export const gameState = gameInitialState;
 
 export function initBank() {
     if (gameInitialState.bank === null) {
@@ -56,19 +57,8 @@ export function calculateWeeklyExpenses() {
     // Update expenses in gameState
     gameState.expenses += dailyExpenses;
     if (theRentIsDue) {
-        console.log(`The rent is due today!`);
         gameState.expenses += weeklyExpenses;
-        console.log(`expenses after new rent = ${gameState.expenses}`);
     }
-
-    // Return current accrued expenses for UI
-    const expensesCountdown = 7 - (day % 7);
-
-    // Return daily expenses and countdown to paying bills
-    return {
-        dailyExpenses,
-        expensesCountdown,
-    };
 }
 
 export function payBills(): boolean {
@@ -88,11 +78,14 @@ export function payBills(): boolean {
         return true;
     } else {
         displayModalMessage(
-            "You ran out of money, and the bank gets your home, stuff and even the cats. Game over."
+            "You ran out of money, and the bank gets your home, stuff and even the cats. Game over. Game will reset in 10 seconds."
         );
         setTimeout(() => {
-            resetGameFromTemplateState();
-        }, 5000);
+            Object.assign(gameState, gameTemplateState);
+            initGameStates();
+            dialogElement.close();
+            updateScreenElement();
+        }, 10000);
         return false;
     }
 }

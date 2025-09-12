@@ -27,10 +27,7 @@ export function updateDay() {
         payBills();
     }
 
-    const { dailyExpenses, expensesCountdown } = calculateWeeklyExpenses();
-    console.log(
-        `Daily expenses: ${dailyExpenses}gp; Debt: ${gameState.expenses}gp; Due in ${expensesCountdown} days.`
-    );
+    calculateWeeklyExpenses();
 
     /*PERMANENT CHANGES*/
     generateCatsForCatcher(true);

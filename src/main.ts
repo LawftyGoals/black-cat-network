@@ -17,7 +17,6 @@ import { spellMapping } from "./systems/spell-system";
 
 export function initGameStates() {
     generateData();
-    initCustomComponents();
     initAcquisition();
     initMenu();
     updateScreenElement();
@@ -25,6 +24,7 @@ export function initGameStates() {
     initTimeSystem();
 }
 
+initCustomComponents();
 initGameStates();
 
 function initCustomComponents() {

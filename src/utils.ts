@@ -2,22 +2,13 @@ import { createRandomizedWitch, type Entity } from "./Entity";
 import { closeDialogElement, gEiD } from "./get-elements";
 import {
     gameInitialState,
-    gameTemplateState,
     type IAcquisition,
     type IScreens,
 } from "./state/game-state";
 import { getRenownLevel } from "./systems/renown-system";
 import { renownLevelDivision } from "./Values";
-import { updateScreenElement } from "./ui";
-import { initGameStates } from "./main";
 
 export let gameState = gameInitialState;
-
-export function resetGameFromTemplateState() {
-    // Object.assign(gameInitialState, gameTemplateState);
-    initGameStates();
-    updateScreenElement();
-}
 
 export const cE = (
     type:
