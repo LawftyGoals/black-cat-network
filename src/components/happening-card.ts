@@ -99,13 +99,7 @@ export class HappeningCard extends HTMLElement {
     setClearCat(onClick: () => void) {
         this.clearSlot.onclick = onClick;
     }
-    setClearCat(onClick: () => void) {
-        this.clearSlot.onclick = onClick;
-    }
 
-    setSendBonding(onClick: () => void) {
-        this.sendBondingSlot.onclick = onClick;
-    }
     setSendBonding(onClick: () => void) {
         this.sendBondingSlot.onclick = onClick;
     }
