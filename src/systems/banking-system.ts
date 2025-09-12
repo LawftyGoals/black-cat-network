@@ -3,8 +3,9 @@ import { gameInitialState } from "../state/game-state";
 import { createNotification } from "../systems/notifications-system";
 import { displayModalMessage } from "../ui";
 import { Entity } from "../Entity";
+import { resetGameFromTemplateState } from "../utils";
 
-export const gameState = gameInitialState;
+export let gameState = gameInitialState;
 
 export function initBank() {
     if (gameInitialState.bank === null) {
@@ -78,7 +79,7 @@ export function payBills(): boolean {
         gameState.expenses = 0;
         createNotification(
             "You settle your debts.", // title
-            "Sanguinis auctor neque eu tenebris rhoncus ut eleifend nibh porttitor. Ut in nulla maledictio, phasellus malum magna!", // content
+            "This week's rent and expenses are paid in full!", // content
             [], // knowns
             gameState.bank!, // from
             null, // reward
@@ -87,10 +88,11 @@ export function payBills(): boolean {
         return true;
     } else {
         displayModalMessage(
-            "Lorem ipsum maleficarum, daemonis dolor sit amet, consectetur infernus elit. Noctis in dui mauris, veneficus hendrerit arcu sed maledictum."
+            "You ran out of money, and the bank gets your home, stuff and even the cats. Game over."
         );
+        setTimeout(() => {
+            resetGameFromTemplateState();
+        }, 5000);
         return false;
     }
 }
-
-// Lorem ipsum maleficarum, daemonis dolor sit amet, consectetur infernus elitoris. Noctis in dui mauris, veneficus hendrerit arcu sed maledictum molestie vehicula. Sanguinis auctor neque eu tenebris rhoncus ut eleifend nibh porttitor. Ut in nulla maledictio, phasellus malum magna non est bibendum non venenatis nisl tempor. Suspendisse daemonium feugiat nisl ut dapibus mortis. Gothica dictum necromantia, obscurae consectetur adipiscing maleficarum.

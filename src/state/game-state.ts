@@ -1,6 +1,7 @@
 import type { Entity } from "../Entity";
 import type { Happening } from "../Happening";
 import type { Spell } from "../Spell";
+import { gameState } from "../utils";
 
 export type TScreens = keyof IScreens;
 
@@ -41,7 +42,7 @@ export interface IGameState extends IScreens, IAcquisition {
     bank: Entity | null;
 }
 
-export const gameInitialState: IGameState = {
+export let gameInitialState: IGameState = {
     knownWitches: new Map<string, Entity>(),
     spells: new Map<string, Spell>(),
     witches: new Map<string, Entity>(),
@@ -59,7 +60,38 @@ export const gameInitialState: IGameState = {
     cats: new Map<string, Entity>(),
     selectedBonding: null,
     selectedCat: null,
-    currentScreen: "catAcquisition",
+    currentScreen: "catInventory",
+    remainingTime: 16,
+    maxTime: 16,
+    gp: 100,
+    notifications: new Map<string, Happening>(),
+    traps: new Map<string, Entity | null>(),
+    catCatcher: new Map<string, Entity>(),
+    selectedAcqusition: "traps",
+    renown: 15,
+    expenses: 0,
+    bank: null,
+};
+
+export const gameTemplateState: IGameState = {
+    knownWitches: new Map<string, Entity>(),
+    spells: new Map<string, Spell>(),
+    witches: new Map<string, Entity>(),
+    entities: new Map<string, Entity>(),
+    bondings: new Map<string, Happening>(),
+    completedBondings: new Map<string, Happening>(),
+    expiredBondings: new Map<string, Happening>(),
+    news: new Map<string, Happening>(),
+    catAcquisition: new Map<string, Entity>(),
+    happenings: new Map<string, Happening>(),
+    day: 1,
+    creations: 1,
+    catInventory: new Map<string, Entity>(),
+    maxCatInventorySize: 10,
+    cats: new Map<string, Entity>(),
+    selectedBonding: null,
+    selectedCat: null,
+    currentScreen: "catInventory",
     remainingTime: 16,
     maxTime: 16,
     gp: 100,
