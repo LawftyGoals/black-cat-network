@@ -19,7 +19,6 @@ import {
     catVariantValues,
     type TCatVariant,
     getBlackCatVariants,
-    type TCatVariantValues,
 } from "./Values.js";
 import { Happening } from "./Happening.js";
 
