@@ -11,8 +11,6 @@ import { initTimeSystem } from "./systems/time-system";
 import { NotificationCard } from "./components/notification-card";
 import { CatAcquisition } from "./components/cat-acquisition";
 import { initAcquisition } from "./systems/acquisition-system";
-import { spellMapping } from "./systems/spell-system";
-import { gameState } from "./utils";
 import { SpellCard } from "./components/spell-card";
 import { renownLevelDivision } from "./Values";
 
