@@ -19,26 +19,27 @@ import {
     renownValues,
 } from "../Values";
 import { getNonlearntSpells, spellMapping } from "./spell-system";
+import type { Entity } from "../Entity";
 
 const gameState = gameInitialState;
 
-export function createRandomizedBonding() {
+export function createBonding(witch?: Entity) {
     const id = getRandomizedId();
 
-    const randomWitch = getRandomExistingWitchWithoutBonding();
+    const targetWitch = witch ?? getRandomExistingWitchWithoutBonding();
 
-    randomWitch.inbonding = true;
+    targetWitch.inbonding = true;
 
     const { days, ticks } = convertTicksToDaysAndTicks(getRandomInt(112, 72));
 
     const witchValues =
-        renownToGoldModifiers[getRenownLevel(randomWitch.value)];
+        renownToGoldModifiers[getRenownLevel(targetWitch.value)];
 
     const randomTrait =
-        randomWitch.traits[getRandomInt(randomWitch.traits.length)];
+        targetWitch.traits[getRandomInt(targetWitch.traits.length)];
 
-    if (!randomWitch.knownTraits.includes(randomTrait)) {
-        randomWitch.knownTraits.push(randomTrait);
+    if (!targetWitch.knownTraits.includes(randomTrait)) {
+        targetWitch.knownTraits.push(randomTrait);
     }
 
     const spell =
@@ -60,8 +61,10 @@ export function createRandomizedBonding() {
         ticks,
         ["offer"],
         "bonding",
-        randomWitch,
-        "I would like to acquire a BLACK CAT",
+        targetWitch,
+        witch
+            ? "I could try out one of your BLACK CATs"
+            : "I would like to acquire a BLACK CAT",
         reasonForPuchase[getRandomInt(reasonForPuchase.length)],
         goldOffer,
         spell,
@@ -73,7 +76,7 @@ export function createRandomizedBonding() {
         1
     );
 
-    gameState.knownWitches.set(randomWitch.id, randomWitch);
+    gameState.knownWitches.set(targetWitch.id, targetWitch);
 
     gameState.bondings.set(id, order);
     gameState.happenings.set(id, order);
@@ -213,3 +216,28 @@ export const reasonForPuchase = [
     "What's the best way to get it?",
     "Need a new kitty.",
 ];
+
+export function offerBonding(witch: Entity) {
+    let title = "";
+    let content = "";
+    if (witch.relationship) {
+        title = `Bonding offer to ${witch.name} rejected.`;
+        content = `Begon you pixie! I already have a beloved familiar`;
+        if (!witch.knowns.includes("relationship")) {
+            witch.knowns.push("relationship");
+        }
+    } else if (witch.inbonding) {
+        title = `Bonding offer to ${witch.name} rejected.`;
+        content = "I'm already in a process you numpty!";
+    } else if (getRenownLevel(witch.value) > getRenownLevel(gameState.renown)) {
+        title = `Bonding offer to ${witch.name} rejected.`;
+        content =
+            "You are rather beneath me. This is the only only response I shalld lower myself to.";
+    } else {
+        title = `Bonding offer to ${witch.name} accepted.`;
+        content = "What an interesting proposition. What is the catch?";
+        createBonding(witch);
+    }
+
+    createNotification(title, content, [], witch, null, null);
+}

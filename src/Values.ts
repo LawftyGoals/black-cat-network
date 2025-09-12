@@ -203,6 +203,7 @@ export const catNames: string[] = [
     "Selene",
     "Seth",
     "Siren",
+    "Stian",
     "Sylph",
     "Talon",
     "Undine",

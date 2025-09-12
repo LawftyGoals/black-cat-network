@@ -3,7 +3,7 @@ import "./style.css";
 import { initDaySystem } from "./systems/day-system";
 import { initMenu, updateScreenElement } from "./ui";
 import { HappeningCard } from "./components/happening-card";
-import { createRandomizedBonding } from "./systems/bonding-system";
+import { createBonding } from "./systems/bonding-system";
 import { CreatureCard } from "./components/creature-card";
 import { createRandomizedNews } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
@@ -13,6 +13,8 @@ import { CatAcquisition } from "./components/cat-acquisition";
 import { initAcquisition } from "./systems/acquisition-system";
 import { SpellCard } from "./components/spell-card";
 import { renownLevelDivision } from "./Values";
+import { gameState } from "./utils";
+import { spellMapping } from "./systems/spell-system";
 
 function initGameStates() {
     generateData();
@@ -45,7 +47,7 @@ function generateData() {
     forit(
         () =>
             createRandomizedWitch(
-                undefined,
+                Math.random() < 0.5,
                 undefined,
                 renownLevelDivision["0"].min,
                 renownLevelDivision["0"].max
@@ -103,9 +105,9 @@ function generateData() {
         10
     );
     forit(createRandomizedCat);
-    forit(createRandomizedBonding);
+    forit(createBonding);
     forit(createRandomizedNews);
-    //forit(() => {
-    //    gameState.spells.set("scrying", spellMapping["scrying"]);
-    //});
+    forit(() => {
+        gameState.spells.set("scrying", spellMapping["scrying"]);
+    });
 }

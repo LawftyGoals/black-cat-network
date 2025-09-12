@@ -18,7 +18,11 @@ import {
     screen,
 } from "./get-elements";
 import type { CreatureCard } from "./components/creature-card";
-import { acceptbonding } from "./systems/bonding-system";
+import {
+    acceptbonding,
+    createBonding,
+    offerBonding,
+} from "./systems/bonding-system";
 import type { NotificationCard } from "./components/notification-card";
 import { changeRemainingTime } from "./systems/time-system";
 import { createNotification } from "./systems/notifications-system";
@@ -175,8 +179,8 @@ export function updateScreenElement() {
                 createCreatureCards(
                     arrayFromMap(cS),
                     coreEntityGivens,
-                    entityInteract,
-                    "Interact with witch"
+                    offerBonding,
+                    "Offer bonding"
                 )
             );
             break;
