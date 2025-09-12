@@ -79,7 +79,7 @@ export function payBills(): boolean {
         gameState.expenses = 0;
         createNotification(
             "You settle your debts.", // title
-            "This week's rent and expenses are padi in full!", // content
+            "This week's rent and expenses are paid in full!", // content
             [], // knowns
             gameState.bank!, // from
             null, // reward
