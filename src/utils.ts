@@ -7,6 +7,7 @@ import {
 } from "./state/game-state";
 import { getRenownLevel } from "./systems/renown-system";
 import { renownLevelDivision } from "./Values";
+import { displayModalMessage } from "./ui";
 
 export const gameState = gameInitialState;
 
@@ -159,7 +160,7 @@ export function calculateWeeklyExpenses() {
         ["rent", 50],
     ]);
     // Retrieve expenses from gameState
-    const { day, catInventory, expenses } = gameState;
+    const { day, catInventory } = gameState;
     // Daily expenses
     const newspaper = expenseRates.get("newspaper");
     const catCount = Array.from(catInventory.values()).length;
@@ -196,9 +197,12 @@ export function payBills(): boolean {
     if (gp >= expenses) {
         gameState.gp -= gameState.expenses;
         gameState.expenses = 0;
-        console.log(
+        displayModalMessage(
             "You have been robbed by the political bourgeoisie and the capital owning class!"
         );
+        // console.log(
+        //     "You have been robbed by the political bourgeoisie and the capital owning class!"
+        // );
         return true;
     } else {
         console.log("Ah, you poor bitch, you lost the fucking game!");
