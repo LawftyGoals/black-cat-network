@@ -1,7 +1,7 @@
 // Values.ts
 
 export const chances = {
-    getSpellFromBonding: 0.991,
+    getSpellFromBonding: 0.01,
     discoverNewWitch: 0.25,
 };
 
