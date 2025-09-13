@@ -1,4 +1,6 @@
-# Black Cat Network
+# Blackhat's black cats.
+SVG icons by Pauli Sokol.
+
 ### A Witchy Cat Espionage & Business Simulator
 
 Here’s a comprehensive, organized design document for **Black Cat Network**, incorporating everything discussed so far and your additional notes. The document is structured for clarity and ease of reference, with all terms in English.
