@@ -53,8 +53,8 @@ export class HappeningCard extends HTMLElement {
         <p id="cat-slot"></p>
         <span id="bonding-slot" style="display:none"><button id="clickable">Pick Cat</button>
         <button style="display:none" id="clear-cat">Clear Cat</button>
-        <button id="send-bonding-slot" style="display:none">Send for bonding</button></span>
-        <button id="interesting-button" style="display:none">That's interesting...</button>
+        <button id="send-bonding-slot" style="display:none">Send</button></span>
+        <button id="interesting-button" style="display:none">Interesting...</button>
       </div>
     `;
 

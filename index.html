@@ -2,11 +2,147 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vite + TS</title>
+        <title>BLACKHAT'S</title>
     </head>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #000 0%, #0b0038 100%);
+        }
 
+        :root {
+            --bar-height: 3vh;
+            --menu-width: 15vw;
+            --notification-width: 20vw;
+        }
+
+        #app {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            z-index: 1;
+        }
+
+        #top-bar {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            max-height: var(--bar-height);
+            border: solid 2px black;
+            color: white;
+        }
+
+        #content {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1.5fr;
+            height: calc(100% - var(--bar-height));
+            width: 100%;
+        }
+
+        #menu {
+            height: calc(100% - var(--bar-height));
+            display: flex;
+            flex-direction: column;
+            padding: 8px 2px;
+            gap: 4px;
+        }
+
+        #screen {
+            overflow: scroll;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        #time {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 30vw;
+        }
+
+        .time {
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .time.remain {
+            background-color: blueviolet;
+        }
+
+        .time.used {
+            background-color: lightgrey;
+        }
+
+        #dialog {
+            max-height: 70vh;
+            max-width: 70vw;
+            background-color: transparent;
+            border: none;
+        }
+
+        #notifications-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+        }
+
+        #notifications-background {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 60vh;
+            width: 100%;
+            border-radius: 8px;
+            background-color: Midnightblue;
+        }
+
+        #notifications {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 95%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: auto;
+            opacity: 0.8;
+        }
+
+        button {
+            border: 4px solid Indigo;
+            background-color: slateblue;
+            color: white;
+        }
+        button:disabled {
+            background-color: grey;
+            color: black;
+            border-color: darkgrey;
+        }
+
+        #backgroundtext {
+            position: fixed;
+            bottom: 50%;
+            right: 50%;
+            transform: translateX(50%);
+            z-index: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            -webkit-text-stroke: 2px white;
+            font-size: 70px;
+        }
+
+        #notification-title {
+            color: mintcream;
+        }
+    </style>
     <body>
         <h1 id="backgroundtext">BLACK HAT'S BLACK CATS</h1>
         <dialog id="dialog">

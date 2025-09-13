@@ -5,7 +5,7 @@ import { initMenu, updateScreenElement } from "./ui";
 import { HappeningCard } from "./components/happening-card";
 import { createBonding } from "./systems/bonding-system";
 import { CreatureCard } from "./components/creature-card";
-import { createRandomizedNews } from "./systems/news-system";
+import { createNewsHap } from "./systems/news-system";
 import { createRandomizedCat, createRandomizedWitch } from "./Entity";
 import { initTimeSystem } from "./systems/time-system";
 import { NotificationCard } from "./components/notification-card";
@@ -58,10 +58,5 @@ function generateData() {
     });
     forit(createRandomizedCat, 2);
     forit(createBonding, 1);
-    forit(createRandomizedNews, 1);
-    forit(() => {
-        gameState.spells.set("scrying", spellMapping["scrying"]);
-        gameState.spells.set("forzachromata", spellMapping["forzachromata"]);
-        gameState.spells.set("mutatiousia", spellMapping["mutatioousia"]);
-    });
+    forit(createNewsHap, 1);
 }

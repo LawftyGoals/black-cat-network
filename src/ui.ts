@@ -168,7 +168,6 @@ export function updateNotifications() {
 
 export function updateScreenElement() {
     const cS = gameState.currentScreen;
-    console.log(gameState.witches);
     switch (cS) {
         case "catInventory":
             replaceChildren(
@@ -454,6 +453,7 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
                     );
                     changeRenown(-20, 1);
                 } else {
+                    changeRemainingTime();
                     acceptbonding(happening);
                 }
                 updateScreenElement();

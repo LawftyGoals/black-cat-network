@@ -1,6 +1,6 @@
 // Values.ts
 
-export const chances = { getSpellFromBonding: 0.01, discoverNewWitch: 0.25 };
+export const chances = { getSpellFromBonding: 0.05, discoverNewWitch: 0.25 };
 
 export const itemValues = { trap: { value: 100 }, bonding: { value: 500 } };
 export const renownValues = {

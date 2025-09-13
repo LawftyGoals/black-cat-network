@@ -8,6 +8,7 @@ import {
     generateCatsForTraps,
 } from "./acquisition-system";
 import { payBills, calculateWeeklyExpenses } from "../systems/banking-system";
+import { createNewsHap } from "./news-system";
 
 const gameState = gameInitialState;
 
@@ -16,10 +17,12 @@ export function updateDay() {
     dayElement && (dayElement.innerText = `Day: ${gameState.day.toString()}`);
 
     /* TEMPORARY TEST STATE */
-    createBonding();
     if (gameState.day % 7 === 0) {
         payBills();
     }
+
+    if (Math.random() < 0.2) createNewsHap();
+    if (Math.random() < 0.15) createBonding();
 
     calculateWeeklyExpenses();
 

@@ -178,8 +178,6 @@ export function createRandomizedCat(freeCat?: boolean): Entity {
     const randomVariant =
         catVariants[Math.floor(Math.random() * catVariants.length)];
     const randomTraits = getRandomTraits(getRandomInt(6, 4));
-    const colors = catVariantValues[randomVariant].color;
-    const color = colors[getRandomInt(colors.length)];
 
     const cat = new Entity(
         id,
@@ -192,7 +190,7 @@ export function createRandomizedCat(freeCat?: boolean): Entity {
         false, // deceased
         "Male", // sex
         getRandomInt(50),
-        color,
+        "black",
         "Feline", // species
         randomTraits,
         getRandomAmountOrNone(randomTraits, 2, 10),
