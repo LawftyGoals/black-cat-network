@@ -29,12 +29,6 @@ export function changeRemainingTime(change: number = -1) {
     return gameState.remainingTime;
 }
 
-export function changeMaxTime(change: number = -1) {
-    gameState.maxTime += change;
-    updateTimeUI();
-    return gameState.maxTime;
-}
-
 export function resetRemainingTime() {
     changeRemainingTime(gameState.maxTime - gameState.remainingTime);
     if (advTimeButton.disabled) {

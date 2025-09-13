@@ -19,82 +19,22 @@ export class CreatureCard extends HTMLElement {
         this.attachShadow({ mode: "open" });
         const sr = this.shadowRoot!;
         const template = cE("template") as HTMLTemplateElement;
-        template.innerHTML = /*html*/ `
-        <style>
-          #card-slot {
-            background-color: #1a122f;
-            border: 1px solid #4a3b6b;
-            border-radius: 8px;
-            padding: 16px;
-            color: #e0d8f1;
-            font-family: 'Times New Roman', serif;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            margin: 8px;
-            display:flex;
-            flex-direction: column;
-          }
-          #card-slot:hover {
-            background-color: #2a223f
-          }
-          h3 {
-            margin-top: 0;
-            color: #b8a9d9;
-          }
-          p {
-            margin: 8px 0;
-          }
-          #traits-slot {
-            font-style: italic;
-            color: #c8b9e8;
-          }
-          #profile-picture-slot {
-            width: 50px;
-            height: 50px;
-            border-radius: 4px;
-            background-color: #EEE;
-            border: 2px solid #333;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            background-size: cover;
-            background-position: center;
-            display: inline-block;
-          }
-          #content{
-            display:flex;
-            gap: 8px;
-          }
-          #content-text {
-            display:block;
-          }
-        </style>
-        <div id="card-slot">
-          <h3 id="title-slot"></h3>
-          <div id="content">
-            <div id="profile-picture-slot"></div>
-            <div id="content-text">
-            <p id="spell-slot" style="display:none;">Active spells: <span id="spell-list-slot"></span></p>
-            <p id="description-slot"></p></div>
-          </div>
-          <div id="relationship-slot" style="display:none;"></div>
-          <div id="bonding-slot" style="display:none;"><button>Test</button></div>
-          <div id="cat-slot" style="display:none"><button id="interact-button">Interact With Cat</button><button id="release-button" style="display:none;">Release</button></div>
-          <div id="activate-spells-slot"></div>
-        </div>
-      `;
+        template.innerHTML = /*html*/ `<style>#card{background-color:#1a122f;border:1px solid #4a3b6b;border-radius:8px;padding:16px;color:#e0d8f1;font-family:'Times New Roman',serif;margin:8px;display:flex;flex-direction:column;}#card:hover{background-color:#2a223f}h3 {margin-top:0;color:#b8a9d9;}p{margin:8px 0;}#traits{font-style:italic;color:#c8b9e8;}#pps {width:50px;height:50px;border-radius:4px;background-color:#EEE;border:2px solid #333;box-shadow:0 2px 4px rgba(0, 0, 0, 0.3);background-size:cover;background-position:center;display:inline-block;}#content{display:flex;gap:8px;}#content-text{display:block;}</style><div id="card"><h3 id="title"></h3><div id="content"><div id="pps"></div><div id="content-text"><p id="spell" style="display:none;">Active spells: <span id="s-l"></span></p><p id="description"></p></div></div><div id="relationship" style="display:none;"></div><div id="bonding" style="display:none;"><button>Test</button></div><div id="cat" style="display:none"><button id="interact">Interact With Cat</button><button id="release" style="display:none;">Release</button></div><div id="a-s"></div></div>`;
 
         sr.appendChild(template.content.cloneNode(true));
 
-        this.cardSlot = sgeid(sr, "card-slot");
-        this.titleSlot = sgeid(sr, "title-slot");
-        this.pictureSlot = sgeid(sr, "profile-picture-slot");
-        this.descriptionSlot = sgeid(sr, "description-slot");
-        this.bondingSlot = sgeid(sr, "bonding-slot");
-        this.catSlot = sgeid(sr, "cat-slot");
-        this.interactButton = sgeid(sr, "interact-button");
-        this.releaseButton = sgeid(sr, "release-button");
-        this.relationshipSlot = sgeid(sr, "relationship-slot");
-        this.spellSlot = sgeid(sr, "spell-slot");
-        this.spellListSlot = sgeid(sr, "spell-list-slot");
-        this.activateSpellsSlot = sgeid(sr, "activate-spells-slot");
+        this.cardSlot = sgeid(sr, "card");
+        this.titleSlot = sgeid(sr, "title");
+        this.pictureSlot = sgeid(sr, "pps");
+        this.descriptionSlot = sgeid(sr, "description");
+        this.bondingSlot = sgeid(sr, "bonding");
+        this.catSlot = sgeid(sr, "cat");
+        this.interactButton = sgeid(sr, "interact");
+        this.releaseButton = sgeid(sr, "release");
+        this.relationshipSlot = sgeid(sr, "relationship");
+        this.spellSlot = sgeid(sr, "spell");
+        this.spellListSlot = sgeid(sr, "s-l");
+        this.activateSpellsSlot = sgeid(sr, "a-s");
     }
 
     setDivClick(onClick?: () => void) {

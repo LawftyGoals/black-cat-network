@@ -13,30 +13,16 @@ export class SpellCard extends HTMLElement {
         const sr = this.shadowRoot!;
 
         const template = cE("template") as HTMLTemplateElement;
-        template.innerHTML = /*html*/ `
-               <style>
-                #card{
-                  background-color: #6C597D;
-                  padding:8px;
-                  border-radius:6px;
-                  border: solid 8px #4F7F7D;
-                  color: white;
-                }
-              </style>
-              <div id="card">
-              <h2 id="variant-slot"></h2>
-              <p id="description-slot"></p>
-              <div id="btn-slot"><button id="apply-btn" style="display:none;">Apply to Cat</button></div>
-              </div>
-            `;
+        template.innerHTML = /*html*/ `<style>#card{
+background-color: #6C597D;padding:8px;border-radius:6px;border: solid 8px #4F7F7D;color: white;}</style><div id="card"><h2 id="variant"></h2><p id="description"></p><div id="btn"><button id="apply" style="display:none;">Apply to Cat</button></div></div>`;
 
         sr.appendChild(template.content.cloneNode(true));
 
         this.cardSlot = sgeid(sr, "card");
-        this.variantSlot = sgeid(sr, "variant-slot");
-        this.descriptionSlot = sgeid(sr, "description-slot");
-        this.applyBtn = sgeid(sr, "apply-btn");
-        this.btnSlot = sgeid(sr, "btn-slot");
+        this.variantSlot = sgeid(sr, "variant");
+        this.descriptionSlot = sgeid(sr, "description");
+        this.applyBtn = sgeid(sr, "apply");
+        this.btnSlot = sgeid(sr, "btn");
     }
 
     static get observedAttributes() {

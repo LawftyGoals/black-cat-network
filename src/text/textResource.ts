@@ -18,10 +18,10 @@ export const textResource = {
     spells: {
         scrying: {
             noLearn:
-                "You gleam a brief view into the magnificent life of a purrcious cat, and while the experience enriches your life, you learn nothing new.",
+                "You gleam a brief view into the magnificent life of a purrcious cat, but you learn nothing new.",
         },
     },
     time: {
-        noTime: "No more zoomies, time for a catnap.",
+        noTime: "No more zoomies, time for nap.",
     },
 };

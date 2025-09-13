@@ -1,5 +1,3 @@
-import "./style.css";
-import { gameState } from "./utils";
 import { initDaySystem } from "./systems/day-system";
 import { initMenu, updateScreenElement } from "./ui";
 import { HappeningCard } from "./components/happening-card";
@@ -13,7 +11,6 @@ import { CatAcquisition } from "./components/cat-acquisition";
 import { initAcquisition } from "./systems/acquisition-system";
 import { SpellCard } from "./components/spell-card";
 import { levels, renownLevelDivision } from "./Values";
-import { spellMapping } from "./systems/spell-system";
 import { initBank } from "./systems/banking-system";
 
 export function initGameStates() {

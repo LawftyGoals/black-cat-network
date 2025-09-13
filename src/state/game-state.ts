@@ -1,7 +1,6 @@
 import type { Entity } from "../Entity";
 import type { Happening } from "../Happening";
 import type { Spell } from "../Spell";
-import { gameState } from "../utils";
 
 export type TScreens = keyof IScreens;
 

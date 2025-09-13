@@ -69,7 +69,7 @@ export function payBills(): boolean {
         gameState.expenses = 0;
         createNotification(
             "You settle your debts.", // title
-            "This week's rent and expenses are paid in full!", // content
+            "This week's expenses are paid in full!", // content
             [], // knowns
             gameState.bank!, // from
             null, // reward
@@ -78,7 +78,7 @@ export function payBills(): boolean {
         return true;
     } else {
         displayModalMessage(
-            "You ran out of money, and the bank gets your home, stuff and even the cats. Game over. Game will reset in 10 seconds."
+            "You ran out of money, and the bank takes everything. Game over. Game will reset in 10 seconds."
         );
         setTimeout(() => {
             Object.assign(gameState, gameTemplateState);

@@ -62,13 +62,10 @@ export function createBonding(witch?: Entity) {
         ["offer"],
         "bonding",
         targetWitch,
-        witch
-            ? "I could try out one of your BLACK CATs"
-            : "I would like to acquire a BLACK CAT",
+        "I could try out one of your BLACK CATs",
         reasonForPuchase[getRandomInt(reasonForPuchase.length)],
         goldOffer,
         spell,
-        gameState.catInventory,
         {
             traits: [randomTrait],
             variant: catVariants[getRandomInt(catVariants.length)],
@@ -206,14 +203,6 @@ export function acceptbonding(bonding: Happening) {
 export const reasonForPuchase = [
     "Where can I find it?",
     "I'm looking to buy it.",
-    "Do you know where I can get my hands on it?",
-    "Is there any way to acquire it?",
-    "Could you point me in the direction of where to purchase it?",
-    "I'd like to know the best place to find it.",
-    "Is this something I can acquire easily?",
-    "Can you help me track one down?",
-    "I'm trying to locate it for purchase.",
-    "What's the best way to get it?",
     "Need a new kitty.",
 ];
 
@@ -232,7 +221,7 @@ export function offerBonding(witch: Entity) {
     } else if (getRenownLevel(witch.value) > getRenownLevel(gameState.renown)) {
         title = `Bonding offer to ${witch.name} rejected.`;
         content =
-            "You are rather beneath me. This is the only only response I shalld lower myself to.";
+            "You are rather beneath me.";
     } else {
         title = `Bonding offer to ${witch.name} accepted.`;
         content = "What an interesting proposition. What is the catch?";

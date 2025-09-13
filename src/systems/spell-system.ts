@@ -40,7 +40,7 @@ export const spellMapping = {
         name: "scrying",
         variant: "scrying",
         description:
-            "If you apply the marking to anything... even a cat, you can then view it and its surroundings through the ether. Simply speaking, you might not learn something interesting. Costs 1 hour.",
+            "If you apply the marking to anything, you can then view it and its surroundings through the ether. You might not learn something interesting.",
         value: 0,
         label: "Scry",
         action: (props: { target: Entity }) => {
@@ -56,7 +56,7 @@ export const spellMapping = {
         name: "forzachromata",
         variant: "colorize",
         description:
-            "By weaving this spell onto any victim... target, you change their base color to whatever you desire.",
+            "By weaving this spell onto any target, you change their base color to whatever you desire.",
         value: 10,
         label: "Colorize",
         action: (props: { target: Entity; color?: TCatColor }) => {
@@ -101,10 +101,10 @@ export const spellMapping = {
                 props.target.traits.push(props.trait!);
                 props.target.knownTraits.push(props.trait!);
                 createNotification(
-                    `${props.target.name} has had a change in personality`,
+                    `${props.target.name}'s traits have changed`,
                     `${
                         props.target.name
-                    } is panicking following the psychological expansion of being ${props.trait!}`,
+                    } is coming to grips with the psychological expansion of being ${props.trait!}`,
                     [],
                     props.target,
                     null,
@@ -141,11 +141,11 @@ function scryingEffect(target: Entity) {
             }
             createNotification(
                 textResource.catInteraction.learn,
-                `You tune in to ${target.name} only to discover that ${
+                `You scry on ${target.name} and discover that ${
                     target.relationship.name
-                } is having a bewitching conversation with ${witch.name}.${
+                } is having a bewitching talk with ${witch.name}.${
                     newKnown
-                        ? `You've learnt something new about ${witch.name}`
+                        ? `You learn something new about ${witch.name}`
                         : ""
                 }`,
                 [],
@@ -158,7 +158,7 @@ function scryingEffect(target: Entity) {
             newKnown
                 ? createNotification(
                       textResource.catInteraction.learn,
-                      `You managed to learn that ${target.relationship.name} is ${newKnown}`,
+                      `You learned that ${target.relationship.name} is ${newKnown}`,
                       [],
                       target,
                       null,
@@ -178,7 +178,7 @@ function scryingEffect(target: Entity) {
         newKnown
             ? createNotification(
                   textResource.catInteraction.learn,
-                  `You managed to learn that ${target.name} is ${newKnown}`,
+                  `You learned that ${target.name} is ${newKnown}`,
                   [],
                   target,
                   null,

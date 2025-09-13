@@ -24,18 +24,15 @@ export function sgeid(sr: ShadowRoot, name: string) {
     return sr.getElementById(name)!;
 }
 
-export function clearChildren(element: HTMLElement) {
-    while (element.firstChild) {
-        element.lastChild && element.removeChild(element.lastChild);
-    }
-}
 
 export function appendChildren(element: HTMLElement, children: HTMLElement[]) {
     children.forEach((child) => element.appendChild(child));
 }
 
 export function replaceChildren(element: HTMLElement, children: HTMLElement[]) {
-    clearChildren(element);
+while (element.firstChild) {
+        element.lastChild && element.removeChild(element.lastChild);
+    }
     children.forEach((child) => element.appendChild(child));
 }
 
@@ -54,10 +51,6 @@ export const getRandomDecimal = (max: number, min: number) => {
 
 export const getRandomizedId = () =>
     (getRandomInt(100000) * performance.now()).toString();
-
-export function getArrayOfItemsFromMap<T, V>(map: Map<T, V>) {
-    return Array.from(map, ([_id, entOrHap]) => entOrHap);
-}
 
 export function getRandomAmountOrNone<T>(
     list: T[],

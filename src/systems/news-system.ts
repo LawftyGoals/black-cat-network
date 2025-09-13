@@ -17,15 +17,11 @@ export function createNewsHap() {
         "news", // variant
         agent, // agent
         "Cat wanted for adoption!", // title
-        `Long-time resident ${agent.name} wishes for a new feline companion.`,
+        `Long-time native ${agent.name} wishes for a new companion.`,
         // "Ordinary life keeps on keeping on in the town...", // content
-        null, // request_Variant
-        null, // bondrequirements
-        null,
-        null,
-        undefined, // cat
-        undefined, // patient?
-        ["newsworthy"] // triggerKeyword
+        null, 
+        null, 
+        null
     );
     gameState.happenings.set(id, newsHap);
     gameState.news.set(id, newsHap);

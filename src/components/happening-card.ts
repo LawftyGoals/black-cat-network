@@ -19,58 +19,21 @@ export class HappeningCard extends HTMLElement {
         const sr = this.shadowRoot!;
 
         const template = cE("template") as HTMLTemplateElement;
-        template.innerHTML = /*html*/ `
-       <style>
-        h1 {
-          color: #1A4D4A;
-        }
-        p {
-          color:#EFEBE0;
-          font-size: 1.2rem;
-        }
-        div{
-          background-color: #6C597D;
-          padding:8px;
-          border-radius:6px;
-          border: solid 8px #4F7F7D;
-        }
-        div:hover{
-          background-color: #7C898D;
-          padding:8px;
-          border-radius:6px;
-          border: solid 8px #4F7F7D;
-
-        }
-        div.active {
-          background-color: #9adae6
-        }
-      </style>
-      <div id="card">
-        <h1 id="title-slot"></h1>
-        <p>From: <span id="from-slot"></span></p>
-        <p id="content-slot"></p>
-        <p id="offer-slot"></p>
-        <p id="cat-slot"></p>
-        <span id="bonding-slot" style="display:none"><button id="clickable">Pick Cat</button>
-        <button style="display:none" id="clear-cat">Clear Cat</button>
-        <button id="send-bonding-slot" style="display:none">Send</button></span>
-        <button id="interesting-button" style="display:none">Interesting...</button>
-      </div>
-    `;
+        template.innerHTML = /*html*/ `<style>h1{color:#1A4D4A;}p{color:#EFEBE0;font-size:1.2rem;}div{background-color:#6C597D;padding:8px;border-radius:6px;border:solid 8px #4F7F7D;}div:hover{background-color:#7C898D;padding:8px;border-radius:6px;border:solid 8px #4F7F7D;}div.active{background-color:#9adae6}</style><div id="card"><h1 id="title"></h1><p>From: <span id="from"></span></p><p id="content"></p><p id="offer"></p><p id="cat"></p><span id="bonding" style="display:none"><button id="clickable">Pick Cat</button><button style="display:none" id="clear-cat">Clear Cat</button><button id="send-bonding" style="display:none">Send</button></span><button id="interesting" style="display:none">Interesting...</button></div>`;
 
         sr.appendChild(template.content.cloneNode(true));
 
         this.cardSlot = sgeid(sr, "card");
-        this.titleSlot = sgeid(sr, "title-slot");
-        this.contentSlot = sgeid(sr, "content-slot");
+        this.titleSlot = sgeid(sr, "title");
+        this.contentSlot = sgeid(sr, "content");
         this.clickableSlot = sgeid(sr, "clickable");
-        this.fromSlot = sgeid(sr, "from-slot");
-        this.offerSlot = sgeid(sr, "offer-slot");
-        this.catSlot = sgeid(sr, "cat-slot");
+        this.fromSlot = sgeid(sr, "from");
+        this.offerSlot = sgeid(sr, "offer");
+        this.catSlot = sgeid(sr, "cat");
         this.clearSlot = sgeid(sr, "clear-cat");
-        this.bondingSlot = sgeid(sr, "bonding-slot");
-        this.sendBondingSlot = sgeid(sr, "send-bonding-slot");
-        this.interestingButton = sgeid(sr, "interesting-button");
+        this.bondingSlot = sgeid(sr, "bonding");
+        this.sendBondingSlot = sgeid(sr, "send-bonding");
+        this.interestingButton = sgeid(sr, "interesting");
     }
 
     static get observedAttributes() {

@@ -11,43 +11,15 @@ export class CatAcquisition extends HTMLElement {
     const sr = this.shadowRoot!;
 
     const template = cE("template") as HTMLTemplateElement;
-    template.innerHTML = /*html*/ `
-       <style>
-        #card{
-          background-color: #6C597D;
-          padding:8px;
-          border-radius:6px;
-          border: solid 8px #4F7F7D;
-          height:80vh;
-        }
-        #aqc-slot {
-          display:flex;
-          flex-direction:column;
-          height:70vh;
-          overflow: auto;
-          gap: 4px;
-          margin-top:8px;
-        }
-        .btn-container{
-          display:flex;
-          justify-content:space-evenly;
-        }
-      </style>
-      <div id="card">
-      <h2>Get Your Cats here!</h2>
-      <div class=btn-container>
-      <button id= "cc">Cat Catcher</button>
-      <button id="cg">Traps</button></div>
-      <div id="aqc-slot"></div>
-      </div>
-    `;
+    template.innerHTML = /*html*/ `<style>
+#card{background-color: #6C597D;padding:8px;border-radius:6px;border: solid 8px #4F7F7D;height:80vh;}#aqc-slot {display:flex;flex-direction:column;height:70vh;overflow: auto;gap: 4px;margin-top:8px;}.btn-container{display:flex;justify-content:space-evenly;}</style><div id="card"><h2>Get Your Cats here!</h2><div class=btn-container><button id= "cc">Cat Catcher</button><button id="cg">Traps</button></div><div id="aqc"></div></div>`;
 
     sr.appendChild(template.content.cloneNode(true));
 
     this.cardSlot = sgeid(sr, "card");
     this.ccbtn = sgeid(sr, "cc");
     this.cgbtn = sgeid(sr, "cg");
-    this.aqcSlot = sgeid(sr, "aqc-slot");
+    this.aqcSlot = sgeid(sr, "aqc");
   }
 
   setCatcherBtn(onClick: () => void) {

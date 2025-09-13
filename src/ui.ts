@@ -12,7 +12,6 @@ import {
     appendChildren,
     arrayFromMap,
     cE,
-    clearChildren,
     replaceChildren,
 } from "./utils";
 import type { HappeningCard } from "./components/happening-card";
@@ -52,6 +51,9 @@ const menu = gEiD("menu")!;
 closeDialogElement.onclick = () => {
     dialogElement.close();
 };
+
+
+const style = "background-color:mediumslateblue;color:white;border:2px solid lightslategrey;padding:16px"
 
 const menuChildren = menu.children;
 
@@ -93,14 +95,15 @@ export function initMenu() {
 const time = gEiD("time")!;
 
 export function updateTimeUI() {
-    clearChildren(time);
+    const pips = []
     for (let i = 0; i < gameState.maxTime; i++) {
         const timePip = cE("div");
         timePip.className = `time ${
             i < gameState.remainingTime ? "remain" : "used"
         }`;
-        time?.appendChild(timePip);
+        pips.push(timePip);
     }
+    replaceChildren(time, pips);
 }
 
 function createNotificationComponent(notification: Happening) {
@@ -129,8 +132,7 @@ function createNotificationComponent(notification: Happening) {
 
         hapCom.setAttribute("agent", notification.agent!.name);
 
-        clearChildren(dialogContentElement);
-        dialogContentElement.appendChild(hapCom);
+        replaceChildren(dialogContentElement, [hapCom]);
         dialogElement.showModal();
         notification.ongoing = false;
         updateNotifications();
@@ -445,7 +447,7 @@ function addBondingElements(happening: Happening, comp: HappeningCard) {
                     happening.cat = null;
                     createNotification(
                         "Bonding failed!",
-                        `"What is this vermin? It's NOT BLACK!" ${witch.name} hollers and proceeds to wave her spell slinging arm at ${cat.name} who proceeds to disapear, with a final faint meow, in a puff of smoke.`,
+                        `"What is this vermin? It's NOT BLACK!" ${witch.name} hollers and proceeds to wave her spell slinging arm at ${cat.name} who disapear in a puff of smoke.`,
                         [],
                         happening.agent!,
                         null,
@@ -642,7 +644,7 @@ export function displayModalMessage(message: string) {
     const messageP = cE("p");
     messageP.textContent = message;
     messageP.style =
-        "background-color:mediumslateblue;color:white;border:2px solid lightslategrey; padding:16px";
+        style;
     replaceChildren(dialogContentElement, [messageP]);
     dialogElement.showModal();
 }
@@ -675,7 +677,7 @@ function displayModalNameField(entity: Entity, onClick: () => void) {
     const bg = cE("div");
     appendChildren(bg, [label, textField, button]);
     bg.style =
-        "background-color:mediumslateblue;color:white;border:2px solid lightslategrey;padding:16px;display:flex;flex-direction:column;";
+       style + "display:flex;flex-direction:column;";
 
     replaceChildren(dialogContentElement, [bg]);
 }
@@ -684,3 +686,4 @@ function updateCatSpace() {
     const space = gEiD("cat-space");
     space.textContent = `${gameState.catInventory.size}/${gameState.maxCatInventorySize}`;
 }
+

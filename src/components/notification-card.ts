@@ -11,30 +11,12 @@ export class NotificationCard extends HTMLElement {
 
     const template = cE("template") as HTMLTemplateElement;
     template.innerHTML = /*html*/ `
-    <style>
-        #clickable-slot {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: white;
-        }
-        #clickable-slot:hover {
-            background: #ADD8E6;
-        }
-        #clickable-slot #inActive {
-            background-color: gray;
-        }
-    </style>
-    <div id="clickable-slot">
-    <div id="from-slot"></div>
-    <div id="title-slot"></div>
-    </div>`;
+<style>#clickable {display: flex;flex-direction: column;justify-content: center;align-items: center;background: white;}#clickable:hover {background: #ADD8E6;}#clickable #inActive {background-color: gray;}</style><div id="clickable"><div id="from"></div><div id="title"></div></div>`;
 
-    sr.appendChild(template.content.cloneNode(true));
-    this.clickable = sgeid(sr, "clickable-slot");
-    this.titleSlot = sgeid(sr, "title-slot");
-    this.fromSlot = sgeid(sr, "from-slot");
+sr.appendChild(template.content.cloneNode(true));
+this.clickable = sgeid(sr, "clickable");
+  this.titleSlot = sgeid(sr, "title");
+    this.fromSlot = sgeid(sr, "from");
   }
 
   static get observedAttributes() {
